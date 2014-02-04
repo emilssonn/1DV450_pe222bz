@@ -1,0 +1,30 @@
+<%= @current_user.firstname %>
+
+<%= link_to "Sign out", signOut_path %>
+
+<% if @applications.any? %>
+	<div>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Api Key</th>
+				</tr>
+			</thead>
+			<tbody>
+			<% @applications.each do |app| %>
+				<tr>
+					<td><%= app.name %></td>
+					<td><%= app.api_key.key %></td>
+					<td><%= link_to 'Edit', edit_application_path(app) %></td>
+				</tr>
+			<% end %>
+			</tbody>
+		</table>
+	</div>
+
+<% else %>
+	nono
+<% end %>
+
+<%= link_to "New Application", new_application_path %>

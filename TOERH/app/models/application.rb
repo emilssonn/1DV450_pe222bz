@@ -1,7 +1,8 @@
 class Application < ActiveRecord::Base
 	has_one :api_key
+	belongs_to :user
 
-	validates :contact_mail, 
-						:uniqueness => {:message => "This email is already in use."},
-						:presence => {:message => "A email address is required."}
+	validates :name, 
+						:uniqueness => {:message => "is already in use."},
+						:presence => true
 end

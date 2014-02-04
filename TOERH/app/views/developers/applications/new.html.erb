@@ -1,0 +1,34 @@
+
+<% if @application.errors.any? %>
+	<div>
+		<h2>Input errors</h2>
+
+		<ul>
+			<% @application.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+
+<% end %>
+
+<%= form_for @application, url: {action: "create"} do |f| %>
+
+<fieldset>
+	<legend>Create application</legend>
+
+	<p>
+		<%= f.label(:name) %>
+	</p>
+	<p>
+		<%= f.text_field(:name) %>
+	</p>
+
+	<p>
+		<%= f.submit "Create" %>
+	</p>
+</fieldset>
+
+<% end %>
+
+<%= link_to "Avbryt", applications_path %>

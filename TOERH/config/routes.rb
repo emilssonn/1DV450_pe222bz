@@ -1,4 +1,36 @@
 TOERH::Application.routes.draw do
+
+  # Api namespace
+  scope module: "api" do
+    # Api subdomain api.*.*
+    constraints(:subdomain => 'api') do
+      # Api versioning: api.*.*/v1/
+      # Version 1.0
+      namespace :v1 do
+        resource :user
+      end
+    end
+  end
+
+  scope module: "developers" do
+    
+
+    constraints(:subdomain => 'developers') do
+      root 'developers#index' 
+
+      scope module: "users" do
+        get   'sign-up' => 'registrations#new', :as => 'signUp'
+        post  'sign-up' => 'registrations#create', :as => 'signUpPost'
+        get   'sign-in' => 'authorizations#show', :as => 'signIn'
+        post  'sign-in' => 'authorizations#signIn', :as => 'signInPost'
+        get   'sign-out' => 'authorizations#signOut', :as => 'signOut'
+      end
+
+      resources :applications
+    end
+  end
+  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

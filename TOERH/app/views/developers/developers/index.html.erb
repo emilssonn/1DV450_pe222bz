@@ -1,0 +1,10 @@
+<h1>test</h1>
+
+<% if current_user.nil? %>
+	<%= link_to "Sign up", signUp_path %>
+	<%= link_to "Sign in", signIn_path %>
+<% else %>
+	<%= link_to "Sign out", signOut_path %>
+	<%= link_to "My Apps", applications_path %>
+	
+<% end %>

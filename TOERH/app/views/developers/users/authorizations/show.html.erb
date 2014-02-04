@@ -1,0 +1,37 @@
+
+
+<% if flash[:error] %>
+
+	<%= flash[:error] %>
+
+<% end %>
+
+<%= form_tag signInPost_path, method: "post" do %>
+
+<fieldset>
+	
+	<legend>Sign in</legend>
+
+	<p>
+		<%= label_tag(:email, "E-mail") %>
+	</p>
+	<p>
+		<%= email_field_tag(:email) %>
+	</p>
+	
+	<p>
+		<%= label_tag(:password, "Password") %>
+	</p>
+	<p>
+		<%= password_field_tag(:password) %>
+	</p>
+
+	<p>
+		<%= submit_tag("Sign in") %>
+	</p>
+
+</fieldset>
+
+<% end %>
+
+<%= link_to "Sign up", signUp_path %>

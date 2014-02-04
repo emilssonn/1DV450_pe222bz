@@ -11,18 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140202123920) do
+ActiveRecord::Schema.define(version: 20140203164248) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "application_id",            null: false
-    t.string   "auth_key",       limit: 40, null: false
+    t.string   "key",            limit: 40, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "applications", force: true do |t|
-    t.string   "contact_mail", limit: 40, null: false
-    t.string   "name",         limit: 30, null: false
+    t.integer  "user_id",               null: false
+    t.string   "name",       limit: 30, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "firstname",       limit: 40,                    null: false
+    t.string   "lastname",        limit: 40,                    null: false
+    t.string   "email",           limit: 40,                    null: false
+    t.string   "password_digest",                               null: false
+    t.string   "role",                       default: "normal", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

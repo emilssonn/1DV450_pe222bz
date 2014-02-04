@@ -1,0 +1,62 @@
+
+<% if @user.errors.any? %>
+	<div>
+		<h2>Input errors</h2>
+
+		<ul>
+			<% @user.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+
+<% end %>
+
+<%= form_for @user, url: {action: "create"} do |f| %>
+
+<fieldset>
+	<legend>Sign up</legend>
+
+	<p>
+		<%= f.label(:firstname) %>
+	</p>
+	<p>
+		<%= f.text_field(:firstname) %>
+	</p>
+
+	<p>
+		<%= f.label(:lastname) %>
+	</p>
+	<p>
+		<%= f.text_field(:lastname) %>
+	</p>
+
+	<p>
+		<%= f.label(:email) %>
+	</p>
+	<p>
+		<%= f.email_field(:email) %>
+	</p>
+
+	<p>
+		<%= f.label(:password) %>
+	</p>
+	<p>
+		<%= f.password_field(:password) %>
+	</p>
+
+	<p>
+		<%= f.label(:password_confimation) %>
+	</p>
+	<p>
+		<%= f.password_field(:password_confirmation) %>
+	</p>
+
+	<p>
+		<%= f.submit "Sign up" %>
+	</p>
+</fieldset>
+
+<% end %>
+
+<%= link_to "Sign in", signIn_path %>
