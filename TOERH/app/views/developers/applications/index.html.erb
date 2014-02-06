@@ -1,30 +1,42 @@
-<%= @current_user.firstname %>
 
-<%= link_to "Sign out", signOut_path %>
-
-<% if @applications.any? %>
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Api Key</th>
-				</tr>
-			</thead>
-			<tbody>
-			<% @applications.each do |app| %>
-				<tr>
-					<td><%= app.name %></td>
-					<td><%= app.api_key.key %></td>
-					<td><%= link_to 'Edit', edit_application_path(app) %></td>
-				</tr>
-			<% end %>
-			</tbody>
-		</table>
-	</div>
-
-<% else %>
-	nono
-<% end %>
-
-<%= link_to "New Application", new_application_path %>
+<div class="row">
+	<div class="col-xs-12">
+		<h1>My Apps</h1>
+		<div class="row">
+			<div class="col-xs-12">
+				<%= link_to "New Application", new_application_path, class: 'btn btn-primary btn-sm' %>
+			</div>
+		</div>
+		<% if @applications.any? %>
+		<div class="row">
+			<div class="col-xs-12">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Created</th>
+						<th>Updated</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @applications.each do |app| %>
+					<tr>
+						<td>
+							<%= app.name %></td>
+						<td>
+							<%= app.created_at %></td>
+						<td>
+							<%= app.updated_at %></td>
+						<td>
+							<%= link_to 'Details', application_path(app), :class => 'btn btn-info btn-xs' %></td>
+					</tr>
+					<% end %></tbody>
+			</table>
+			</div>
+		</div>
+		
+		<% else %>
+			<div class="row col-xs-12">You have not created any applications.></div>
+		<% end %></div>
+</div>

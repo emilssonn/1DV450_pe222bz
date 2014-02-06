@@ -1,0 +1,39 @@
+
+<div class="row">
+	<div class="col-xs-12">
+
+		<%= form_for application, role: 'form' do |f| %>
+
+			<fieldset>
+				<legend><%= (application.id? ? 'Edit' : 'Create') %> application</legend>
+
+				<% if application.errors.any? %>
+		          <div class="alert alert-warning">
+		            <h4>Input errors</h4>
+
+		            <ul>
+		              <% application.errors.full_messages.each do |msg| %>
+		                <li><%= msg %></li>
+		              <% end %>
+		            </ul>
+		          </div>
+
+		        <% end %>
+
+				<div class="form-group">
+					<%= f.label(:name) %>
+					<%= f.text_field(:name, :class => 'form-control') %>
+				</div>
+
+				<p>
+					<%= f.submit (application.id? ? 'Save' : 'Create'), :class => "btn btn-primary btn-sm" %>
+					<%= link_to "Cancel", applications_path, :class => "btn btn-warning btn-sm" %>
+				</p>
+			</fieldset>
+
+		<% end %>
+
+		
+
+	</div>
+</div>

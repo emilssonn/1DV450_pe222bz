@@ -19,11 +19,11 @@ TOERH::Application.routes.draw do
       root 'developers#index' 
 
       scope module: "users" do
-        get   'sign-up' => 'registrations#new', :as => 'signUp'
-        post  'sign-up' => 'registrations#create', :as => 'signUpPost'
-        get   'sign-in' => 'authorizations#show', :as => 'signIn'
-        post  'sign-in' => 'authorizations#signIn', :as => 'signInPost'
-        get   'sign-out' => 'authorizations#signOut', :as => 'signOut'
+        get   'register' => 'registrations#new', :as => 'register'
+        post  'register' => 'registrations#create', :as => 'registerPost'
+        get   'login' => 'authorizations#show', :as => 'login'
+        post  'login' => 'authorizations#login', :as => 'loginPost'
+        get   'logout' => 'authorizations#logout', :as => 'logout'
       end
 
       resources :applications

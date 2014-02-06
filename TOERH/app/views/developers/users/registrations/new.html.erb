@@ -1,62 +1,59 @@
 
-<% if @user.errors.any? %>
-	<div>
-		<h2>Input errors</h2>
+<div class="row">
+	<div class="col-xs-12">
 
-		<ul>
-			<% @user.errors.full_messages.each do |msg| %>
-				<li><%= msg %></li>
+		<%= form_for @user, url: {action: "create"}, role: 'form' do |f| %>
+
+		<fieldset>
+			<legend>Sign up</legend>
+
+			
+			<% if @user.errors.any? %>
+				<div class="alert alert-warning">
+					<h4>Please check your input</h2>
+
+					<ul>
+						<% @user.errors.full_messages.each do |msg| %>
+							<li><%= msg %></li>
+						<% end %>
+					</ul>
+				</div>
+
 			<% end %>
-		</ul>
+		
+			<div class="form-group">
+				<%= f.label(:firstname) %>
+				<%= f.text_field(:firstname, :class => 'form-control') %>
+			</div>
+
+			<div class="form-group">
+				<%= f.label(:lastname) %>
+				<%= f.text_field(:lastname, :class => 'form-control') %>
+			</div>
+	
+			<div class="form-group">
+				<%= f.label(:email) %>
+				<%= f.email_field(:email, :class => 'form-control') %>
+			</div>
+			
+			<div class="form-group">
+				<%= f.label(:password) %>
+				<%= f.password_field(:password, :class => 'form-control') %>
+			</div>
+
+			<div class="form-group">
+				<%= f.label(:password_confimation) %>
+				<%= f.password_field(:password_confirmation, :class => 'form-control') %>
+			</div>
+
+
+			<p>
+				<%= submit_tag("Sign up", :class => "btn btn-primary btn-sm") %>
+			</p>
+		</fieldset>
+
+		<% end %>
+
+		<p>Already a member? <%= link_to "Sign in!", login_path %></p>
 	</div>
-
-<% end %>
-
-<%= form_for @user, url: {action: "create"} do |f| %>
-
-<fieldset>
-	<legend>Sign up</legend>
-
-	<p>
-		<%= f.label(:firstname) %>
-	</p>
-	<p>
-		<%= f.text_field(:firstname) %>
-	</p>
-
-	<p>
-		<%= f.label(:lastname) %>
-	</p>
-	<p>
-		<%= f.text_field(:lastname) %>
-	</p>
-
-	<p>
-		<%= f.label(:email) %>
-	</p>
-	<p>
-		<%= f.email_field(:email) %>
-	</p>
-
-	<p>
-		<%= f.label(:password) %>
-	</p>
-	<p>
-		<%= f.password_field(:password) %>
-	</p>
-
-	<p>
-		<%= f.label(:password_confimation) %>
-	</p>
-	<p>
-		<%= f.password_field(:password_confirmation) %>
-	</p>
-
-	<p>
-		<%= f.submit "Sign up" %>
-	</p>
-</fieldset>
-
-<% end %>
-
-<%= link_to "Sign in", signIn_path %>
+</div>

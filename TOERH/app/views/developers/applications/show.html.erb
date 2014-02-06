@@ -1,0 +1,50 @@
+
+<div class="row">
+    <div class="col-xs-12">
+        <h1>
+            App: <%= @application.name %>
+        </h1>
+        
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="col-xs-10">            
+                
+                    <h5><strong>Api Key:</strong></h5>
+                    <p>
+                        <%= @application.api_key.key %>
+                    </p>
+        
+                    <h5><strong>Created:</strong></h5>
+                    <p>
+                        <%= @application.created_at %>
+                    </p>
+
+                    <h5><strong>Updated:</strong></h5>
+                    <p>
+                        <%= @application.updated_at %>
+                    </p>
+
+                    <p>
+                        <%= link_to 'Back to application list', applications_path %>
+                    </p>
+                </div>
+                <div class="col-xs-2">         
+                    <%= link_to 'Edit', edit_application_path(@application), :class => 'pull-right btn btn-primary btn-sm' %>
+                    
+                    <span class="clearfix" ></span>
+                    <br/>
+
+                    <%= form_for @application, method: 'delete'  do |f| %>
+                        <%= f.submit 'Delete', :class => "pull-right btn btn-danger btn-sm", :onclick => 'return confirm("Delete this application? This CANNOT be undone!")' %>
+                    <% end %>
+
+                </div>
+            </div> 
+        </div>
+
+
+        <p>
+            
+        </p>
+    </div>
+</div>

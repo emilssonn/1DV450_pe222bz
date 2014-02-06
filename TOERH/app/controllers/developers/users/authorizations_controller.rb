@@ -7,22 +7,22 @@ class Developers::Users::AuthorizationsController < ApplicationController
 		end
 	end
 
-	def signIn
+	def login
 		user = User.find_by_email(params[:email])
 
 		if user && user.authenticate(params[:password])
 			session[:userid] = user.id
 			redirect_to applications_path
 		else
-			flash.now[:error] = "Invalid"
+			@error = "Invalid E-mail and/or password."
 			render :action => "show"
 		end
 
 	end
 
-	def signOut
+	def logout
 		session[:userid] = nil
-		flash[:message] = "You have been logged out."
+		flash[:notice] = "You have been logged out."
 		redirect_to root_path
 	end
 	

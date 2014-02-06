@@ -6,6 +6,10 @@ class Developers::ApplicationsController < ApplicationController
 		@applications = current_user.application
 	end
 
+	def show
+		@application = current_user.application.find(params[:id])
+	end
+
 	def new
 		@application = Application.new
 	end
@@ -16,7 +20,7 @@ class Developers::ApplicationsController < ApplicationController
 		@application.api_key = ApiKey.new
 
 		if @application.save
-			redirect_to applications_path
+			redirect_to application_path(@application)
 		else
 			render :action => 'new'
 		end
@@ -30,9 +34,20 @@ class Developers::ApplicationsController < ApplicationController
 		@application = current_user.application.find(params[:id])
 
 		if @application.update(application_params)
-			redirect_to applications_path
+			redirect_to application_path(@application)
 		else
 			render 'edit'
+		end
+	end
+
+	def destroy
+		@application = current_user.application.find(params[:id])
+
+		if @application.delete
+			flash[:notice] = 'The application "' + @application.name + '"" has been deleted.'
+			redirect_to applications_path
+		else
+			render 'show', :alert => 'Error deleteing application.'
 		end
 	end
 

@@ -1,37 +1,37 @@
 
+<div class="row">
+	<div class="col-xs-12">
 
-<% if flash[:error] %>
+		<%= form_tag loginPost_path, method: "post", role: 'form' do %>
 
-	<%= flash[:error] %>
+		<fieldset>
+			
+			<legend>Sign in</legend>
 
-<% end %>
+			<% if @error %>
+				<div class="alert alert-warning">
+					<%= @error %>
+				</div>
+			<% end %>
+			<div class="form-group">
+				<%= label_tag(:email, "E-mail") %>
+				<%= email_field_tag(:email, nil, :class => 'form-control') %>
+			</div>
 
-<%= form_tag signInPost_path, method: "post" do %>
+			<div class="form-group">
+				<%= label_tag(:password, "Password") %>
+				<%= password_field_tag(:password, nil, :class => 'form-control') %>
+			</div>		
 
-<fieldset>
-	
-	<legend>Sign in</legend>
+			<p>
+				<%= submit_tag("Sign in", :class => "btn btn-primary btn-sm") %>
+			</p>
 
-	<p>
-		<%= label_tag(:email, "E-mail") %>
-	</p>
-	<p>
-		<%= email_field_tag(:email) %>
-	</p>
-	
-	<p>
-		<%= label_tag(:password, "Password") %>
-	</p>
-	<p>
-		<%= password_field_tag(:password) %>
-	</p>
+		</fieldset>
 
-	<p>
-		<%= submit_tag("Sign in") %>
-	</p>
+		<% end %>
+		
+		<p>Not a memeber? <%= link_to "Sign up!", register_path %></p>
 
-</fieldset>
-
-<% end %>
-
-<%= link_to "Sign up", signUp_path %>
+	</div>
+</div>
