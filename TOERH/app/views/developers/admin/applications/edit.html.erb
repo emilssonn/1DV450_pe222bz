@@ -1,0 +1,64 @@
+
+
+<div class="row">
+	<div class="col-xs-12">
+
+		<%= form_for @application, url: {action: 'update'}, role: 'form' do |f| %>
+
+		<fieldset>
+			<legend>
+				Edit:
+				<%= @application.name %></legend>
+
+			<% if @application.errors.any? %>
+			<div class="alert alert-warning">
+				<h4>Input errors</h4>
+
+				<ul>
+					<% @application.errors.full_messages.each do |msg| %>
+					<li>
+						<%= msg %></li>
+					<% end %></ul>
+			</div>
+
+			<% end %>
+
+			<h5>Owner:</h5>
+			<p>
+				<%= @application.user.firstname %>
+				<%= @application.user.lastname %></p>
+
+			<h5>Created:
+			</h5>
+			<p>
+				<%= @application.created_at %></p>
+
+			<h5>Updated:
+			</h5>
+			<p>
+				<%= @application.updated_at %></p>
+
+			<div class="form-group">
+				<%= f.label(:name) %>
+				<%= f.text_field(:name, :class =>'form-control') %></div>
+
+			<div class="form-group">
+				<%= f.label(:active, "Status") %>
+				<%= f.select(:active, options_for_select([['Active', true], ['Revoked', false]], @application.active), {}, :class =>"form-control") %></div>
+
+			<div class="form-group">
+				<%= f.label(:application_rate_limit_id, "Rate Limit") %>
+				<%= f.select(:application_rate_limit_id, 
+						options_from_collection_for_select(ApplicationRateLimit.all, :id, :rate_limit_name_and_limit, @application.application_rate_limit_id), {}, :class =>
+				"form-control") 
+					%>
+			</div>
+
+			<p>
+				<%= f.submit 'Save', :class =>
+				"btn btn-primary btn-sm" %>
+				<%= link_to "Cancel", admin_applications_path, :class =>"btn btn-warning btn-sm" %></p>
+		</fieldset>
+
+		<% end %></div>
+</div>

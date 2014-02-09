@@ -27,7 +27,7 @@
 
 				<p>
 					<%= f.submit (application.id? ? 'Save' : 'Create'), :class => "btn btn-primary btn-sm" %>
-					<%= link_to "Cancel", applications_path, :class => "btn btn-warning btn-sm" %>
+					<%= link_to "Cancel", (application.id? ? application_path(application) : applications_path), :class => "btn btn-warning btn-sm" %>
 				</p>
 			</fieldset>
 

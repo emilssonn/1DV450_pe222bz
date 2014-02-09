@@ -1,6 +1,14 @@
 source 'https://rubygems.org'
 
+# API
 
+gem 'rails-api'
+
+gem 'rabl'
+
+gem 'oj'
+
+# HTML/CSS Layout
 gem 'bootstrap-sass'
 group :development do
   gem 'rails_layout'

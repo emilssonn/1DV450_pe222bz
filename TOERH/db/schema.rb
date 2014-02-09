@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140203164248) do
+ActiveRecord::Schema.define(version: 20140209134132) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "application_id",            null: false
@@ -20,19 +20,32 @@ ActiveRecord::Schema.define(version: 20140203164248) do
     t.datetime "updated_at"
   end
 
-  create_table "applications", force: true do |t|
-    t.integer  "user_id",               null: false
+  create_table "application_rate_limits", force: true do |t|
     t.string   "name",       limit: 30, null: false
+    t.integer  "limit",                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  create_table "applications", force: true do |t|
+    t.integer  "user_id",                                             null: false
+    t.integer  "application_rate_limit_id",            default: 1,    null: false
+    t.string   "name",                      limit: 30,                null: false
+    t.boolean  "active",                               default: true, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_roles", force: true do |t|
+    t.string "name", limit: 30, null: false
+  end
+
   create_table "users", force: true do |t|
-    t.string   "firstname",       limit: 40,                    null: false
-    t.string   "lastname",        limit: 40,                    null: false
-    t.string   "email",           limit: 40,                    null: false
-    t.string   "password_digest",                               null: false
-    t.string   "role",                       default: "normal", null: false
+    t.string   "firstname",       limit: 40,             null: false
+    t.string   "lastname",        limit: 40,             null: false
+    t.string   "email",           limit: 40,             null: false
+    t.string   "password_digest",                        null: false
+    t.integer  "user_role_id",               default: 1, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

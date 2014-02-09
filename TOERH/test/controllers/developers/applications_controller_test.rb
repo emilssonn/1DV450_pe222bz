@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Dev::Users::AuthorizationsControllerTest < ActionController::TestCase
+class Developers::ApplicationsControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end

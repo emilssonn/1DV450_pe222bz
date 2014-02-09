@@ -3,7 +3,7 @@ TOERH::Application.routes.draw do
   # Api namespace
   scope module: "api" do
     # Api subdomain api.*.*
-    constraints(:subdomain => 'api') do
+    constraints(:subdomain => 'api', defaults: {format: 'json'}) do
       # Api versioning: api.*.*/v1/
       # Version 1.0
       namespace :v1 do
@@ -24,6 +24,11 @@ TOERH::Application.routes.draw do
         get   'login' => 'authorizations#show', :as => 'login'
         post  'login' => 'authorizations#login', :as => 'loginPost'
         get   'logout' => 'authorizations#logout', :as => 'logout'
+      end
+
+      namespace :admin do
+        resources :applications, only: [:index, :edit, :update], :controller => "applications"
+        get   '' => 'admins#index', :as => 'home'
       end
 
       resources :applications

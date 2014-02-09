@@ -51,6 +51,8 @@ class Developers::ApplicationsController < ApplicationController
 		end
 	end
 
+	private
+
 	def application_params
 		params.require(:application).permit(:name)
 	end

@@ -15,7 +15,7 @@
 					<tr>
 						<th>Name</th>
 						<th>Created</th>
-						<th>Updated</th>
+						<th>Status</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -27,7 +27,7 @@
 						<td>
 							<%= app.created_at %></td>
 						<td>
-							<%= app.updated_at %></td>
+								<%= (app.active ? "Active" : "Revoked") %></td>
 						<td>
 							<%= link_to 'Details', application_path(app), :class => 'btn btn-info btn-xs' %></td>
 					</tr>
@@ -37,6 +37,6 @@
 		</div>
 		
 		<% else %>
-			<div class="row col-xs-12">You have not created any applications.></div>
+			<div class="row col-xs-12">You have not created any applications.</div>
 		<% end %></div>
 </div>

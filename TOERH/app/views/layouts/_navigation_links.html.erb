@@ -4,7 +4,9 @@
 	<li><%= link_to "Sign up", register_path %></li>
 	<li><%= link_to "Sign in", login_path %></li>
 <% else %>
-	
+	<% if current_user.is_admin %>
+		<li><%= link_to "Admin", admin_home_path %></li>
+	<% end %>
 	<li><%= link_to "My Apps", applications_path %></li>
 	<li><%= link_to "Sign out", logout_path %></li>
 <% end %>
