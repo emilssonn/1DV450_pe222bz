@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
 
   private
-  helper_method :current_user, :require_admin
+  helper_method :current_user
 
   def current_user
   	@current_user ||= User.find(session[:userid]) if session[:userid]
@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
   	if current_user.nil? then
-  		redirect_to signIn_path
+  		redirect_to login_path
   	end
   end
 

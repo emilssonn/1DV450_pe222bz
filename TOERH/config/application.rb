@@ -22,6 +22,9 @@ module TOERH
     # 
     
     config.api_only = false
+
+    #config.middleware.use "RateLimit"
+    
   end
 end
 

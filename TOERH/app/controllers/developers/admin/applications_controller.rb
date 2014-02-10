@@ -1,5 +1,5 @@
 class Developers::Admin::ApplicationsController < ApplicationController
-	before_action :require_admin
+	before_action :require_login, :require_admin
 	layout "developers"
 
 	def index
@@ -14,6 +14,9 @@ class Developers::Admin::ApplicationsController < ApplicationController
 		@application = Application.find_by_id(params[:id])
 
 		if @application.update(application_params)
+			if !@application.active
+				REDIS.del(@application.api_key.key)
+			end
 			redirect_to admin_applications_path(@application)
 		else
 			render 'edit'

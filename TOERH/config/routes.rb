@@ -1,10 +1,11 @@
+
 TOERH::Application.routes.draw do
 
   # Api namespace
   scope module: "api" do
     # Api subdomain api.*.*
     constraints(:subdomain => 'api', defaults: {format: 'json'}) do
-      # Api versioning: api.*.*/v1/
+      # Api versioning
       # Version 1.0
       namespace :v1 do
         resource :user
@@ -12,9 +13,10 @@ TOERH::Application.routes.draw do
     end
   end
 
+  # Developers namespace
   scope module: "developers" do
     
-
+    # Developers subdomain
     constraints(:subdomain => 'developers') do
       root 'developers#index' 
 

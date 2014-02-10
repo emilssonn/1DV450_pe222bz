@@ -8,6 +8,8 @@ gem 'rabl'
 
 gem 'oj'
 
+gem 'redis'
+
 # HTML/CSS Layout
 gem 'bootstrap-sass'
 group :development do
