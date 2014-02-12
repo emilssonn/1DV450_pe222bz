@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 # API
 
-gem 'rails-api'
-
 gem 'rabl'
 
 gem 'oj'

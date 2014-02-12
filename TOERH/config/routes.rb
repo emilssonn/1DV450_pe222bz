@@ -8,7 +8,9 @@ TOERH::Application.routes.draw do
       # Api versioning
       # Version 1.0
       namespace :v1 do
-        resource :user
+        resource :user, only: [:show]  
+        resources :resources
+        resources :licenses, :resource_types, :tags, only: [:index, :show]  
       end
     end
   end

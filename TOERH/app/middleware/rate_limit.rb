@@ -1,5 +1,9 @@
 require 'Application'
 
+# headers = env.select {|k,v| k.start_with? 'HTTP_'}
+#    .collect {|pair| [pair[0].sub(/^HTTP_/, ''), pair[1]]}
+ #  .collect {|pair| pair.join(": ") << "<br>"}
+ #   .sort
 
 class RateLimit
   def initialize(app)
@@ -7,15 +11,14 @@ class RateLimit
   end
 
   def call(env)
-    qs = {}
+    authValues = {}
     
-    # Get the querystring values
-    env['QUERY_STRING'].split(/[&]/).each do | qsv |
-      key, value = qsv.split(/[=]/)
-      qs[key] = value
+    env['HTTP_AUTHORIZATION'].split(/[,]/).each do | authHeader |
+      key, value = authHeader.split(/[=]/)
+      authValues[key] = value
     end
     
-    apiKey = qs["apiKey"]
+    apiKey = authValues["apiKey"]
     
     # If a api key was included
     if apiKey
