@@ -3,12 +3,12 @@ object @x => :collection
 node(:self) { request.original_url }
 	
 node(:items) do
-	@resources.each do |r|
-		partial("resources/_show, :object => r")
+	@resource_types.each do |r|
+		partial("resource_types/_show, :object => r")
 	end
 end
 
-if @resources.empty?
+if @resource_types.empty?
 	node(:prev) { nil }
 	node(:next) { nil }
 else
@@ -16,7 +16,7 @@ else
 	node(:next) { nil }
 end
 
-node(:total) { @resources.count }
+node(:total) { @resource_types.count }
 node(:limit) { @limit }
 node(:offset) { @offset }
 

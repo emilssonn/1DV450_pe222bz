@@ -3,12 +3,12 @@ object @x => :collection
 node(:self) { request.original_url }
 	
 node(:items) do
-	@resources.each do |r|
-		partial("resources/_show, :object => r")
+	@licenses.each do |l|
+		partial("licenses/_show, :object => l")
 	end
 end
 
-if @resources.empty?
+if @licenses.empty?
 	node(:prev) { nil }
 	node(:next) { nil }
 else
@@ -16,7 +16,7 @@ else
 	node(:next) { nil }
 end
 
-node(:total) { @resources.count }
+node(:total) { @licenses.count }
 node(:limit) { @limit }
 node(:offset) { @offset }
 

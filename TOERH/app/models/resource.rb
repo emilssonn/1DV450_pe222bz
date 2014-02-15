@@ -19,4 +19,21 @@ class Resource < ActiveRecord::Base
 						:uniqueness => true,
 						:presence => true,
 						:length => {minimum: 5, maximum: 200}
+
+
+	# DB helpers
+	 
+	def self.by_name(name)
+    return scoped unless name.present?
+  		where('name like ?', name)
+	end
+
+	def self.by_resource_type_ids(resource_type_ids)
+	  return scoped unless resource_type_ids.present?
+		  ids = resource_type_ids.split(',').collect{|x| x.strip}
+		  ### ----- join to get real ids
+		  where(resource_type_id: ids)
+	end
+
+
 end

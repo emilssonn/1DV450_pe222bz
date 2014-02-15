@@ -1,5 +1,5 @@
-object @resource
+object @resource => :instance
 
-attributes :name, :description, :url
-attributes :public_id => :id
+extend("resources/_show")
+
 
