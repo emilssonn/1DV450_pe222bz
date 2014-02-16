@@ -12,7 +12,7 @@ class RateLimit
 
   def call(env)
     authValues = {}
-    
+
     env['HTTP_AUTHORIZATION'].split(/[,]/).each do | authHeader |
       key, value = authHeader.split(/[=]/)
       authValues[key] = value

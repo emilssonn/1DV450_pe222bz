@@ -3,9 +3,10 @@ class Api::V1::ResourceTypesController < Api::V1::ApiBaseController
 	def index
 		@limit = params[:limit] > 0 && params[:limit] < 50 ? params[:limit] : 30 rescue 30
 		@offset = params[:offset] > 0 ? params[:offset] : 0 rescue 0
-		@search = params[:q] || ""
 
-		@resource_types = ResourceType.limit(@limit).offset(@offset).where('name like ?', @search)
+		@resource_types = ResourceType.limit(@limit).offset(@offset)
+			.by_name(params[:q])
+
 	end
 
 	def show

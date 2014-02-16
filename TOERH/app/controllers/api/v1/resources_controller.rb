@@ -5,9 +5,12 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 		@limit = params[:limit] > 0 && params[:limit] < 50 ? params[:limit] : 30 rescue 30
 		@offset = params[:offset] > 0 ? params[:offset] : 0 rescue 0
 
-		@resources = Resource.limit(@limit).offset(@offset).
-			by_name(params[:q]).
-			by_resource_type_ids(params[:resource_type_ids])
+		@resources = Resource.limit(@limit).offset(@offset)
+			.by_name(params[:q])
+			.by_resource_type_ids(params[:resource_type_ids])
+			.by_license_ids(params[:license_ids])
+			.by_user_ids(params[:user_ids])
+			.by_tags(params[:tags])
 
 	end
 
@@ -23,10 +26,11 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	# Requires a logged in user
 	
 	def create
-		
-		create_params
 
 		@resource = Resource.new(create_params)
+
+
+		puts create_params
 
 		if @resource.save
 			
@@ -60,9 +64,9 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 			:name, 
 			:description, 
 			:url, 
-			:resource_type_id || :resource_type_name,
-			:license_id || :license_name,
-			:tag_ids || :tag_names
+			:resource_type_id,
+			:license_id,
+			:tags => []
 		)
 	end
 

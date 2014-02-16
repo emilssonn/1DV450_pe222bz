@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140212154937) do
+ActiveRecord::Schema.define(version: 20140216162311) do
 
   create_table "api_keys", force: true do |t|
     t.integer  "application_id",            null: false
@@ -65,6 +65,13 @@ ActiveRecord::Schema.define(version: 20140212154937) do
     t.datetime "updated_at"
   end
 
+  create_table "resources_tags", id: false, force: true do |t|
+    t.integer "tag_id",      null: false
+    t.integer "resource_id", null: false
+  end
+
+  add_index "resources_tags", ["tag_id", "resource_id"], name: "index_resources_tags_on_tag_id_and_resource_id", unique: true
+
   create_table "tags", force: true do |t|
     t.string   "public_id",  limit: 50, null: false
     t.string   "name",       limit: 20, null: false
@@ -73,13 +80,6 @@ ActiveRecord::Schema.define(version: 20140212154937) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true
-
-  create_table "tags_resources", id: false, force: true do |t|
-    t.integer "tag_id",      null: false
-    t.integer "resource_id", null: false
-  end
-
-  add_index "tags_resources", ["tag_id", "resource_id"], name: "index_tags_resources_on_tag_id_and_resource_id", unique: true
 
   create_table "user_roles", force: true do |t|
     t.string "name", limit: 30, null: false

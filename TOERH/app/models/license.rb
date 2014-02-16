@@ -15,4 +15,9 @@ class License < ActiveRecord::Base
 	validates :url, 
 						:length => {minimum: 5, maximum: 200},
 						:allow_blank => true
+
+	def self.by_name(name)
+    return all unless name.present?
+  		where('name like ?', "%#{name}%",)
+	end
 end

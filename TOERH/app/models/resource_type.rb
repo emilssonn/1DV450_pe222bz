@@ -11,4 +11,9 @@ class ResourceType < ActiveRecord::Base
 	validates :description, 
 						:length => {minimum: 2, maximum: 200},
 						:allow_blank => true
+
+	def self.by_name(name)
+    return all unless name.present?
+  		where('name like ?', "%#{name}%",)
+	end
 end
