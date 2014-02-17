@@ -17,7 +17,7 @@ class RateLimit
       key, value = authHeader.split(/[=]/)
       authValues[key] = value
     end
-    
+    puts env['HTTP_AUTHORIZATION']
     apiKey = authValues["apiKey"]
     
     # If a api key was included

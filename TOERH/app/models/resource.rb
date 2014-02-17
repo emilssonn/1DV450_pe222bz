@@ -21,6 +21,7 @@ class Resource < ActiveRecord::Base
 						:length => {minimum: 5, maximum: 200}
 
 
+
 	# DB helpers
 	 
 	def self.by_name(name)
