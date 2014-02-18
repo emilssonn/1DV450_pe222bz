@@ -1,6 +1,5 @@
-object @tag
 
-node(:self) { v1_tags(@tag) }
+node(:self) { |t| request.base_url + v1_tag_path(t.public_id) }
 
 attributes :public_id => :id
 attributes :name

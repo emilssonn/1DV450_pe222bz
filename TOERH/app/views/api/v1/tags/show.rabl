@@ -1,5 +1,5 @@
 object @tag => :instance
 
-extend("tags/_show")
+extend("api/v1/tags/_show")
 
 

@@ -3,9 +3,7 @@ object @x => :collection
 node(:self) { request.original_url }
 	
 node(:items) do
-	@licenses.each do |l|
-		partial("licenses/_show, :object => l")
-	end
+	partial("api/v1/licenses/_show", :object => @licenses.each)
 end
 
 if @licenses.empty?

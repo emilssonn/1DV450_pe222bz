@@ -21,7 +21,7 @@ module TOERH
     # config.i18n.default_locale = :de
     # 
     
-    config.api_only = false
+    config.autoload_paths += %W(#{config.root}/lib/validators/)
 
     #config.middleware.use "RateLimit"
     

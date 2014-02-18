@@ -3,9 +3,7 @@ object @x => :collection
 node(:self) { request.original_url }
 	
 node(:items) do
-	@resource_types.each do |r|
-		partial("resource_types/_show, :object => r")
-	end
+	partial("api/v1/resource_types/_show", :object => @resource_types.each)
 end
 
 if @resource_types.empty?

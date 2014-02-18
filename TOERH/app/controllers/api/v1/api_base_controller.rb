@@ -1,27 +1,10 @@
 class Api::V1::ApiBaseController < ActionController::Base
-	#rescue_from StandardError, :with => :error_render_method
+	#rescue_from StandardError, :with => :error_response
+  before_action :require_token
+  before_action :rate_limit
+
 
 	private
-
-  def error_render_method
-    error = { 
-			status: 500,
-			message: "Internal server error.",
-			developerMessage: "An unexpected error occured on the server. This was not caused by any faulty request parameters."  
-		}
-		respond_to do |format|
-			format.json { render :json => error.to_json, :status => :internal_server_error }
-			format.xml { render :xml => error.to_xml, :status => :internal_server_error }
-		end
-    
-  end
-
-  def not_found_response_base(error)
-    respond_to do |format|
-      format.json { render :json => error.to_json, :status => :not_found }
-      format.xml { render :xml => error.to_xml, :status => :not_found }
-    end
-  end
 
   helper_method :current_user
 
@@ -42,6 +25,12 @@ class Api::V1::ApiBaseController < ActionController::Base
         format.json { render :json => error.to_json, :status => :unauthorized }
         format.xml { render :xml => error.to_xml, :status => :unauthorized }
       end
+    end
+  end
+
+  def rate_limit
+    if current_user.nil?
+      rate_limit_by_api_key
     else
       rate_limit_by_user
     end
@@ -111,6 +100,39 @@ class Api::V1::ApiBaseController < ActionController::Base
     end
   end
 
+  def error_response
+    error = { 
+      status: 500,
+      message: "Internal Server Error",
+      developerMessage: "An unexpected error occured on the server. This was not caused by any faulty request parameters."  
+    }
+    respond_to do |format|
+      format.json { render :json => error.to_json, :status => :internal_server_error }
+      format.xml { render :xml => error.to_xml, :status => :internal_server_error }
+    end
+    
+  end
+
+  def not_found_response_base(error)
+    respond_to do |format|
+      format.json { render :json => error.to_json, :status => :not_found }
+      format.xml { render :xml => error.to_xml, :status => :not_found }
+    end
+  end
+
+  def invalid_response(obj)
+    error = { 
+      status: 400,
+      message: "Bad Request",
+      developerMessage: "One or more parameters posted were invalid. See errors object for more info.",
+      errors: obj.errors
+    }
+    respond_to do |format|
+      format.json { render :json => error.to_json, :status => :bad_request }
+      format.xml { render :xml => error.to_xml, :status => :bad_request }
+    end
+  end
+
   def unauthorized_response
     error = {
       :status => 401,
@@ -135,6 +157,7 @@ class Api::V1::ApiBaseController < ActionController::Base
       format.xml { render :xml => error.to_xml, :status => 429 }
     end
   end
+
 
   def rate_limit_headers(count, key, limit)
     ttl = REDIS.ttl(key)

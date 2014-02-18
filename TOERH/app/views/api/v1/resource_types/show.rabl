@@ -1,5 +1,5 @@
 object @resource_type => :instance
 
-extend("resource_types/_show")
+extend("api/v1/resource_types/_show")
 
 

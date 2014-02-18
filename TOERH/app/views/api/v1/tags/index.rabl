@@ -3,9 +3,7 @@ object @x => :collection
 node(:self) { request.original_url }
 	
 node(:items) do
-	@tags.each do |t|
-		partial("tags/_show, :object => t")
-	end
+	partial("api/v1/tags/_show", :object => @tags.each)
 end
 
 if @tags.empty?

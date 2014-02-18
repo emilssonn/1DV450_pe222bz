@@ -1,5 +1,5 @@
 object @license => :instance
 
-extend("licenses/_show")
+extend("api/v1/licenses/_show")
 
 

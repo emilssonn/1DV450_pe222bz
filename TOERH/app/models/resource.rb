@@ -20,6 +20,12 @@ class Resource < ActiveRecord::Base
 						:presence => true,
 						:length => {minimum: 5, maximum: 200}
 
+	validates :resource_type,
+						:existence => true
+
+	validates :license,
+						:existence => true
+
 
 
 	# DB helpers

@@ -1,6 +1,5 @@
-object @resource
 
-node(:self) { v1_resources(@resource) }
+node(:self) { |r| request.base_url + v1_resource_path(r.public_id) }
 
 attributes :public_id => :id
 attributes :name, :description, :url
@@ -8,14 +7,19 @@ attributes :created_at => :createdAt
 attributes :updated_at => :updatedAt
 
 child :user do
-  	attributes :public_id => :id
-	attributes :firstname, :lastname, :email
+  	extends "api/v1/users/_show"
 end
 
-child :resource_type do
-	extends "resource_types/_show"
+child :resource_type => :resourceType do
+	extends "api/v1/resource_types/_show"
 end
 
 child :license do
-	extends "licenses/_show"
+	extends "api/v1/licenses/_show"
+end
+
+child :tags do
+	node do |t|
+		partial "api/v1/tags/_show", :object => t
+	end
 end
