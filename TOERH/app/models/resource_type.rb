@@ -1,6 +1,7 @@
 class ResourceType < ActiveRecord::Base
 	include GuidGen
-	
+	include DbHelper
+
 	has_many :resource
 
 	validates :name, 
@@ -9,11 +10,7 @@ class ResourceType < ActiveRecord::Base
 						:length => {minimum: 2, maximum: 50}	
 
 	validates :description, 
-						:length => {minimum: 2, maximum: 200},
+						:length => {minimum: 2, maximum: 500},
 						:allow_blank => true
 
-	def self.by_name(name)
-    return all unless name.present?
-  		where('name like ?', "%#{name}%",)
-	end
 end

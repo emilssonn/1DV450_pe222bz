@@ -1,5 +1,6 @@
 class Resource < ActiveRecord::Base
 	include GuidGen
+	include DbHelper
 	
 	has_and_belongs_to_many :tags
 	belongs_to :resource_type
@@ -9,32 +10,25 @@ class Resource < ActiveRecord::Base
 	validates :name, 
 						:uniqueness => true,
 						:presence => true,
-						:length => {minimum: 5, maximum: 30}
+						:length => {minimum: 5, maximum: 100}
 
 	validates :description, 
 						:presence => true,
-						:length => {minimum: 10, maximum: 350}
+						:length => {minimum: 10, maximum: 2000}
 
 	validates :url, 
 						:uniqueness => true,
 						:presence => true,
 						:length => {minimum: 5, maximum: 200}
 
-	validates :resource_type,
-						:existence => true
-
 	validates :license,
-						:existence => true
+						:presence => true
 
-
+	validates :resource_type,
+						:presence => true
 
 	# DB helpers
-	 
-	def self.by_name(name)
-    return all unless name.present?
-  		where('resources.name like ?', "%#{name}%",)
-	end
-
+	
 	def self.by_resource_type_ids(resource_type_ids)
 	  return all unless resource_type_ids.present?
 		  ids = resource_type_ids.split(',').collect{|x| x.strip}
@@ -58,6 +52,5 @@ class Resource < ActiveRecord::Base
 		  ids = user_ids.split(',').collect{|x| x.strip}
 		  where(user_id: User.select(:id).where(:public_id => ids))
 	end
-
 
 end

@@ -2,14 +2,20 @@ class Api::V1::ApiBaseController < ActionController::Base
 	#rescue_from StandardError, :with => :error_response
   before_action :require_token
   before_action :rate_limit
+  before_action :limit_offset, :only => [:index]
 
 
 	private
 
   helper_method :current_user
 
+  def limit_offset
+    @limit = params[:limit] > 0 && params[:limit] < 50 ? params[:limit] : 30 rescue 30
+    @offset = params[:offset] >= 0 ? params[:offset] : 0 rescue 0
+  end
+
   def current_user
-    if user = authenticate_with_http_basic { |u, p| User.find_by_email(u).authenticate(p) }
+    if user = authenticate_with_http_basic { |u, p| User.find_by_email(u).authenticate(p) rescue false}
       @current_user = user
     end
   end
@@ -124,7 +130,7 @@ class Api::V1::ApiBaseController < ActionController::Base
     error = { 
       status: 400,
       message: "Bad Request",
-      developerMessage: "One or more parameters posted were invalid. See errors object for more info.",
+      developerMessage: "One or more fields posted were invalid. See errors object for more info.",
       errors: obj.errors
     }
     respond_to do |format|

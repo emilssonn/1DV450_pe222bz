@@ -22,6 +22,8 @@ TOERH::Application.routes.draw do
     constraints(:subdomain => 'developers') do
       root 'developers#index' 
 
+      get 'docs' => 'docs#index'
+
       scope module: "users" do
         get   'register' => 'registrations#new', :as => 'register'
         post  'register' => 'registrations#create', :as => 'registerPost'

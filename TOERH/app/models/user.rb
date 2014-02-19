@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
 	include GuidGen
+	include DbHelper
 	
 	has_many :application
 	belongs_to :user_role

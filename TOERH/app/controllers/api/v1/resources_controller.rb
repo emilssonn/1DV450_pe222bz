@@ -1,31 +1,26 @@
 class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	before_action :require_login, :except => [:index, :show]
+	before_action :transform_ids, :only => [:create, :update]
 	
 
 	def index
-		@limit = params[:limit] > 0 && params[:limit] < 50 ? params[:limit] : 30 rescue 30
-		@offset = params[:offset] >= 0 ? params[:offset] : 0 rescue 0
-
 		@resources = Resource.limit(@limit).offset(@offset)
 			.by_name(params[:q])
 			.by_resource_type_ids(params[:resource_type_ids])
 			.by_license_ids(params[:license_ids])
 			.by_user_ids(params[:user_ids])
 			.by_tags(params[:tags])
-
-		puts @resources[0].tags.to_json
 	end
 
 	def show
 		unless @resource = Resource.find_by_public_id(params[:id])
-			not_found_response
+			not_found_response and return
 		end
 	end
 
 	# Requires a logged in user
 	
 	def create
-
 		@resource = Resource.new(resource_params)
 		@resource.user = current_user
 		@resource.valid?
@@ -42,27 +37,23 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 
 	def update
 		unless @resource = Resource.find_by_public_id(params[:id])
-			not_found_response
+			not_found_response and return
 		end
-
 		@resource.tags.clear
 
 		get_tags
-		
-		if @resource.errors.empty?
-			if @resource.save
-				render "resources/show", :status => :ok
-			end
+			
+		if @resource.errors.empty? && @resource.update(resource_params)
+			render "api/v1/resources/show", :status => :ok
 		else
 			invalid_response(@resource)
 		end		
 	end
 
-	def delete
+	def destroy
 		unless resource = Resource.find_by_public_id(params[:id])
-			not_found_response
+			not_found_response and return
 		end
-
 		resource.destroy
 		head :ok
 	end
@@ -75,7 +66,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 			if tag.valid?
 				@resource.tags << tag
 			else
-				@resource.errors.add(:tags, "fel")
+				@resource.errors.add(:tags, {tag.name => tag.errors})
 			end
 
 		end if params[:tags].is_a?(Array)
@@ -83,6 +74,11 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 
 	def resource_params
 		params.permit(:name, :description, :url, :resource_type_id, :license_id)
+	end
+
+	def transform_ids
+		params[:license_id] = License.select(:id).find_by_public_id(params[:license_id]).id rescue nil if params[:license_id]
+    params[:resource_type_id] = ResourceType.select(:id).find_by_public_id(params[:resource_type_id]).id rescue nil if params[:resource_type_id]
 	end
 
 	def not_found_response

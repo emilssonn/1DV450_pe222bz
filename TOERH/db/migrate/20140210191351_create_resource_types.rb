@@ -4,7 +4,7 @@ class CreateResourceTypes < ActiveRecord::Migration
 
     	t.string "public_id", :null => false, :limit => 50
     	t.string "name", :limit => 50, :null => false
-    	t.text "description", :limit => 200, :null => true
+    	t.text "description", :limit => 500, :null => true
 
       t.timestamps
     end

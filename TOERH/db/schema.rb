@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 20140216162311) do
   end
 
   create_table "licenses", force: true do |t|
-    t.string   "public_id",   limit: 50,  null: false
-    t.string   "name",        limit: 100, null: false
-    t.text     "description", limit: 250
+    t.string   "public_id",   limit: 50,   null: false
+    t.string   "name",        limit: 100,  null: false
+    t.text     "description", limit: 2000
     t.string   "url",         limit: 200
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -48,19 +48,19 @@ ActiveRecord::Schema.define(version: 20140216162311) do
   create_table "resource_types", force: true do |t|
     t.string   "public_id",   limit: 50,  null: false
     t.string   "name",        limit: 50,  null: false
-    t.text     "description", limit: 200
+    t.text     "description", limit: 500
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "resources", force: true do |t|
-    t.string   "public_id",        limit: 50,  null: false
-    t.integer  "resource_type_id",             null: false
-    t.integer  "user_id",                      null: false
-    t.integer  "license_id",                   null: false
-    t.string   "name",             limit: 30,  null: false
-    t.text     "description",      limit: 350, null: false
-    t.string   "url",              limit: 200, null: false
+    t.string   "public_id",        limit: 50,   null: false
+    t.integer  "resource_type_id",              null: false
+    t.integer  "user_id",                       null: false
+    t.integer  "license_id",                    null: false
+    t.string   "name",             limit: 100,  null: false
+    t.text     "description",      limit: 2000, null: false
+    t.string   "url",              limit: 200,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

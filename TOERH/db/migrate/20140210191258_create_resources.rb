@@ -7,8 +7,8 @@ class CreateResources < ActiveRecord::Migration
     	t.references :user, :null => false
     	t.references :license, :null => false
 
-    	t.string "name", :limit => 30, :null => false
-    	t.text "description", :limit => 350, :null => false
+    	t.string "name", :limit => 100, :null => false
+    	t.text "description", :limit => 2000, :null => false
     	t.string "url", :limit => 200, :null => false
     	
       t.timestamps
