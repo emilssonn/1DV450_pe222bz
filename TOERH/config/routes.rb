@@ -23,6 +23,9 @@ TOERH::Application.routes.draw do
       root 'developers#index' 
 
       get 'docs' => 'docs#index'
+      get 'docs/users' => 'docs#users', :as => 'doc_users'
+      get 'docs/auth' => 'docs#auth', :as => 'doc_auth'
+      get 'docs/resources' => 'docs#resources', :as => 'doc_resources'
 
       scope module: "users" do
         get   'register' => 'registrations#new', :as => 'register'
