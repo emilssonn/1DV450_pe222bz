@@ -8,8 +8,8 @@ TOERH::Application.routes.draw do
       # Api versioning
       # Version 1.0
       namespace :v1 do
-        resources :resources, except: [:edit]
-        resources :licenses, :resource_types, :tags, :users,  only: [:index, :show]  
+        resources :resources, :licenses, :resource_types, except: [:edit]
+        resources :tags, :users,  only: [:index, :show]  
       end
 
       match '*path', via: :all, to: 'errors#error_404'
@@ -21,7 +21,7 @@ TOERH::Application.routes.draw do
     
     # Developers subdomain
     constraints(:subdomain => 'developers') do
-      get '' => 'developers#index' 
+      get '' => 'developers#index', :as => 'devs'
 
       get 'docs' => 'docs#index'
       get 'docs/other' => 'docs#other', :as => 'doc_other'

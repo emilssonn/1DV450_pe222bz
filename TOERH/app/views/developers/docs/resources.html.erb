@@ -1,46 +1,44 @@
 <div class="row row-offcanvas row-offcanvas-left">
 	<%= render "menu" %>
+	<p class="pull-left visible-xs">
+		<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+	</p>
 	<div class="col-xs-12 col-sm-9">
-		<p class="pull-left visible-xs">
-			<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-		</p>
 		<h1>Resources</h1>
 		<div class="row">
 			<div class="col-xs-12">
 				<h2>Get Resource</h2>
-				<p>
-					Returns the requested resource.
-				</p>
+				<p>Returns the requested resource.</p>
 				<hr/>
-								<h4>Requires a authenticated user</h4>
+				<h4>Requires a authenticated user</h4>
 				<p>
 					<span class="label label-warning">No</span>
 				</p>
 				<hr/>
 				<h4>Url</h4>
-				<p>
-					GET: /resources/:id
-				</p>
+				<p>GET: /resources/:id</p>
 				<hr/>
 				<h4>Parameters</h4>
-					<dl class="dl-horizontal">
-						<dt>id<br/> <span class="label label-danger">required</span></dt>
-						<dd>
-							<p>The full id of the desired resource.</p>
-							Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
-						</dd>
-					</dl>
-				<hr/>	
+				<dl class="dl-horizontal">
+					<dt>
+						id
+						<br/>
+						<span class="label label-danger">required</span>
+					</dt>
+					<dd>
+						<p>The full id of the desired resource.</p>
+						Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
+					</dd>
+				</dl>
+				<hr/>
 				<h4>Limit and offset</h4>
 				<p>
 					<span class="label label-warning">No</span>
-				</p>			
+				</p>
 			</div>
 			<div class="col-xs-12">
 				<h2>Get Resources</h2>
-				<p>
-					Returns 0-30 resources
-				</p>
+				<p>Returns 0-30 resources</p>
 				<hr/>
 				<h4>Requires a authenticated user</h4>
 				<p>
@@ -48,184 +46,260 @@
 				</p>
 				<hr/>
 				<h4>Url</h4>
-				<p>
-					GET: /resources
-				</p>
+				<p>GET: /resources</p>
 				<hr/>
 				<h4>Parameters</h4>
-					<dl class="dl-horizontal">
-						<dt>q</br> <span class="label label-info">optional</span></dt>
-						<dd>
-							<p>Search for only resources that have a name that contains the value of "q"</p>
-							Example: q=A github repo
-							<hr/>
-						</dd>
+				<dl class="dl-horizontal">
+					<dt>q</br>
+					<span class="label label-info">optional</span>
+				</dt>
+				<dd>
+					<p>
+						Search for only resources that have a name that contains the value of "q"
+					</p>
+					Example: q=A github repo
+					<hr/>
+				</dd>
 
-						<dt>resource_type_ids</br> <span class="label label-info">optional</span></dt>
-						<dd>
-							<p>A comma (',') seperated list with the ids of the resource types to match to the resources.</p>
-							Example: resource_type_ids=d4863faa-053f-49c6-9136-7177d31a6257, d4863faa-053f-49c6-9136-7177d31a6257
-							<hr/>
-						</dd>
+				<dt>resource_type_ids</br>
+				<span class="label label-info">optional</span>
+			</dt>
+			<dd>
+				<p>
+					A comma (',') seperated list with the ids of the resource types to match to the resources.
+				</p>
+				Example: resource_type_ids=d4863faa-053f-49c6-9136-7177d31a6257, d4863faa-053f-49c6-9136-7177d31a6257
+				<hr/>
+			</dd>
 
-						<dt>license_ids</br> <span class="label label-info">optional</span></dt>
-						<dd>
-							<p>A comma (',') seperated list with the ids of the licenses to match to the resources.</p>
-							Example: license_ids=d4863faa-053f-49c6-9136-7177d31a6257, d4863faa-053f-49c6-9136-7177d31a6257
-							<hr/>
-						</dd>
+			<dt>license_ids</br>
+			<span class="label label-info">optional</span>
+		</dt>
+		<dd>
+			<p>
+				A comma (',') seperated list with the ids of the licenses to match to the resources.
+			</p>
+			Example: license_ids=d4863faa-053f-49c6-9136-7177d31a6257, d4863faa-053f-49c6-9136-7177d31a6257
+			<hr/>
+		</dd>
 
-						<dt>user_ids</br> <span class="label label-info">optional</span></dt>
-						<dd>
-							<p>A comma (',') seperated list with the ids of the users to match to the resources.</p>
-							Example: user_ids=d4863faa-053f-49c6-9136-7177d31a6257
-							<hr/>
-						</dd>
-						<dt>tags</br> <span class="label label-info">optional</span></dt>
-						<dd>
-							<p>A comma (',') seperated list with the tags to match to the resources.</p>
-							Example: tags=youtube, github
-						</dd>
-					</dl>
-				<hr/>	
-				<h4>Limit and offset</h4>
-				<p>
-					<span class="label label-success">Yes</span>
-				</p>
-				<hr/>
-				<h4>Example</h4>	
-				<p>
-					GET: <em>http://api.lvh.me:3000/v1/resources?api_key=YOUR_API_KEY</em>
-				</p>
-				<div class="well" >
-					
-				</div>		
-			</div>
+		<dt>user_ids</br>
+		<span class="label label-info">optional</span>
+	</dt>
+	<dd>
+		<p>
+			A comma (',') seperated list with the ids of the users to match to the resources.
+		</p>
+		Example: user_ids=d4863faa-053f-49c6-9136-7177d31a6257
+		<hr/>
+	</dd>
+	<dt>tags</br>
+	<span class="label label-info">optional</span>
+</dt>
+<dd>
+	<p>
+		A comma (',') seperated list with the tags to match to the resources.
+	</p>
+	Example: tags=youtube, github
+</dd>
+</dl>
+<hr/>
+<h4>Limit and offset</h4>
+<p>
+<span class="label label-success">Yes</span>
+</p>
+<hr/>
+<h4>Example</h4>
+<p>
+GET: <em>http://api.lvh.me:3000/v1/resources?api_key=YOUR_API_KEY</em>
+</p>
+<div class="well" ></div>
+</div>
 
-			<div class="col-xs-12">
-				<h2>Create Resource</h2>
-				<p>
-					Create a new resource. Returns the created resource.
-				</p>
-				<hr/>
-								<h4>Requires a authenticated user</h4>
-				<p>
-					<span class="label label-success">Yes</span>
-				</p>
-				<hr/>
-				<h4>Url</h4>
-				<p>
-					Post: /resources
-				</p>
-				<hr/>
-				<h4>Post data</h4>
-					<dl class="dl-horizontal">
-						<dt>name<br/> <span class="label label-danger">required</span></dt>
-						<dd>The full name of the resource. Length: min: 5, max: 100<hr/>
-						</dd>
-						<dt>description<br/> <span class="label label-danger">required</span></dt>
-						<dd>The full description of the resource. Length: min: 10, max: 2000<hr/>
-						</dd>
-						<dt>url<br/> <span class="label label-danger">required</span></dt>
-						<dd>The full url of the resource. Length: min: 5, max: 200<hr/>
-						</dd>
-						<dt>resource_type_id<br/> <span class="label label-danger">required</span></dt>
-						<dd>A valid resource typ id.<hr/>
-						</dd>
-						<dt>license_id<br/> <span class="label label-danger">required</span></dt>
-						<dd>A valid license id<hr/>
-						</dd>
-						<dt>tags<br/> <span class="label label-info">optional</span></dt>
-						<dd>
-							Array of tags name.
-						</dd>
-					</dl>
-				<hr/>	
-				<h4>Limit and offset</h4>
-				<p>
-					<span class="label label-warning">No</span>
-				</p>
-				<hr/>			
-			</div>
-			<div class="col-xs-12">
-				<h2>Update Resource</h2>
-				<p>
-					Update a resource. Returns the updated resource.
-				</p>
-				<hr/>
-				<h4>Requires a authenticated user</h4>
-				<p>
-					<span class="label label-success">Yes</span>
-				</p>
-				<hr/>
-				<h4>Url</h4>
-				<p>
-					PUT: /resources/:id
-				</p>
-				<hr/>
-				<h4>Post data</h4>
-					<dl class="dl-horizontal">
-						<dt>id<br/> <span class="label label-danger">required</span></dt>
-						<dd>
-							<p>The full id of the desired resource.</p>
-							Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
-						</dd>
-						<dt>name<br/> <span class="label label-info">optional</span></dt>
-						<dd>The full name of the resource. Length: min: 5, max: 100<hr/>
-						</dd>
-						<dt>description<br/> <span class="label label-info">optional</span></dt>
-						<dd>The full description of the resource. Length: min: 10, max: 2000<hr/>
-						</dd>
-						<dt>url<br/> <span class="label label-info">optional</span></dt>
-						<dd>The full url of the resource. Length: min: 5, max: 200<hr/>
-						</dd>
-						<dt>resource_type_id<br/> <span class="label label-info">optional</span></dt>
-						<dd>A valid resource typ id.<hr/>
-						</dd>
-						<dt>license_id<br/> <span class="label label-info">optional</span></dt>
-						<dd>A valid license id<hr/>
-						</dd>
-						<dt>tags<br/> <span class="label label-danger">required</span></dt>
-						<dd>
-							Array of tags name. Will replace the old tags
-						</dd>
-					</dl>
-				<hr/>	
-				<h4>Limit and offset</h4>
-				<p>
-					<span class="label label-warning">No</span>
-				</p>			
-			</div>
-			<div class="col-xs-12">
-				<h2>Delete Resource</h2>
-				<p>
-					Delete a resource
-				</p>
-				<hr/>
-				<h4>Requires a authenticated user</h4>
-				<p>
-					<span class="label label-success">Yes</span>
-				</p>
-				<hr/>
-				<h4>Url</h4>
-				<p>
-					DELETE: /resources/:id
-				</p>
-				<hr/>
-				<h4>Parameters</h4>
-					<dl class="dl-horizontal">
-						<dt>id<br/> <span class="label label-danger">required</span></dt>
-						<dd>
-							<p>The full id of the desired resource.</p>
-							Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
-						</dd>
-					</dl>
-				<hr/>	
-				<h4>Limit and offset</h4>
-				<p>
-					<span class="label label-warning">No</span>
-				</p>			
-			</div>
-		</div>
-	</div>
+<div class="col-xs-12">
+<h2>Create Resource</h2>
+<p>Create a new resource. Returns the created resource.</p>
+<hr/>
+<h4>Requires a authenticated user</h4>
+<p>
+<span class="label label-success">Yes</span>
+</p>
+<hr/>
+<h4>Url</h4>
+<p>Post: /resources</p>
+<hr/>
+<h4>Post data</h4>
+<dl class="dl-horizontal">
+<dt>
+	name
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>
+	The full name of the resource. Length: min: 5, max: 100
+	<hr/>
+</dd>
+<dt>
+	description
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>
+	The full description of the resource. Length: min: 10, max: 2000
+	<hr/>
+</dd>
+<dt>
+	url
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>
+	The full url of the resource. Length: min: 5, max: 200
+	<hr/>
+</dd>
+<dt>
+	resource_type_id
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>
+	A valid resource typ id.
+	<hr/>
+</dd>
+<dt>
+	license_id
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>
+	A valid license id
+	<hr/>
+</dd>
+<dt>
+	tags
+	<br/>
+	<span class="label label-info">optional</span>
+</dt>
+<dd>Array of tags name.</dd>
+</dl>
+<hr/>
+<h4>Limit and offset</h4>
+<p>
+<span class="label label-warning">No</span>
+</p>
+<hr/>
+</div>
+<div class="col-xs-12">
+<h2>Update Resource</h2>
+<p>Update a resource. Returns the updated resource.</p>
+<hr/>
+<h4>Requires a authenticated user</h4>
+<p>
+<span class="label label-success">Yes</span>
+</p>
+<hr/>
+<h4>Url</h4>
+<p>PUT: /resources/:id</p>
+<hr/>
+<h4>Post data</h4>
+<dl class="dl-horizontal">
+<dt>
+	id
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>
+	<p>The full id of the desired resource.</p>
+	Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
+</dd>
+<dt>
+	name
+	<br/>
+	<span class="label label-info">optional</span>
+</dt>
+<dd>
+	The full name of the resource. Length: min: 5, max: 100
+	<hr/>
+</dd>
+<dt>
+	description
+	<br/>
+	<span class="label label-info">optional</span>
+</dt>
+<dd>
+	The full description of the resource. Length: min: 10, max: 2000
+	<hr/>
+</dd>
+<dt>
+	url
+	<br/>
+	<span class="label label-info">optional</span>
+</dt>
+<dd>
+	The full url of the resource. Length: min: 5, max: 200
+	<hr/>
+</dd>
+<dt>
+	resource_type_id
+	<br/>
+	<span class="label label-info">optional</span>
+</dt>
+<dd>
+	A valid resource typ id.
+	<hr/>
+</dd>
+<dt>
+	license_id
+	<br/>
+	<span class="label label-info">optional</span>
+</dt>
+<dd>
+	A valid license id
+	<hr/>
+</dd>
+<dt>
+	tags
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>Array of tags name. Will replace the old tags</dd>
+</dl>
+<hr/>
+<h4>Limit and offset</h4>
+<p>
+<span class="label label-warning">No</span>
+</p>
+</div>
+<div class="col-xs-12">
+<h2>Delete Resource</h2>
+<p>Delete a resource</p>
+<hr/>
+<h4>Requires a authenticated user</h4>
+<p>
+<span class="label label-success">Yes</span>
+</p>
+<hr/>
+<h4>Url</h4>
+<p>DELETE: /resources/:id</p>
+<hr/>
+<h4>Parameters</h4>
+<dl class="dl-horizontal">
+<dt>
+	id
+	<br/>
+	<span class="label label-danger">required</span>
+</dt>
+<dd>
+	<p>The full id of the desired resource.</p>
+	Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
+</dd>
+</dl>
+<hr/>
+<h4>Limit and offset</h4>
+<p>
+<span class="label label-warning">No</span>
+</p>
+</div>
+</div>
+</div>
 </div>

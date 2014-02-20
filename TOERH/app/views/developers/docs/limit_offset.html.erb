@@ -1,15 +1,20 @@
 <div class="row row-offcanvas row-offcanvas-left">
 	<%= render "menu" %>
+	<p class="pull-left visible-xs">
+		<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+	</p>
 	<div class="col-xs-12 col-sm-9">
-		<p class="pull-left visible-xs">
-			<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-		</p>
+
 		<h1>Limit and offset</h1>
 		<div class="row">
 			<div class="col-xs-12">
 				<ul>
-					<li>Limit: Number of objects to return, between 1-30. Passing anything else will result in a limit of 30</li>
-					<li>Offset: Number of objects to skip, between 0-x. Passing anything else will result in a offset of 0. Use this to paginate the result. Increase the offset with the limit for each new "page".</li>
+					<li>
+						Limit: Number of objects to return, between 1-30. Passing anything else will result in a limit of 30
+					</li>
+					<li>
+						Offset: Number of objects to skip, between 0-x. Passing anything else will result in a offset of 0. Use this to paginate the result. Increase the offset with the limit for each new "page".
+					</li>
 				</ul>
 				<h3>Example</h3>
 				<p>
@@ -17,13 +22,12 @@
 				</p>
 			</div>
 			<!--/span-->
-			
+
 			<!--/span-->
 		</div>
 		<!--/row-->
 	</div>
 	<!--/span-->
 
-	
-
-</div><!--/row-->
+</div>
+<!--/row-->

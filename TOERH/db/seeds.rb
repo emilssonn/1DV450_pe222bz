@@ -28,9 +28,9 @@ u1.save
 # ApplicationRateLimits
 ApplicationRateLimit.delete_all
 
-ApplicationRateLimit.create!(name: 'bronze', limit: 3000)
-ApplicationRateLimit.create!(name: 'silver', limit: 6000)
-ar1 = ApplicationRateLimit.create!(name: 'gold', limit: 10000)
+ApplicationRateLimit.create!(name: 'Bronze', limit: 3000)
+ApplicationRateLimit.create!(name: 'Silver', limit: 6000)
+ar1 = ApplicationRateLimit.create!(name: 'Gold', limit: 10000)
 
 # Applications
 Application.delete_all

@@ -1,28 +1,26 @@
 <div class="row row-offcanvas row-offcanvas-left">
 	<%= render "menu" %>
+	<p class="pull-left visible-xs">
+		<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+	</p>
 	<div class="col-xs-12 col-sm-9">
-		<p class="pull-left visible-xs">
-			<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-		</p>
 		<h1>Other</h1>
 		<div class="row">
 			<div class="col-xs-12">
-				<p>This page applies to the following end-points:
+				<p>
+					This page applies to the following end-points:
 					<ul>
 						<li>users</li>
 						<li>tags</li>
 						<li>resource_types</li>
 						<li>licenses</li>
 					</ul>
-
 					For the urls, change "-end-point-" to any of the above
 				</p>
 			</div>
 			<div class="col-xs-12">
 				<h2>Get one</h2>
-				<p>
-					Returns the requested object.
-				</p>
+				<p>Returns the requested object.</p>
 				<hr/>
 				<h4>Requires a authenticated user</h4>
 				<p>
@@ -30,29 +28,29 @@
 				</p>
 				<hr/>
 				<h4>Url</h4>
-				<p>
-					GET: /-end-point-/:id
-				</p>
+				<p>GET: /-end-point-/:id</p>
 				<hr/>
 				<h4>Parameters</h4>
-					<dl class="dl-horizontal">
-						<dt>id<br/> <span class="label label-danger">required</span></dt>
-						<dd>
-							<p>The full id of the desired object.</p>
-							Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
-						</dd>
-					</dl>
-				<hr/>	
+				<dl class="dl-horizontal">
+					<dt>
+						id
+						<br/>
+						<span class="label label-danger">required</span>
+					</dt>
+					<dd>
+						<p>The full id of the desired object.</p>
+						Example: f1bae8d5-d5ed-43e6-8247-69b9cbf32611
+					</dd>
+				</dl>
+				<hr/>
 				<h4>Limit and offset</h4>
 				<p>
 					<span class="label label-warning">No</span>
-				</p>			
+				</p>
 			</div>
 			<div class="col-xs-12">
 				<h2>Get many</h2>
-				<p>
-					Returns 0-30 objects
-				</p>
+				<p>Returns 0-30 objects</p>
 				<hr/>
 				<h4>Requires a authenticated user</h4>
 				<p>
@@ -60,33 +58,34 @@
 				</p>
 				<hr/>
 				<h4>Url</h4>
-				<p>
-					GET: /-end-point-
-				</p>
+				<p>GET: /-end-point-</p>
 				<hr/>
 				<h4>Parameters</h4>
-					<dl class="dl-horizontal">
-						<dt>q</br> <span class="label label-info">optional</span></dt>
-						<dd>
-							<p>Search for only objects that have a name that contains the value of "q". For users the name equals firstname or lastname</p>
-							Example: q=Karl
-							<hr/>
-						</dd>
-					</dl>
-				<hr/>	
-				<h4>Limit and offset</h4>
-				<p>
-					<span class="label label-success">Yes</span>
-				</p>
-			</div>
-			<!--/span-->
-			
-			<!--/span-->
+				<dl class="dl-horizontal">
+					<dt>q</br>
+					<span class="label label-info">optional</span>
+				</dt>
+				<dd>
+					<p>
+						Search for only objects that have a name that contains the value of "q". For users the name equals firstname or lastname
+					</p>
+					Example: q=Karl
+					<hr/>
+				</dd>
+			</dl>
+			<hr/>
+			<h4>Limit and offset</h4>
+			<p>
+				<span class="label label-success">Yes</span>
+			</p>
 		</div>
-		<!--/row-->
+		<!--/span-->
+
+		<!--/span-->
 	</div>
-	<!--/span-->
+	<!--/row-->
+</div>
+<!--/span-->
 
-	
-
-</div><!--/row-->
+</div>
+<!--/row-->

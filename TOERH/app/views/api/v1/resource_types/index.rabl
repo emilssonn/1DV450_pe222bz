@@ -7,11 +7,11 @@ node(:items) do
 end
 
 if @resource_types.empty?
-	node(:prev) { nil }
+	node(:prev) { prev_link(@limit, @offset) }
 	node(:next) { nil }
 else
-	node(:prev) { nil }
-	node(:next) { nil }
+	node(:prev) { prev_link(@limit, @offset) }
+	node(:next) { next_link(@limit, @offset) }
 end
 
 node(:total) { @resource_types.count }

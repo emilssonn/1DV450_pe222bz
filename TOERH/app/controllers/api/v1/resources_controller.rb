@@ -59,6 +59,8 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 
 	private
 
+	# Get each tag
+	# Add errors to the resource object
 	def get_tags
 		params[:tags].each do |t|
 			tag = Tag.find_or_create_by(name: t)

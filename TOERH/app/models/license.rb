@@ -14,7 +14,7 @@ class License < ActiveRecord::Base
 						:allow_blank => true
 
 	validates :url, 
-						:length => {minimum: 5, maximum: 200},
+						:length => {minimum: 3, maximum: 200},
 						:allow_blank => true
 
 end

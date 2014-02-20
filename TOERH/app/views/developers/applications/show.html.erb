@@ -26,12 +26,12 @@
 
                     <h5><strong>Created:</strong></h5>
                     <p>
-                        <%= @application.created_at %>
+                        <%= @application.created_at.strftime("%Y-%m-%d") %>
                     </p>
 
                     <h5><strong>Updated:</strong></h5>
                     <p>
-                        <%= @application.updated_at %>
+                        <%= @application.updated_at.strftime("%Y-%m-%d") %>
                     </p>
 
                     <p>

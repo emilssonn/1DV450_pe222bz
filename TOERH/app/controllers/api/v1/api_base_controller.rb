@@ -9,11 +9,13 @@ class Api::V1::ApiBaseController < ActionController::Base
 
   helper_method :current_user
 
+  # Get the limit and offset from url
   def limit_offset
     @limit = params[:limit].to_i > 0 && params[:limit].to_i < 30 ? params[:limit].to_i : 30 rescue 30
     @offset = params[:offset].to_i >= 0 ? params[:offset].to_i : 0 rescue 0
   end
 
+  # Http Basic auth
   def current_user
     if user = authenticate_with_http_basic { |u, p | User.find_by_email(u).authenticate(p) rescue false}
       @current_user = user
@@ -34,6 +36,13 @@ class Api::V1::ApiBaseController < ActionController::Base
     end
   end
 
+  def require_admin
+    if current_user.user_role.id != 2 then
+      head :not_found
+    end
+  end
+
+  # Check what rate limiting strategy to use
   def rate_limit
     if current_user.nil?
       rate_limit_by_api_key
@@ -69,6 +78,7 @@ class Api::V1::ApiBaseController < ActionController::Base
     end
   end
 
+  # Validate the api key sent with the request.
   def require_token
     authValues = {}
     env['HTTP_AUTHORIZATION'].split(/[,]/).collect{|x| x.strip}.each do | authHeader |
@@ -81,6 +91,7 @@ class Api::V1::ApiBaseController < ActionController::Base
       @count = REDIS.get(@apiKey)
 
       if !@count
+        # Api key was not found in redis
         # Re authenticate
         ak = ApiKey.find_by_key(@apiKey)
         application = Application.find_by_id((ak ? ak.application_id : 0))

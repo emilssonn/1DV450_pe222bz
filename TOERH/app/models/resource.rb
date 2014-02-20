@@ -19,7 +19,7 @@ class Resource < ActiveRecord::Base
 	validates :url, 
 						:uniqueness => true,
 						:presence => true,
-						:length => {minimum: 5, maximum: 200}
+						:length => {minimum: 3, maximum: 200}
 
 	validates :license,
 						:presence => true

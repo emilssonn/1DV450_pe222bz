@@ -21,7 +21,7 @@
 							<td>
 								<%= app.name %></td>
 							<td>
-								<%= app.created_at %></td>
+								<%= app.created_at.strftime("%Y-%m-%d") %></td>
 							<td>
 								<%= app.user.firstname %>
 								<%= app.user.lastname %></td>
