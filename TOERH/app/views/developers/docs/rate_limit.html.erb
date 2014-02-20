@@ -1,0 +1,33 @@
+<div class="row row-offcanvas row-offcanvas-left">
+	<%= render "menu" %>
+	<div class="col-xs-12 col-sm-9">
+		<p class="pull-left visible-xs">
+			<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+		</p>
+		<h1>Rate limiting</h1>
+		<div class="row">
+			<div class="col-xs-12">
+				<p>All request made to the Api are rate limited. All request is rate limited per hour. Depending on rate limit of the requesting application you can make x request per hour.</p>
+				<p>Rate limiting is per application or per user. A request made with valid user credentials will not affect the current request count of the application, even if the request is made to a end-point that do not require a authenticated user.</p>
+
+				<p>All users can make 5000 request per hour, this limit should almost be impossible to reach.</p>
+
+				<h3>Headers</h3>
+				<p>All successfull request will have 3 headers that contain information about the current rate limit.</p>
+				<ul>
+					<li>"X-Rate-Limit-Limit" => Total number of request possible per hour. Ex: 5000</li>
+					<li>"X-Rate-Limit-Remaining" => Total number of request remaining for the current request time window. Ex: 4612</li>
+					<li>"X-Rate-Limit-Reset" => The time when the current rate limit will reset, as number of seconds since the Epoch.</li>
+				</ul>
+			</div>
+			<!--/span-->
+			
+			<!--/span-->
+		</div>
+		<!--/row-->
+	</div>
+	<!--/span-->
+
+	
+
+</div><!--/row-->

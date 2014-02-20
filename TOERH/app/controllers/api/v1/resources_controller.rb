@@ -32,7 +32,6 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 		else
 			invalid_response(@resource)
 		end		
-		
 	end
 
 	def update
@@ -68,7 +67,6 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 			else
 				@resource.errors.add(:tags, {tag.name => tag.errors})
 			end
-
 		end if params[:tags].is_a?(Array)
 	end
 
@@ -77,8 +75,8 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	end
 
 	def transform_ids
-		params[:license_id] = License.select(:id).find_by_public_id(params[:license_id]).id rescue nil if params[:license_id]
-    params[:resource_type_id] = ResourceType.select(:id).find_by_public_id(params[:resource_type_id]).id rescue nil if params[:resource_type_id]
+		params[:license_id] = License.select(:id).find_by_public_id(params[:license_id]).id rescue 0 if params[:license_id]
+    params[:resource_type_id] = ResourceType.select(:id).find_by_public_id(params[:resource_type_id]).id rescue 0 if params[:resource_type_id]
 	end
 
 	def not_found_response

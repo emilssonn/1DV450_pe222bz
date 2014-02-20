@@ -1,9 +1,11 @@
 <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
   <div class="list-group">
     <%= link_to "Getting Started", docs_path, :class => "list-group-item " + (current_page?(action: "index") ? "active" : "") %>
-    <%= link_to "Auth", doc_auth_path, :class => "list-group-item " + (current_page?(action: "auth") ? "active" : "") %>
-    <%= link_to "Users", doc_users_path, :class => "list-group-item " + (current_page?(action: "users") ? "active" : "") %>
+    <%= link_to "Auth", doc_auth_path, :class => "list-group-item " + (current_page?(action: "auth") ? "active" : "") %>   
     <%= link_to "Resources", doc_resources_path, :class => "list-group-item " + (current_page?(action: "resources") ? "active" : "") %>
+    <%= link_to "Rate limiting", doc_rate_limit_path, :class => "list-group-item " + (current_page?(action: "rate_limit") ? "active" : "") %>
+    <%= link_to "Limit and Offset", doc_limit_offset_path, :class => "list-group-item " + (current_page?(action: "limit_offset") ? "active" : "") %>
+    <%= link_to "Other", doc_other_path, :class => "list-group-item " + (current_page?(action: "other") ? "active" : "") %>
   </div>
 </div>
 <!--/span-->

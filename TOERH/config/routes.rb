@@ -8,10 +8,11 @@ TOERH::Application.routes.draw do
       # Api versioning
       # Version 1.0
       namespace :v1 do
-        resource :user, only: [:show]  
         resources :resources, except: [:edit]
-        resources :licenses, :resource_types, :tags, only: [:index, :show]  
+        resources :licenses, :resource_types, :tags, :users,  only: [:index, :show]  
       end
+
+      match '*path', via: :all, to: 'errors#error_404'
     end
   end
 
@@ -20,12 +21,15 @@ TOERH::Application.routes.draw do
     
     # Developers subdomain
     constraints(:subdomain => 'developers') do
-      root 'developers#index' 
+      get '' => 'developers#index' 
 
       get 'docs' => 'docs#index'
-      get 'docs/users' => 'docs#users', :as => 'doc_users'
+      get 'docs/other' => 'docs#other', :as => 'doc_other'
       get 'docs/auth' => 'docs#auth', :as => 'doc_auth'
       get 'docs/resources' => 'docs#resources', :as => 'doc_resources'
+      get 'docs/rate-limit' => 'docs#rate_limit', :as => 'doc_rate_limit'
+      get 'docs/limit-offset' => 'docs#limit_offset', :as => 'doc_limit_offset'
+
 
       scope module: "users" do
         get   'register' => 'registrations#new', :as => 'register'
@@ -49,7 +53,7 @@ TOERH::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

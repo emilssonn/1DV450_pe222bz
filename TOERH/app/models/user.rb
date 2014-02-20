@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
 	include GuidGen
-	include DbHelper
 	
 	has_many :application
 	belongs_to :user_role
@@ -19,5 +18,10 @@ class User < ActiveRecord::Base
 
 	def is_admin
 		self.user_role.id == 2
+	end
+
+	def self.by_name(name)
+	  return all unless name.present?
+	 		where("firstname = ? OR lastname = ?", name, name)
 	end
 end

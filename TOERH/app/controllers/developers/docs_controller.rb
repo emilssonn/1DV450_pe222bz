@@ -4,4 +4,24 @@ class Developers::DocsController < ApplicationController
 	def index
 
 	end
+
+	def auth
+
+	end
+
+	def users
+
+	end
+
+	def resources
+
+	end
+
+	def rate_limit
+		
+	end
+
+	def limit_offset
+		
+	end
 end

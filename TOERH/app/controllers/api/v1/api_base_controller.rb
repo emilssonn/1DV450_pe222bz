@@ -1,21 +1,21 @@
 class Api::V1::ApiBaseController < ActionController::Base
-	#rescue_from StandardError, :with => :error_response
+  rescue_from Exception, :with => :error_response
+
   before_action :require_token
   before_action :rate_limit
   before_action :limit_offset, :only => [:index]
-
 
 	private
 
   helper_method :current_user
 
   def limit_offset
-    @limit = params[:limit] > 0 && params[:limit] < 50 ? params[:limit] : 30 rescue 30
-    @offset = params[:offset] >= 0 ? params[:offset] : 0 rescue 0
+    @limit = params[:limit].to_i > 0 && params[:limit].to_i < 30 ? params[:limit].to_i : 30 rescue 30
+    @offset = params[:offset].to_i >= 0 ? params[:offset].to_i : 0 rescue 0
   end
 
   def current_user
-    if user = authenticate_with_http_basic { |u, p| User.find_by_email(u).authenticate(p) rescue false}
+    if user = authenticate_with_http_basic { |u, p | User.find_by_email(u).authenticate(p) rescue false}
       @current_user = user
     end
   end
@@ -61,22 +61,28 @@ class Api::V1::ApiBaseController < ActionController::Base
 
   def rate_limit_by_api_key
     if @count == 0
-      limit_exceeded_response(@count, params[:api_key], @limit)
+      limit_exceeded_response(@count, @apiKey, @limit)
     else
       # Descrease count, add rate limit headers
-      REDIS.decr(params[:api_key])
-      rate_limit_headers(@count, params[:api_key], @limit)
+      REDIS.decr(@apiKey)
+      rate_limit_headers(@count, @apiKey, @limit)
     end
   end
 
   def require_token
-    
-    if params[:api_key]
-      @count = REDIS.get(params[:api_key])
+    authValues = {}
+    env['HTTP_AUTHORIZATION'].split(/[,]/).collect{|x| x.strip}.each do | authHeader |
+      key, value = authHeader.split(/[=]/)
+      authValues[key] = value
+    end if env['HTTP_AUTHORIZATION']
+    @apiKey = authValues["apiKey"] if authValues["apiKey"]
+
+    if @apiKey
+      @count = REDIS.get(@apiKey)
 
       if !@count
         # Re authenticate
-        ak = ApiKey.find_by_key(params[:api_key])
+        ak = ApiKey.find_by_key(@apiKey)
         application = Application.find_by_id((ak ? ak.application_id : 0))
 
         # Get limit for application
@@ -84,22 +90,22 @@ class Api::V1::ApiBaseController < ActionController::Base
           @count = @limit = application.application_rate_limit.limit
           expire = 60 * 60 # 1 hour
           # Set current count
-          REDIS.set(params[:api_key], @count)
-          REDIS.expire(params[:api_key], expire)
+          REDIS.set(@apiKey, @count)
+          REDIS.expire(@apiKey, expire)
             # Set current limit
-          REDIS.set("limit#{params[:api_key]}", @limit)
-          REDIS.expire("limit#{params[:api_key]}", expire)
+          REDIS.set("limit#{@apiKey}", @limit)
+          REDIS.expire("limit#{@apiKey}", expire)
         else
           return unauthorized_response
         end
       else
-        @limit = REDIS.get("limit#{params[:api_key]}")
+        @limit = REDIS.get("limit#{@apiKey}")
       end
 
       if @count == 0
         limit_exceeded_response(@count, apiKey, @limit)
       else
-        rate_limit_headers(@count, params[:api_key], @limit)
+        rate_limit_headers(@count, @apiKey, @limit)
       end
     else
       unauthorized_response
@@ -110,13 +116,12 @@ class Api::V1::ApiBaseController < ActionController::Base
     error = { 
       status: 500,
       message: "Internal Server Error",
-      developerMessage: "An unexpected error occured on the server. This was not caused by any faulty request parameters."  
+      developerMessage: "An unexpected error occured on the server."  
     }
     respond_to do |format|
       format.json { render :json => error.to_json, :status => :internal_server_error }
       format.xml { render :xml => error.to_xml, :status => :internal_server_error }
-    end
-    
+    end 
   end
 
   def not_found_response_base(error)

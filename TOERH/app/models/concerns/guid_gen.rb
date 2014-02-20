@@ -8,7 +8,9 @@ module GuidGen
 	private
 
 	def generate_guid
-		self.public_id = SecureRandom.uuid()
+		begin
+			self.public_id = SecureRandom.uuid()
+		end while self.class.exists?(public_id: public_id)
 	end
 
 end
