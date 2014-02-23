@@ -53,6 +53,9 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 		unless resource = Resource.find_by_public_id(params[:id])
 			not_found_response and return
 		end
+		if resource.user_id != current_user.id
+			not_found_response and return
+		end
 		resource.destroy
 		head :ok
 	end
