@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 	include GuidGen
 	
-	has_many :application
+	has_many :application, :dependent => :destroy
 	belongs_to :user_role
 
 	has_secure_password
@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
 						:presence => true
 
 	def is_admin
-		self.user_role.id == 2
+		self.user_role.name == 'admin'
 	end
 
 	def self.by_name(name)

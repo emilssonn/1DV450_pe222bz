@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin
-    if current_user.user_role.id != 2 then
+    if !current_user.is_admin then
       redirect_to root_path
     end
   end

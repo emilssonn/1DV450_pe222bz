@@ -37,7 +37,7 @@ class Api::V1::ApiBaseController < ActionController::Base
   end
 
   def require_admin
-    if current_user.user_role.name != 'admin' then
+    if !current_user.is_admin then
       head :not_found
     end
   end
