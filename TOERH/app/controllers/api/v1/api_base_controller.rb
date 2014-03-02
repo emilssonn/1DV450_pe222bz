@@ -57,6 +57,7 @@ class Api::V1::ApiBaseController < ActionController::Base
     if !count
       REDIS.set(@current_user.id, limit)
       REDIS.expire(@current_user.id, 60 * 60)
+      count = limit
     end
 
     if count == 0

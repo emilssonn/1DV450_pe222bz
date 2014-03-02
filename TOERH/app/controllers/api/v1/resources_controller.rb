@@ -1,6 +1,7 @@
 class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	before_action :require_login, :except => [:index, :show]
 	before_action :transform_ids, :only => [:create, :update]
+	before_action :find_resource, :only => [:update, :show, :destroy]
 	
 
 	def index
@@ -13,9 +14,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	end
 
 	def show
-		unless @resource = Resource.find_by_public_id(params[:id])
-			not_found_response and return
-		end
+
 	end
 
 	# Requires a logged in user
@@ -35,7 +34,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	end
 
 	def update
-		unless @resource = Resource.find_by_public_id(params[:id])
+		if @resource.user_id != current_user.id
 			not_found_response and return
 		end
 		@resource.tags.clear
@@ -50,14 +49,11 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	end
 
 	def destroy
-		unless resource = Resource.find_by_public_id(params[:id])
+		if @resource.user_id != current_user.id
 			not_found_response and return
 		end
-		if resource.user_id != current_user.id
-			not_found_response and return
-		end
-		resource.destroy
-		head :ok
+		@resource.destroy
+		head :no_content
 	end
 
 	private
@@ -91,6 +87,12 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 			developerMessage: "The Resource with the id '#{params[:id]}' was not found."
 		}
 		not_found_response_base(error)
+	end
+
+	def find_resource
+		unless @resource = Resource.find_by_public_id(params[:id])
+			not_found_response and return
+		end
 	end
 
 end
