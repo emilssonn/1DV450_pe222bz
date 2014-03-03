@@ -8,6 +8,8 @@ gem 'oj'
 
 gem 'redis'
 
+gem 'doorkeeper'
+
 # HTML/CSS Layout
 gem 'bootstrap-sass'
 group :development do

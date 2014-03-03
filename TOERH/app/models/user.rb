@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
 	include GuidGen
 	
+	has_many :oauth_applications, class_name: 'Doorkeeper::Application', as: :owner, :dependent => :destroy
+
 	has_many :application, :dependent => :destroy
 	belongs_to :user_role
 

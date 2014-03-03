@@ -3,40 +3,40 @@ class Developers::ApplicationsController < ApplicationController
 	layout "developers"
 
 	def index
-		@applications = current_user.application
+		@applications = current_user.oauth_applications
 	end
 
 	def show
-		@application = current_user.application.find(params[:id])
+		@application = current_user.oauth_applications.find(params[:id])
 	end
 
 	def new
-		@application = Application.new
+		@application = Doorkeeper::Application.new
 	end
 
 	def create
-		@application = Application.new(application_params)
-		@application.user = current_user
-		@application.api_key = ApiKey.new
+		@application = Doorkeeper::Application.new(application_params)
+		@application.owner = current_user
+		#@application.api_key = ApiKey.new
 
 		if @application.save
 			redirect_to application_path(@application)
 		else
-			render :action => 'new'
+			render :new
 		end
 	end
 
 	def edit
-		@application = current_user.application.find(params[:id])
+		@application = current_user.oauth_applications.find(params[:id])
 	end
 
 	def update
-		@application = current_user.application.find(params[:id])
+		@application = current_user.oauth_applications.find(params[:id])
 
 		if @application.update(application_params)
 			redirect_to application_path(@application)
 		else
-			render 'edit'
+			render :edit
 		end
 	end
 
@@ -47,13 +47,13 @@ class Developers::ApplicationsController < ApplicationController
 			flash[:notice] = 'The application "' + @application.name + '"" has been deleted.'
 			redirect_to applications_path
 		else
-			render 'show', :alert => 'Error deleteing application.'
+			render :show, :alert => 'Error deleteing application.'
 		end
 	end
 
 	private
 
 	def application_params
-		params.require(:application).permit(:name)
+		params.require(:application).permit(:name, :redirect_uri)
 	end
 end

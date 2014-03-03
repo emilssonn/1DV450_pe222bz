@@ -1,4 +1,4 @@
-class Developers::Users::RegistrationsController < ApplicationController
+class Users::RegistrationsController < ApplicationController
 	layout "developers"
 
 	def new
@@ -12,10 +12,10 @@ class Developers::Users::RegistrationsController < ApplicationController
 		@user = User.new(user_params)
 
 		if @user.save
-			session[:userid] = @user.id
+			session[:user_id] = @user.id
 			redirect_to applications_path
 		else
-			render :action => 'new'
+			render :new
 		end
 	end
 

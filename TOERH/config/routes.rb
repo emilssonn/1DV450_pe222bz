@@ -1,6 +1,9 @@
 
 TOERH::Application.routes.draw do
 
+  use_doorkeeper do
+    skip_controllers :applications
+  end
   # Api namespace
   scope module: "api" do
     # Api subdomain api.*.*
@@ -31,13 +34,7 @@ TOERH::Application.routes.draw do
       get 'docs/limit-offset' => 'docs#limit_offset', :as => 'doc_limit_offset'
 
 
-      scope module: "users" do
-        get   'register' => 'registrations#new', :as => 'register'
-        post  'register' => 'registrations#create', :as => 'registerPost'
-        get   'login' => 'authorizations#show', :as => 'login'
-        post  'login' => 'authorizations#login', :as => 'loginPost'
-        get   'logout' => 'authorizations#logout', :as => 'logout'
-      end
+      
 
       namespace :admin do
         resources :applications, only: [:index, :edit, :update], :controller => "applications"
@@ -46,6 +43,14 @@ TOERH::Application.routes.draw do
 
       resources :applications
     end
+  end
+
+  scope module: "users" do
+    get   'register' => 'registrations#new', :as => 'register'
+    post  'register' => 'registrations#create', :as => 'registerPost'
+    get   'login' => 'authorizations#show', :as => 'login'
+    post  'login' => 'authorizations#login', :as => 'loginPost'
+    get   'logout' => 'authorizations#logout', :as => 'logout'
   end
   
 

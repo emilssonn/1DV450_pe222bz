@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
 	def index
-		redirect_to subdomain: 'developers'
+		#redirect_to subdomain: 'developers'
 	end
 end

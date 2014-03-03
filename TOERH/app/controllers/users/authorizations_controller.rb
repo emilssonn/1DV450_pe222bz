@@ -1,4 +1,4 @@
-class Developers::Users::AuthorizationsController < ApplicationController
+class Users::AuthorizationsController < ApplicationController
 	layout "developers"
 	
 	def show
@@ -11,8 +11,8 @@ class Developers::Users::AuthorizationsController < ApplicationController
 		user = User.find_by_email(params[:email])
 
 		if user && user.authenticate(params[:password])
-			session[:userid] = user.id
-			redirect_to applications_path
+			session[:user_id] = user.id
+			redirect_back
 		else
 			@error = "Invalid E-mail and/or password."
 			render :action => "show"
@@ -21,7 +21,7 @@ class Developers::Users::AuthorizationsController < ApplicationController
 	end
 
 	def logout
-		session[:userid] = nil
+		session[:user_id] = nil
 		flash[:notice] = "You have been logged out."
 		redirect_to root_path
 	end
