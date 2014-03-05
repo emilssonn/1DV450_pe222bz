@@ -1,5 +1,5 @@
 class Api::V1::ResourcesController < Api::V1::ApiBaseController
-	before_action :require_login, :except => [:index, :show]
+	doorkeeper_for :all, except: [:index, :show]
 	before_action :transform_ids, :only => [:create, :update]
 	before_action :find_resource, :only => [:update, :show, :destroy]
 	
@@ -17,7 +17,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 
 	end
 
-	# Requires a logged in user
+	# Requires a user
 	
 	def create
 		@resource = Resource.new(resource_params)

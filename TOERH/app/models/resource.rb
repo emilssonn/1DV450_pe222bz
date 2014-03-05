@@ -2,7 +2,7 @@ class Resource < ActiveRecord::Base
 	include GuidGen
 	include DbHelper
 	
-	has_and_belongs_to_many :tags, :dependent => :destroy
+	has_and_belongs_to_many :tags
 	belongs_to :resource_type
 	belongs_to :user
 	belongs_to :license

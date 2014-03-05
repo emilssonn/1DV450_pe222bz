@@ -1,7 +1,7 @@
 class Api::V1::ApiBaseController < ActionController::Base
-  rescue_from Exception, :with => :error_response
+  #rescue_from Exception, :with => :error_response
 
-  before_action :require_token
+  before_action :restrict_with_token
   before_action :rate_limit
   before_action :limit_offset, :only => [:index]
 
@@ -15,23 +15,24 @@ class Api::V1::ApiBaseController < ActionController::Base
     @offset = params[:offset].to_i >= 0 ? params[:offset].to_i : 0 rescue 0
   end
 
-  # Http Basic auth
   def current_user
-    if user = authenticate_with_http_basic { |u, p | User.find_by_email(u).authenticate(p) rescue false}
-      @current_user = user
+    if doorkeeper_token
+      @current_user ||= User.find(doorkeeper_token.resource_owner_id)
     end
   end
 
-  def require_login
-    if current_user.nil?
-      error = { 
-        status: 401,
-        message: "Login failed.",
-        developerMessage: "The email and/or password provided is invalid."  
-      }
-      respond_to do |format|
-        format.json { render :json => error.to_json, :status => :unauthorized }
-        format.xml { render :xml => error.to_xml, :status => :unauthorized }
+  def doorkeeper_unauthorized_render_options
+    error = { 
+      status: 401,
+      message: "Login failed.",
+      developerMessage: "The email and/or password provided is invalid."  
+    }
+    respond_to do |format|
+      format.json do
+        { json: error }
+      end
+      format.xml do 
+        { xml: error }
       end
     end
   end
@@ -80,22 +81,15 @@ class Api::V1::ApiBaseController < ActionController::Base
   end
 
   # Validate the api key sent with the request.
-  def require_token
-    authValues = {}
-    env['HTTP_AUTHORIZATION'].split(/[,]/).collect{|x| x.strip}.each do | authHeader |
-      key, value = authHeader.split(/[=]/)
-      authValues[key] = value
-    end if env['HTTP_AUTHORIZATION']
-    @apiKey = authValues["apiKey"] if authValues["apiKey"]
-
+  def restrict_with_token
+    @apiKey = request.headers['X-CLIENT-ID'] if request.headers['X-CLIENT-ID']
     if @apiKey
       @count = REDIS.get(@apiKey)
 
       if !@count
         # Api key was not found in redis
         # Re authenticate
-        ak = ApiKey.find_by_key(@apiKey)
-        application = Application.find_by_id((ak ? ak.application_id : 0))
+        application = Doorkeeper::Application.find_by_uid(@apiKey)
 
         # Get limit for application
         if application && application.active
