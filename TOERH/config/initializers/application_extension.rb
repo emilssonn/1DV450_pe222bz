@@ -1,5 +1,3 @@
-require "doorkeeper"
-
 module ApplicationExtension
   extend ActiveSupport::Concern
 
@@ -8,4 +6,3 @@ module ApplicationExtension
   end
 end
 
-Doorkeeper::Application.send :include, ApplicationExtension

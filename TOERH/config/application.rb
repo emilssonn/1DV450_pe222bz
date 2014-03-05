@@ -21,7 +21,9 @@ module TOERH
     # config.i18n.default_locale = :de
     # 
     
-    
+    config.to_prepare do
+        Doorkeeper::Application.send :include, ApplicationExtension
+    end
   end
 end
 
