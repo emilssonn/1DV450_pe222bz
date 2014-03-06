@@ -22,7 +22,13 @@ module TOERH
     # 
     
     config.to_prepare do
-        Doorkeeper::Application.send :include, ApplicationExtension
+      Doorkeeper::Application.send :include, ApplicationExtension
+
+      Doorkeeper::ApplicationController.helper ApplicationHelper
+
+      Doorkeeper::ApplicationController.layout "application"
+
+      Doorkeeper::ApplicationsController.layout "developers"
     end
   end
 end

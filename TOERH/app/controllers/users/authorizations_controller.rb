@@ -5,6 +5,7 @@ class Users::AuthorizationsController < ApplicationController
 		if !current_user.nil?
 			redirect_to root_path
 		end
+		save_location params[:return_to] if params[:return_to]
 	end
 
 	def login
