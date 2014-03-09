@@ -5,8 +5,10 @@
 	<li><%= link_to "Sign in", login_url(subdomain: false) %></li>
 <% else %>
 	<% if current_user.is_admin %>
-		<li><%= link_to "Admin", admin_home_path %></li>
+		<li><%= link_to "Admin", admin_home_url %></li>
 	<% end %>
-	<li><%= link_to "My Apps", applications_path %></li>
+	<% if request.subdomain == 'developers' %>
+		<li><%= link_to "My Apps", applications_url %></li>
+	<% end %>	
 	<li><%= link_to "Sign out", logout_url(subdomain: false) %></li>
 <% end %>

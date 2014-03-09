@@ -25,8 +25,18 @@
 
 			<h5>Owner:</h5>
 			<p>
-				<%= @application.user.firstname %>
-				<%= @application.user.lastname %></p>
+				<%= @application.owner.firstname %>
+				<%= @application.owner.lastname %></p>
+
+			<h5>Api key:</h5>
+            <p>
+                <%= @application.uid %>
+            </p>
+
+			<h5>Api secret:</h5>
+            <p>
+                <%= @application.secret %>
+            </p>
 
 			<h5>Created:
 			</h5>

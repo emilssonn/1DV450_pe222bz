@@ -15,8 +15,8 @@
 				<p>
 					To use any end-point of the Api you need to be a registered user with a valid Api key.
 				</p>
-				<%= link_to "Sign in", login_path, {class: "btn btn-sm btn-default", role: "button"} %>
-				<%= link_to "Sign up", register_path, {class: "btn btn-sm btn-default", role: "button"} %></div>
+				<%= link_to "Sign in", login_url(subdomain: false), {class: "btn btn-sm btn-default", role: "button"} %>
+				<%= link_to "Sign up", register_url(subdomain: false), {class: "btn btn-sm btn-default", role: "button"} %></div>
 			<% else %>
 			<div class="col-sm-6 col-lg-4">
 				<h2>Applications</h2>

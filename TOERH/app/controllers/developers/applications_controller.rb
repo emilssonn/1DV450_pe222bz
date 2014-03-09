@@ -17,7 +17,7 @@ class Developers::ApplicationsController < ApplicationController
 	def create
 		@application = Doorkeeper::Application.new(application_params)
 		@application.owner = current_user
-		#@application.api_key = ApiKey.new
+		@application.application_rate_limit = ApplicationRateLimit.order(limit: :asc).first
 
 		if @application.save
 			redirect_to application_path(@application)
@@ -41,7 +41,7 @@ class Developers::ApplicationsController < ApplicationController
 	end
 
 	def destroy
-		@application = current_user.application.find(params[:id])
+		@application = current_user.oauth_applications.find(params[:id])
 
 		if @application.delete
 			flash[:notice] = 'The application "' + @application.name + '"" has been deleted.'

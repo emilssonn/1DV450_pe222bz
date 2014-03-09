@@ -14,9 +14,19 @@
                         <%= @application.uid %>
                     </p>
 
+                    <h5><strong>Api secret:</strong></h5>
+                    <p>
+                        <%= @application.secret %>
+                    </p>
+
+                    <h5><strong>Redirect uri:</strong></h5>
+                    <p>
+                        <%= @application.redirect_uri %>
+                    </p>
+
                     <h5><strong>Rate limit:</strong></h5>
                     <p>
-                        <%# @application.application_rate_limit.name %>, <%# @application.application_rate_limit.limit %>
+                        <%= @application.application_rate_limit.name %>, <%= @application.application_rate_limit.limit %>
                     </p>
 
                     <h5><strong>Status:</strong></h5>

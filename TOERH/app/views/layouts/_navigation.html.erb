@@ -12,8 +12,10 @@
     </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-left">
-          <li><%= link_to "Devs", devs_url(subdomain: 'developers')%></li>
-          <li><%= link_to "Docs", docs_url(subdomain: 'developers')%></li>      
+          <li><%= link_to "Devs", devs_url %></li>
+          <% if request.subdomain == 'developers' %>
+            <li><%= link_to "Docs", docs_url %></li> 
+          <% end %>        
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <%= render 'layouts/navigation_links' %>

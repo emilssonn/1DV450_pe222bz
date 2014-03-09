@@ -3,19 +3,19 @@ class Developers::Admin::ApplicationsController < ApplicationController
 	layout "developers"
 
 	def index
-		@applications = Application.all
+		@applications = Doorkeeper::Application.all
 	end
 
 	def edit
-		@application = Application.find_by_id(params[:id])
+		@application = Doorkeeper::Application.find_by_id(params[:id])
 	end
 
 	def update
-		@application = Application.find_by_id(params[:id])
+		@application = Doorkeeper::Application.find_by_id(params[:id])
 
 		if @application.update(application_params)
 			if !@application.active
-				REDIS.del(@application.api_key.key)
+				REDIS.del(@application.uid)
 			end
 			redirect_to admin_applications_path(@application)
 		else
@@ -26,6 +26,6 @@ class Developers::Admin::ApplicationsController < ApplicationController
 	private
 	
 	def application_params
-		params.require(:application).permit(:name, :active, :application_rate_limit_id)
+		params.require(:application).permit(:name, :redirect_uri, :active, :application_rate_limit_id)
 	end
 end
