@@ -13,25 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140303185027) do
 
-  create_table "api_keys", force: true do |t|
-    t.integer  "application_id",            null: false
-    t.string   "key",            limit: 40, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "application_rate_limits", force: true do |t|
     t.string   "name",       limit: 30, null: false
     t.integer  "limit",                 null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "applications", force: true do |t|
-    t.integer  "user_id",                                             null: false
-    t.integer  "application_rate_limit_id",            default: 1,    null: false
-    t.string   "name",                      limit: 30,                null: false
-    t.boolean  "active",                               default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -82,7 +66,7 @@ ActiveRecord::Schema.define(version: 20140303185027) do
     t.datetime "updated_at"
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.integer  "application_rate_limit_id", default: 1,    null: false
+    t.integer  "application_rate_limit_id"
     t.boolean  "active",                    default: true, null: false
   end
 

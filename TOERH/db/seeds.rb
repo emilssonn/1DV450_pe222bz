@@ -33,15 +33,7 @@ ApplicationRateLimit.create!(name: 'Silver', limit: 6000)
 ar1 = ApplicationRateLimit.create!(name: 'Gold', limit: 10000)
 
 # Applications
-Application.delete_all
 
-a1 = Application.new
-a1.name = 'Test application'
-a1.user = u1
-a1.application_rate_limit = ar1
-a1.api_key = ApiKey.new
-
-a1.save
 
 # ResourceTypes
 ResourceType.delete_all
