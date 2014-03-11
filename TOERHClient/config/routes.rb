@@ -1,4 +1,8 @@
 TOERHClient::Application.routes.draw do
+
+  root 'sessions#index'
+  get "/auth/:provider/callback" => "sessions#create"
+  get "/signout" => "sessions#destroy"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

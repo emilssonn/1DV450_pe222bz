@@ -11,6 +11,7 @@ TOERH::Application.routes.draw do
       # Api versioning
       # Version 1.0
       namespace :v1 do
+        get 'users/me' => 'users#me'
         resources :resources, :licenses, :resource_types, except: [:edit]
         resources :tags, :users,  only: [:index, :show]  
       end

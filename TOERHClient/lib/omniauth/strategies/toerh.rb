@@ -1,20 +1,25 @@
+require 'omniauth'
+require 'omniauth-oauth2'
+
 module OmniAuth
   module Strategies
     class Toerh < OmniAuth::Strategies::OAuth2
       option :name, :toerh
 
       option :client_options, {
-        :site => "http://api.lvh.me:4000",
+        :site => "http://lvh.me:4000",
         :authorize_path => "http://lvh.me:4000/oauth/authorize"
       }
 
       uid do
-        raw_info["id"]
+        raw_info["instance"]["id"]
       end
 
       info do
         {
-          :email => raw_info["email"]
+          :email => raw_info["instance"]["email"],
+          :firstname => raw_info["instance"]["firstname"],
+          :lastname => raw_info["instance"]["lastname"]
         }
       end
 

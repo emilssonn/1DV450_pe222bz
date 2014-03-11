@@ -11,7 +11,7 @@ module Auth
     error = { 
       status: 401,
       message: "Login failed.",
-      developerMessage: "The email and/or password provided is invalid."  
+      developerMessage: "Token invalid"  
     }
     respond_to do |format|
       format.json do
