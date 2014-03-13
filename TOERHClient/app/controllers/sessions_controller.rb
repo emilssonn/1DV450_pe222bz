@@ -33,6 +33,5 @@ class SessionsController < ApplicationController
 
   def destroy
   	session[:user] = nil
-
   end
 end

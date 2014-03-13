@@ -28,6 +28,8 @@ module TOERHClient
         resource '*', :headers => :any, :methods => [:get, :post, :options, :put, :delete]
       end
     end 
+
+    config.assets.paths << Rails.root.join("views")
     
   end
 end
