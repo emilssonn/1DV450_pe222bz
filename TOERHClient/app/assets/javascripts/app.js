@@ -3,6 +3,7 @@
 angular.module('TOERH', [
     'ngResource',
     'ngAnimate',
+    'ngCookies',
     'ui.router',
     'TOERH.controllers',
     'TOERH.services',

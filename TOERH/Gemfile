@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 # API
 
+gem 'rack-cors', :require => 'rack/cors'
+
 gem 'rabl'
 
 gem 'oj'

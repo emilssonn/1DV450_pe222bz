@@ -11,9 +11,11 @@
 // about supported directives.
 //
 //= require jquery
+//= require angular-loader
 //= require angular
 //= require angular-animate
 //= require angular-resource
+//= require angular-cookies
 //= require_tree ./lib
 //= require app.js
 //= require_tree ./config
