@@ -5,13 +5,10 @@ angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvid
 
     //Enable cross domain calls
     $httpProvider.defaults.useXDomain = true;
-
     //Remove the header used to identify ajax calls
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
-    //fix
-    $httpProvider.defaults.headers.common['X-CLIENT-ID'] = 'dbfb4187d7209f31e08d7d0552235778ebca62312670919209d85dca1ecbf727';
-    $httpProvider.defaults.headers.common['Accept'] = 'application/json';
+    $httpProvider.defaults.headers.common.Accept = 'application/json';
 
     $httpProvider.interceptors.push(['$q', function ($q) {
         return {
@@ -25,4 +22,12 @@ angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvid
         };
     }]);
 
+}]).run(['$http', 'Auth', function ($http, Auth) {
+    'use strict';
+
+    $http.defaults.headers.common['X-CLIENT-ID'] = Auth.key;
+
+    if (Auth.isLoggedIn) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + Auth.user.token;
+    }
 }]);

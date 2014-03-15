@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 	
 	def index
-    cookies[:key] = ENV['OAUTH_ID']
+    cookies[:key] = { key: ENV['OAUTH_ID'] }.to_json
 		unless session[:user].nil?
 			cookies[:user] = session[:user].to_json
 			@logged_in = true
