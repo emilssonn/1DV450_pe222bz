@@ -13,7 +13,7 @@ angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvid
     $httpProvider.interceptors.push(['$q', function ($q) {
         return {
             request: function (config) {
-                config.url = config.url.indexOf('.html') !== -1 ? config.url : APIURL + config.url;
+                config.url = ~ config.url.indexOf('.html') ? config.url : APIURL + config.url;
                 return config || $q.when(config);
             },
             response: function (response) {

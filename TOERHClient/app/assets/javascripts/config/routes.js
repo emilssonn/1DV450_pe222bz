@@ -4,19 +4,80 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
     'use strict';
 
     $urlRouterProvider
-        .otherwise('/explore/');
+        .otherwise('/resources/');
 
     $stateProvider
         .state('resources', {
             templateUrl: '/assets/home.html',
             abstract: true,
-            url: '/explore/'
+            url: '/resources/'
         })
         .state('resources.search', {
             templateUrl: '/assets/search.html',
             controller: 'SearchCtrl',
             url: '',
             reloadOnSearch: false
+        })
+        .state('resources.create', {
+            templateUrl: '/assets/resourceForm.html',
+            controller: 'ResourceCtrl',
+            url: 'new/'
+        })
+        .state('resources.show', {
+            templateUrl: '/assets/resource.html',
+            controller: 'ResourceCtrl',
+            url: ':id/',
+            resolve: {
+                resource: ['Resources', '$stateParams', '$q', function (Resources, $stateParams, $q) {
+                    var deferred = $q.defer();
+                    Resources.get($stateParams,
+                        function (data) {
+                            deferred.resolve(data);
+                        },
+                        function (data) {
+                            deferred.reject(data);
+                        });
+                    return deferred.promise;
+                }]
+            }
+        })
+        .state('resources.edit', {
+            templateUrl: '/assets/resourceForm.html',
+            controller: 'ResourceCtrl',
+            url: ':id/edit/',
+            resolve: {
+                resource: ['Resources', '$stateParams', '$q', function (Resources, $stateParams, $q) {
+                    var deferred = $q.defer();
+                    Resources.get($stateParams,
+                        function (data) {
+                            deferred.resolve(data);
+                        },
+                        function (data) {
+                            deferred.reject(data);
+                        });
+                    return deferred.promise;
+                }]
+            }
+            /*
+            resolve: {
+                resource: ['Resources', '$stateParams', 'Auth', '$state', '$q', function (Resources, $stateParams, Auth, $state, $q) {
+                    var res = false;
+                    Resources.get($stateParams,
+                        function (data) {
+                            if (Auth.isLoggedIn && data.instance.user.id === Auth.user.id) {
+                                res = data.instance;
+                            }
+                        },
+                        function (data) {
+
+                        });
+                    if (res) {
+                        return res;
+                    }
+                    $state.go('resources.search', {}, {location: true});
+                    return $q.reject('asdas');
+                }]
+            }*/
         })
         .state('user', {
             templateUrl: '/assets/search.html',
