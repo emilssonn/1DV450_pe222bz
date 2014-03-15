@@ -1,4 +1,9 @@
 
 <div data-ng-controller="ResourceCtrl">
+	<table>
+		<li data-ng-repeat="item in resources track by $index">
+			{{item.name}}
+		</li>
+	</table>
 	
 </div>

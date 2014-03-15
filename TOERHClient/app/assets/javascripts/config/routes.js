@@ -15,7 +15,8 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
         .state('resources.search', {
             templateUrl: '/assets/search.html',
             controller: 'SearchCtrl',
-            url: ''
+            url: '',
+            reloadOnSearch: false
         })
         .state('user', {
             templateUrl: '/assets/search.html',

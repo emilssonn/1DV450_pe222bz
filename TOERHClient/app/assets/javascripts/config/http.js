@@ -11,6 +11,7 @@ angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvid
 
     //fix
     $httpProvider.defaults.headers.common['X-CLIENT-ID'] = 'dbfb4187d7209f31e08d7d0552235778ebca62312670919209d85dca1ecbf727';
+    $httpProvider.defaults.headers.common['Accept'] = 'application/json';
 
     $httpProvider.interceptors.push(['$q', function ($q) {
         return {
