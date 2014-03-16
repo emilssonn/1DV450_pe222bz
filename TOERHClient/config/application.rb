@@ -30,6 +30,7 @@ module TOERHClient
     end 
 
     config.assets.paths << Rails.root.join("views")
+    config.assets.paths << Rails.root.join("fonts")
     
   end
 end

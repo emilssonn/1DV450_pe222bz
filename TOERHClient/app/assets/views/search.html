@@ -1,12 +1,29 @@
 <div>
 	<div class="row">
-		<div class="input-group">
-			<label class="control-label sr-only" for="searchQ">Search query</label>
-			<input type="text" class="form-control" id="searchQ" data-ng-model="search.q" />
-			<span class="input-group-btn">
-	        	<button data-ng-click="doSearch()" class="btn btn-primary">Search</button>
-	      	</span>
-		</div>
+		<form role="search">
+			<div class="input-group">
+				<label class="control-label sr-only" for="searchQ">Search query</label>
+				<input type="text" class="form-control" id="searchQ" data-ng-model="search.q" />
+				<span class="input-group-btn">
+		        	<button data-ng-click="doSearch()" class="btn btn-primary">Search</button>
+		      	</span>
+			</div>
+			<div class="input-group">
+				<label for="tags" class="control-label sr-only">Tags</label>
+				<input type="text" class="form-control" id="tags" name="tags" data-ng-keypress="addTag($event)" />
+				<span class="input-group-btn">
+		        	<button data-ng-click="addTag()" class="btn btn-primary">Add</button>
+		      	</span>
+			</div>
+			<div>
+				<ul>
+					<li data-ng-repeat="tag in search.tags track by $index">
+						{{tag}}
+					</li>
+				</ul>
+			</div>
+		</form>
+		
 	</div>
 	
 	<div>

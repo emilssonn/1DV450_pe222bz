@@ -3,6 +3,26 @@
 angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
     'use strict';
 
+    /**
+     * Calls a resource
+     * @param  {[type]} $q       
+     * @param  {[type]} $resource 
+     * @param  {obj}    params    
+     * @return {promise}           
+     */
+    var loadData = function ($q, $resource, params) {
+        params = params || {};
+        var deferred = $q.defer();
+        $resource.get(params,
+            function (data) {
+                deferred.resolve(data);
+            },
+            function (data) {
+                deferred.reject(data);
+            });
+        return deferred.promise;
+    };
+
     $urlRouterProvider
         .otherwise('/resources/');
 
@@ -10,13 +30,21 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
         .state('resources', {
             templateUrl: '/assets/home.html',
             abstract: true,
-            url: '/resources/'
+            url: '/resources/',
+            reloadOnSearch: false,
+            resolve: {
+                licenses: ['Licenses', '$q', function (Licenses, $q) {
+                    return loadData($q, Licenses);
+                }],
+                resourceTypes: ['ResourceTypes', '$q', function (ResourceTypes, $q) {
+                    return loadData($q, ResourceTypes);
+                }]
+            }
         })
         .state('resources.search', {
             templateUrl: '/assets/search.html',
             controller: 'SearchCtrl',
-            url: '',
-            reloadOnSearch: false
+            url: ''
         })
         .state('resources.create', {
             templateUrl: '/assets/resourceForm.html',
@@ -29,15 +57,7 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
             url: ':id/',
             resolve: {
                 resource: ['Resources', '$stateParams', '$q', function (Resources, $stateParams, $q) {
-                    var deferred = $q.defer();
-                    Resources.get($stateParams,
-                        function (data) {
-                            deferred.resolve(data);
-                        },
-                        function (data) {
-                            deferred.reject(data);
-                        });
-                    return deferred.promise;
+                    return loadData($q, Resources, $stateParams);
                 }]
             }
         })
@@ -46,11 +66,15 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
             controller: 'ResourceCtrl',
             url: ':id/edit/',
             resolve: {
-                resource: ['Resources', '$stateParams', '$q', function (Resources, $stateParams, $q) {
+                resource: ['Resources', '$stateParams', '$q', 'Auth', function (Resources, $stateParams, $q, Auth) {
                     var deferred = $q.defer();
                     Resources.get($stateParams,
                         function (data) {
-                            deferred.resolve(data);
+                            if (data.instance.user.id === Auth.user.id) {
+                                deferred.resolve(data);
+                            } else {
+                                deferred.reject(data);
+                            }      
                         },
                         function (data) {
                             deferred.reject(data);
@@ -58,31 +82,11 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
                     return deferred.promise;
                 }]
             }
-            /*
-            resolve: {
-                resource: ['Resources', '$stateParams', 'Auth', '$state', '$q', function (Resources, $stateParams, Auth, $state, $q) {
-                    var res = false;
-                    Resources.get($stateParams,
-                        function (data) {
-                            if (Auth.isLoggedIn && data.instance.user.id === Auth.user.id) {
-                                res = data.instance;
-                            }
-                        },
-                        function (data) {
-
-                        });
-                    if (res) {
-                        return res;
-                    }
-                    $state.go('resources.search', {}, {location: true});
-                    return $q.reject('asdas');
-                }]
-            }*/
         })
-        .state('user', {
+        .state('resources.me', {
             templateUrl: '/assets/search.html',
             controller: 'SearchCtrl',
-            url: '/me/'
+            url: 'me/'
         });
 
     //$locationProvider.html5Mode(true);

@@ -6,18 +6,45 @@
 			</legend>
 			<div class="form-group">
 		    	<label for="name">Name</label>
-		    	<input type="text" class="form-control" id="name" placeholder="Resource Name" data-ng-model="resource.name">
+		    	<input type="text" class="form-control" id="name" placeholder="Name" data-ng-model="resource.name">
 		  	</div>
+
 		  	<div class="form-group">
 		    	<label for="url">Url</label>
-		    	<input type="text" class="form-control" id="url" placeholder="Resource Url" data-ng-model="resource.url">
+		    	<input type="text" class="form-control" id="url" placeholder="Url" data-ng-model="resource.url">
 		  	</div>
+
 		  	<div class="form-group">
 		    	<label for="description">Description</label>
-		    	<textarea class="form-control" id="description" placeholder="Resource Description" name="description" 
+		    	<textarea class="form-control" id="description" placeholder="Description" name="description" 
 		    		required data-ng-model="resource.description" data-ng-min-length="10" data-ng-max-length="2000"></textarea>
 		  	</div>
+
+		  	<div class="input-group">
+				<label for="tags" class="control-label sr-only">Tags</label>
+				<input type="text" data-ng-model="tag" class="form-control" placeholder="Add Tag" autocomplete="off" id="tags" name="tags" data-ng-keypress="addTag($event)" />
+				<span class="input-group-btn">
+		        	<button data-ng-click="addTag()" class="btn btn-primary">Add</button>
+		      	</span>
+			</div>
+			<div>
+				<ul class="list-unstyled">
+					<li data-ng-repeat="tag in resource.tags track by $index">
+						<span class="label label-info">
+							<span class="glyphicon glyphicon-tag"></span>
+							{{tag}}
+							<button class="btn btn-xs" data-ng-click="removeTag($index)">x</button>
+						</span>
+					</li>
+				</ul>
+			</div>
+
+			<select data-ng-model="resource.license" data-ng-options="l.name for l in licenses"></select>
+
+			<select data-ng-model="resource.resourceType" data-ng-options="r.name for r in resourceTypes"></select>
+
 		  	<button class="btn btn-sm btn-success" data-ng-click="save()">Save</button>
+		  	<a class="btn btn-primary btn-sm" ui-sref="resources.show({id: resource.id})">Back</a>
 		</fieldset>
 	</form>
 </div>

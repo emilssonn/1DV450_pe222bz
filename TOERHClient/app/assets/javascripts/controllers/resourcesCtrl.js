@@ -13,6 +13,10 @@ angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$loc
                     newObj[prop] = value;
                 }
             });
+            if ($location.search().page) {
+                newObj.limit = 30;
+                newObj.offset = 30 * $location.search().page - 30;
+            }
             return newObj;
         },
 
@@ -28,11 +32,8 @@ angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$loc
                 });
         };
 
-
-
     $scope.$on('$locationChangeSuccess', function () {
         getResources();
     });
 
-    getResources();
 }]);

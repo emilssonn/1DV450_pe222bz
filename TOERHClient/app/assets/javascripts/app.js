@@ -5,6 +5,7 @@ angular.module('TOERH', [
     'ngAnimate',
     'ngCookies',
     'ui.router',
+    'chieffancypants.loadingBar',
     'TOERH.controllers',
     'TOERH.services',
     'TOERH.directives',

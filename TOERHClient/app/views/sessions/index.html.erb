@@ -7,18 +7,18 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">TOERH</a>
+				<a class="navbar-brand" ui-sref="resources.search">TOERH</a>
 			</div>
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
 				<ul class="nav navbar-nav">
 					<li class="active">
-						<a href="#">Home</a>
+						<a ui-sref="resources.search">Home</a>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<% if @logged_in %>
 					<li>
-						<a href="#">My Resources</a>
+						<a ui-sref="resources.search">My Resources</a>
 					</li>
 					<li>
 						<a href="#">Sign out</a>

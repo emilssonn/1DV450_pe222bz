@@ -1,6 +1,13 @@
 <div>
-	<p data-ng-show="!edit">
+	<p>
 		{{resource.name}}
 	</p>
-	<a ui-sref="resources.edit({id: resource.id})">State 1</a>
+	<p>
+		{{resource.description}}
+	</p>
+	<div data-ng-if="isOwner">
+		<a class="btn btn-primary btn-sm" ui-sref="resources.edit({id: resource.id})">Edit</a>
+		<button class="btn btn-danger btn-sm" data-ng-click="remove()">Delete</button>
+	</div>
+	
 </div>
