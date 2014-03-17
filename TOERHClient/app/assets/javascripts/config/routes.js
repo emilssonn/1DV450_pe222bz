@@ -57,7 +57,10 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
         .state('resources.create', {
             templateUrl: '/assets/resourceForm.html',
             controller: 'ResourceCtrl',
-            url: 'new/'
+            url: 'new/',
+            resolve: {
+                resource: function () { return null; }
+            }
         })
         .state('resources.show', {
             templateUrl: '/assets/resource.html',

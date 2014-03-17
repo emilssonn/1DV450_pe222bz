@@ -1,50 +1,93 @@
-<div>
-	<form role="form">
+<div class="col-xs-12">
+	<form name="form" role="form" novalidate>
 		<fieldset>
 			<legend>
 				{{resource.name ? resource.name : 'New Resource'}}
 			</legend>
-			<div class="form-group">
-		    	<label for="name">Name</label>
-		    	<input type="text" class="form-control" id="name" placeholder="Name" data-ng-model="resource.name">
-		  	</div>
-
-		  	<div class="form-group">
-		    	<label for="url">Url</label>
-		    	<input type="text" class="form-control" id="url" placeholder="Url" data-ng-model="resource.url">
-		  	</div>
-
-		  	<div class="form-group">
-		    	<label for="description">Description</label>
-		    	<textarea class="form-control" id="description" placeholder="Description" name="description" 
-		    		required data-ng-model="resource.description" data-ng-min-length="10" data-ng-max-length="2000"></textarea>
-		  	</div>
-
-		  	<div class="input-group">
-				<label for="tags" class="control-label sr-only">Tags</label>
-				<input type="text" data-ng-model="tag" class="form-control" placeholder="Add Tag" autocomplete="off" id="tags" name="tags" data-ng-keypress="addTag($event)" />
-				<span class="input-group-btn">
-		        	<button data-ng-click="addTag()" class="btn btn-primary">Add</button>
-		      	</span>
-			</div>
-			<div>
-				<ul class="list-unstyled">
-					<li data-ng-repeat="tag in resource.tags track by $index">
-						<span class="label label-info">
-							<span class="glyphicon glyphicon-tag"></span>
-							{{tag}}
-							<button class="btn btn-xs" data-ng-click="removeTag($index)">x</button>
-						</span>
-					</li>
-				</ul>
+			<div class="row">
+				<div class="form-group col-xs-6" data-ng-class="{'has-success': form.name.$dirty && !form.name.$invalid, 'has-error': form.name.$dirty && form.name.$invalid}">
+			    	<label for="name">Name</label>
+			    	<input type="text" class="form-control" name="name" id="name" placeholder="Name" data-ng-model="resource.name"
+			    		required data-ng-minlength="5" data-ng-maxlength="100">
+			    	<div ng-show="form.name.$dirty && form.name.$invalid">
+						<span ng-show="form.name.$error.required">A name is required.</span>
+						<span ng-show="form.name.$error.minlength">Min length 5.</span>
+						<span ng-show="form.name.$error.maxlength">Max length 100.</span>
+					</div>
+			  	</div>
 			</div>
 
-			<select data-ng-model="resource.license" data-ng-options="l.name for l in licenses"></select>
+			<div class="row">
+			  	<div class="form-group col-xs-6" data-ng-class="{'has-success': form.url.$dirty && !form.url.$invalid, 'has-error': form.url.$dirty && form.url.$invalid}">
+			    	<label for="url">Url</label>
+			    	<input type="url" class="form-control" id="url" name="url" placeholder="Url" data-ng-model="resource.url"
+			    		required data-ng-minlength="3" data-ng-maxlength="200">
+			    	<div ng-show="form.url.$dirty && form.url.$invalid">
+			    		<span ng-show="form.url.$error.url">A valid url is required.</span>
+						<span ng-show="form.url.$error.required">A url is required.</span>
+						<span ng-show="form.url.$error.minlength">Min length 3.</span>
+						<span ng-show="form.url.$error.maxlength">Max length 200.</span>
+					</div>
+			  	</div>
+			</div>
 
-			<select data-ng-model="resource.resourceType" data-ng-options="r.name for r in resourceTypes"></select>
+			<div class="row">
+			  	<div class="form-group col-xs-6" 
+			  		data-ng-class="{'has-success': form.description.$dirty && !form.description.$invalid, 'has-error': form.description.$dirty && form.description.$invalid}">
+			    	<label for="description">Description</label>
+			    	<textarea class="form-control" id="description" placeholder="Description" name="description" 
+			    		required data-ng-model="resource.description" data-ng-minlength="10" data-ng-maxlength="2000"></textarea>
+			    	<div ng-show="form.description.$dirty && form.description.$invalid">
+						<span ng-show="form.description.$error.required">A description is required.</span>
+						<span ng-show="form.description.$error.minlength">Min length 10.</span>
+						<span ng-show="form.description.$error.maxlength">Max length 2000.</span>
+					</div>
+			  	</div>
+			</div>
 
-		  	<button class="btn btn-sm btn-success" data-ng-click="save()">Save</button>
-		  	<a class="btn btn-primary btn-sm" ui-sref="resources.show({id: resource.id})">Back</a>
+			<div class="row">
+			  	<div class="input-group col-xs-3" data-ng-class="{'has-success': form.tags.$dirty && !form.tags.$invalid, 'has-error': form.tags.$dirty && form.tags.$invalid}">
+					<label for="tags" class="control-label sr-only">Tags</label>
+					<input type="text" data-ng-model="tag" class="form-control" placeholder="Add Tag" autocomplete="off" id="tags" name="tags" data-ng-keypress="addTag($event)"
+						data-ng-minlength="2" data-ng-maxlength="20" />
+					<span class="input-group-btn">
+			        	<button data-ng-click="addTag()" class="btn btn-primary">Add</button>
+			      	</span>
+			      	<div ng-show="form.tags.$dirty && form.tags.$invalid">
+						<span ng-show="form.tags.$error.minlength">Min length 2.</span>
+						<span ng-show="form.tags.$error.maxlength">Max length 20.</span>
+					</div>
+				</div>
+				<div class="col-xs-9">
+					<ul class="list-inline">
+						<li data-ng-repeat="tag in resource.tags track by $index">
+							<span class="label label-default">
+								<span class="glyphicon glyphicon-tag"></span>
+								{{tag}}
+								<button class="btn btn-xs" data-ng-click="removeTag($index)">x</button>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>	
+
+			<div class="row">
+				<div class="form-group col-xs-3">
+			    	<label for="resourceType">Resource Type</label>
+			    	<select class="form-control" name="resourceType" id="resourceType" data-ng-model="resource.resourceType" data-ng-options="r.name for r in resourceTypes"></select>
+			  	</div>
+			</div>
+
+			<div class="row">
+			  	<div class="form-group col-xs-3">
+			    	<label for="license">License</label>
+			    	<select class="form-control" name="license" id="license" data-ng-model="resource.license" data-ng-options="l.name for l in licenses"></select>
+			  	</div>
+			</div>
+			
+			<a class="btn btn-warning btn-sm" ui-sref="resources.show({id: resource.id})" data-ng-if="isOwner">Back</a>
+			<a class="btn btn-warning btn-sm" ui-sref="resources.me" data-ng-if="!isOwner">Cancel</a>
+			<button class="btn btn-sm btn-success" data-ng-click="save()" data-ng-disabled="form.$invalid || isUnchanged(resource)">Save</button>	
 		</fieldset>
 	</form>
 </div>

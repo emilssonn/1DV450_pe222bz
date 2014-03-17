@@ -18,7 +18,10 @@
 				<ul class="nav navbar-nav navbar-right">
 					<% if @logged_in %>
 					<li>
-						<a ui-sref="resources.search">My Resources</a>
+						<a ui-sref="resources.me">My Resources</a>
+					</li>
+					<li>
+						<a ui-sref="resources.create">New Resources</a>
 					</li>
 					<li>
 						<a href="#">Sign out</a>
