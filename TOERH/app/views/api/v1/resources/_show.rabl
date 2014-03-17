@@ -18,8 +18,6 @@ child :license do
 	extends "api/v1/licenses/_show"
 end
 
-child :tags do
-	node do |t|
-		partial "api/v1/tags/_show", :object => t
-	end
+node :tags do |r|
+	r.tags.map(&:name)
 end

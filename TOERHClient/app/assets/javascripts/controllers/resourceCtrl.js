@@ -3,64 +3,59 @@
 angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resources', 'Auth', '$state', 'resource', 'licenses', 'resourceTypes',
     function ($scope, Resources, Auth, $state, resource, licenses, resourceTypes) {
         'use strict';
+
         $scope.resource = resource.instance;
-    
-
-        $scope.licenses = licenses.collection.items;
-        $scope.resource.license = $scope.licenses[0]
-
-        $scope.resourceTypes = resourceTypes.collection.items;
-        $scope.resource.resourceType = $scope.resourceTypes[0]
-
-
-
-        var allowedProps = ['id', 'name', 'description', 'url', 'tags', 'license', 'resourceType'],
-
-            isOwner = $scope.isOwner = $scope.resource.user.id === Auth.user.id,
-
-
-            //Create a clean editable object
-            editResource = function (obj) {
-                var newObj = {};
-                angular.forEach(obj, function (value, prop) {
-                    if (~allowedProps.indexOf(prop) && value) {
-                        newObj[prop] = value;
-                    }
-                });
-                angular.forEach(newObj.tags, function (value, index) {
-                    newObj.tags[index] = value.name
-                });
-                return newObj;
-            };
-
-
+        var isOwner = $scope.isOwner = (Auth.isLoggedIn && $scope.resource.user.id === Auth.user.id);
 
         if ($state.is('resources.show')) {
             if (isOwner) {
                 $scope.remove = function () {
                     Resources.remove({id: $scope.resource.id},
                         function (data) {
-
+                            $state.go('resources.search');
                         }, function (data) {
 
                         });
                 };
             }
-
         } else {
-            $scope.resource = editResource($scope.resource);
+            $scope.licenses = licenses.collection.items;
+            $scope.resource.license = $scope.licenses[$scope.licenses.map(
+                function (l) { 
+                    return l.id 
+                }).indexOf($scope.resource.license.id)];
+
+            $scope.resourceTypes = resourceTypes.collection.items;
+            $scope.resource.resourceType = $scope.resourceTypes[$scope.resourceTypes.map(
+                function (r) { 
+                    return r.id 
+                }).indexOf($scope.resource.resourceType.id)];
+
+            var allowedProps = ['id', 'name', 'description', 'url', 'tags', 'license', 'resourceType', 'user'],
+
+                //Create a object to save
+                cleanResource = function (obj) {
+                    var newObj = {};
+                    angular.forEach(obj, function (value, prop) {
+                        if (~allowedProps.indexOf(prop) && value) {
+                            if (angular.isObject(value) && !angular.isArray(value)) {
+                                newObj[prop + '_id'] = value.id;
+                            } else {
+                                newObj[prop] = value;  
+                            }
+                        }
+                    });
+                    return newObj;
+                };
+        
             $scope.save = function () {
-                if (!$scope.resource.id) {
-                    $scope.resource.user_id = Auth.user.id;
+                var resourceToSave = cleanResource($scope.resource);
+                if (!resourceToSave.id) {
+                    resourceToSave.user_id = Auth.user.id;
                 }
-                var r = angular.copy($scope.resource);
-                r.license_id = $scope.resource.license.id;
-                r.resource_type_id = $scope.resource.resourceType.id;
-                delete r.license;
-                delete r.resourceType;
-                Resources[r.id ? 'update' : 'create'](r,
+                Resources[resourceToSave.id ? 'update' : 'create'](resourceToSave,
                     function (data) {
-                        $state.go('resources.show', {id: $scope.resource.id});
+                        $state.go('resources.show', {id: data.instance.id});
                     }, function (data) {
                         $scope.errors = data;
                     });
@@ -71,8 +66,7 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resou
                     if ($scope.tag && !~$scope.resource.tags.indexOf($scope.tag)) {
                         $scope.resource.tags.push($scope.tag);
                         $scope.tag = "";  
-                    }
-                          
+                    } 
                 }
             };
 
@@ -80,8 +74,4 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resou
                 $scope.resource.tags.splice($index, 1);
             };
         }
-
-        /*if ($scope.edit && (!Auth.isLoggedIn || $scope.resource.user.id !== Auth.user.id)) {
-            $state.go('resources.show', {id: $scope.resource.id});
-        }*/
     }]);

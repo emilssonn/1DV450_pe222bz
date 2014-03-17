@@ -10,12 +10,20 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
      * @param  {obj}    params    
      * @return {promise}           
      */
-    var loadData = function ($q, $resource, params) {
+    var loadData = function ($q, $resource, params, Auth) {
         params = params || {};
         var deferred = $q.defer();
         $resource.get(params,
             function (data) {
-                deferred.resolve(data);
+                if (Auth) {
+                    if (data.instance.user.id === Auth.user.id) {
+                        deferred.resolve(data);
+                    } else {
+                        deferred.reject(data);
+                    }
+                } else {  
+                    deferred.resolve(data);
+                }
             },
             function (data) {
                 deferred.reject(data);
@@ -67,19 +75,8 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
             url: ':id/edit/',
             resolve: {
                 resource: ['Resources', '$stateParams', '$q', 'Auth', function (Resources, $stateParams, $q, Auth) {
-                    var deferred = $q.defer();
-                    Resources.get($stateParams,
-                        function (data) {
-                            if (data.instance.user.id === Auth.user.id) {
-                                deferred.resolve(data);
-                            } else {
-                                deferred.reject(data);
-                            }      
-                        },
-                        function (data) {
-                            deferred.reject(data);
-                        });
-                    return deferred.promise;
+                    return loadData($q, Resources, $stateParams, Auth);
+
                 }]
             }
         })
