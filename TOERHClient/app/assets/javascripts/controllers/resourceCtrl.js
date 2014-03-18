@@ -4,20 +4,10 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resou
     function ($scope, Resources, Auth, $state, resource, licenses, resourceTypes, StringHelper) {
         'use strict';
 
-        $scope.resource = resource ? resource.instance : {};
-        var isOwner = $scope.isOwner = (Auth.isLoggedIn && $scope.resource.user && $scope.resource.user.id === Auth.user.id);
-
-        $scope.remove = function () {
-            Resources.remove({id: $scope.resource.id},
-                function (data) {
-                    $state.go('resources.search');
-                }, function (data) {
-
-                });
-        };
-
         $scope.licenses = licenses.collection.items;
         $scope.resourceTypes = resourceTypes.collection.items;
+
+        $scope.resource = resource ? resource.instance : {};
         $scope.resource.tags = $scope.resource.tags || [];
         
         if ($state.is('resources.edit')) {
@@ -36,11 +26,9 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resou
         }
        
         $scope.master = angular.copy($scope.resource);
-        $scope.isUnchanged = function(r) {
-            return angular.equals(r, $scope.master);
-        };
-
-        var allowedProps = ['id', 'name', 'description', 'url', 'tags', 'license', 'resourceType', 'user'],
+    
+        var isOwner = $scope.isOwner = (Auth.isLoggedIn && $scope.resource.user && $scope.resource.user.id === Auth.user.id),
+            allowedProps = ['id', 'name', 'description', 'url', 'tags', 'license', 'resourceType', 'user'],
 
             //Create a object to save
             cleanResource = function (obj) {
@@ -57,6 +45,10 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resou
                 });
                 return newObj;
             };
+
+        $scope.isUnchanged = function(r) {
+            return angular.equals(r, $scope.master);
+        };
     
         $scope.save = function () {
             var resourceToSave = cleanResource($scope.resource);
@@ -68,6 +60,15 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resou
                     $state.go('resources.show', {id: data.instance.id});
                 }, function (data) {
                     $scope.errors = data;
+                });
+        };
+
+        $scope.remove = function () {
+            Resources.remove({id: $scope.resource.id},
+                function (data) {
+                    $state.go('resources.search');
+                }, function (data) {
+
                 });
         };
 

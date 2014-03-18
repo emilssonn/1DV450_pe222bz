@@ -16,6 +16,7 @@
 //= require angular-animate
 //= require angular-resource
 //= require angular-cookies
+//= require angular-sanitize
 //= require_tree ./lib
 //= require app.js
 //= require_tree ./config

@@ -1,10 +1,70 @@
 
-<div data-ng-controller="ResourcesCtrl">
-	<table>
-		<li data-ng-repeat="item in resources track by $index">
-			{{item.name}}
-			<a ui-sref="resources.show({id: item.id})">Show</a>
-		</li>
-	</table>
-	
+<div data-ng-controller="ResourcesCtrl" class="col-xs-12">
+	<div class="col-xs-3">
+		<h6>Filter this page</h6>
+		<hr />
+		<ul class="list-unstyled">
+			<li><input type="text" class="form-control" data-ng-model="searchFilter.name" placeholder="Name..." /></li>
+		</ul>
+	</div>
+	<div class="col-xs-9">	
+		<div class="dropdown" data-ng-init="orderProp = 'name'">
+		 	<h6>
+		 		Sort by: 
+		 		<span class="dropdown-toggle" id="orderDropdownMenu" data-toggle="dropdown">
+		  			<span class="sr-only">Dropdown</span>
+		    		<span class="caret"></span>
+		  		</span>
+		  		<ul class="dropdown-menu" role="menu" aria-labelledby="orderDropdownMenu">
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'name'">Name</a></li>
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'resourceType.name'">Type</a></li>
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'license.name'">License</a></li>
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'createdAt'">Date</a></li>
+			  	</ul>
+			</h6>
+		  
+		</div>
+		<hr />
+		<ul class="list-unstyled">
+			<li data-ng-repeat="item in resources | filter:searchFilter | orderBy:orderProp track by $index" class="panel panel-default">
+				<div class="panel-body">
+					<a ui-sref="resources.show({id: item.id})"><h3 data-ng-bind-html="item.name | Highlight:searchFilter.name"></h3></a>
+					<p>
+						{{item.description}}
+					</p>
+					
+					<p>
+						License: {{item.license.name}}
+					</p>
+
+					<p>
+						Type: {{item.resourceType.name}}	
+					</p>
+
+					<p>
+						Url: {{item.url}} <a href="{{item.url}}" target="_blank" title="Go to {{item.url}}"><span class="glyphicon glyphicon-new-window"></span></a>
+					</p>
+
+					<p>
+						<ul class="list-inline pull-left">
+							<li data-ng-repeat="tag in item.tags">
+								<span class="label label-info">
+									<span class="glyphicon glyphicon-tag"></span>
+									{{tag}}
+								</span>
+							</li>
+						</ul>
+								
+						<span class="pull-right">
+							<small>Created {{item.createdAt | date: 'yyyy-MM-dd'}} by {{item.user.firstname}} {{item.user.lastname}}.</small>
+						</span>
+
+					</p>
+				</div>
+			</li>
+		</ul>
+		<p data-ng-if="resources.length == 0">
+			No resources matches the search
+		</p>
+	</div>
 </div>
