@@ -14,7 +14,8 @@ else
 	node(:next) { next_link(@limit, @offset) }
 end
 
-node(:total) { @resources.count }
+node(:total) { @total }
+node(:currentTotal) { @resources.count }
 node(:limit) { @limit }
 node(:offset) { @offset }
 

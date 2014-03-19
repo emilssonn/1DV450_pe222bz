@@ -1,7 +1,7 @@
 /*global angular */
 
-angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resources', 'Auth', '$state', 'resource', 'licenses', 'resourceTypes', 'StringHelper',
-    function ($scope, Resources, Auth, $state, resource, licenses, resourceTypes, StringHelper) {
+angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$window', 'Resources', 'Auth', '$state', 'resource', 'licenses', 'resourceTypes', 'StringHelper',
+    function ($scope, $window, Resources, Auth, $state, resource, licenses, resourceTypes, StringHelper) {
         'use strict';
 
         $scope.licenses = licenses.collection.items;
@@ -64,12 +64,14 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', 'Resou
         };
 
         $scope.remove = function () {
-            Resources.remove({id: $scope.resource.id},
-                function (data) {
-                    $state.go('resources.search');
-                }, function (data) {
+            if ($window.confirm("Are you sure?")) {
+                Resources.remove({id: $scope.resource.id},
+                    function (data) {
+                        $state.go('resources.search');
+                    }, function (data) {
 
-                });
+                    });
+            }     
         };
 
         $scope.addTag = function ($event) {

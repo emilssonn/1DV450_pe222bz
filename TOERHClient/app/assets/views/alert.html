@@ -1,0 +1,12 @@
+
+<div data-ng-repeat="alert in alerts track by $index" class="alert alert-{{alert.type}}" role="alert">
+    <button type="button" class="close" ng-click="close($index)">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+    </button>
+    <ul class="list-unstyled">
+	    <li data-ng-repeat="msg in alert.messages">
+		    {{msg.message}}
+		</li>
+	</ul>
+</div>

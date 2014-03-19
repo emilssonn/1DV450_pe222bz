@@ -17,10 +17,8 @@
 //= require angular-resource
 //= require angular-cookies
 //= require angular-sanitize
-//= require_tree ./lib
-//= require app.js
-//= require_tree ./config
-//= require_tree ./controllers
-//= require_tree ./services
-//= require_tree ./filters
-//= require_tree ./directives
+//= require controllers/module
+//= require services/module
+//= require filters/module
+//= require directives/module
+//= require_tree .

@@ -19,7 +19,7 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
                     if (data.instance.user.id === Auth.user.id) {
                         deferred.resolve(data);
                     } else {
-                        deferred.reject(data);
+                        deferred.reject({status: 403});
                     }
                 } else {  
                     deferred.resolve(data);
@@ -52,7 +52,10 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
         .state('resources.search', {
             templateUrl: '/assets/search.html',
             controller: 'SearchCtrl',
-            url: ''
+            url: '',
+            data: {
+                user: false
+            }
         })
         .state('resources.create', {
             templateUrl: '/assets/resourceForm.html',
@@ -60,33 +63,44 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
             url: 'new/',
             resolve: {
                 resource: function () { return null; }
+            },
+            data: {
+                user: true
             }
         })
         .state('resources.show', {
             templateUrl: '/assets/resource.html',
             controller: 'ResourceCtrl',
-            url: ':id/',
+            url: 'show/:id/',
             resolve: {
                 resource: ['Resources', '$stateParams', '$q', function (Resources, $stateParams, $q) {
                     return loadData($q, Resources, $stateParams);
                 }]
+            },
+            data: {
+                user: false
             }
         })
         .state('resources.edit', {
             templateUrl: '/assets/resourceForm.html',
             controller: 'ResourceCtrl',
-            url: ':id/edit/',
+            url: 'edit/:id/',
             resolve: {
                 resource: ['Resources', '$stateParams', '$q', 'Auth', function (Resources, $stateParams, $q, Auth) {
                     return loadData($q, Resources, $stateParams, Auth);
-
                 }]
+            },
+            data: {
+                user: true
             }
         })
         .state('resources.me', {
-            templateUrl: '/assets/search.html',
-            controller: 'SearchCtrl',
-            url: 'me/'
+            templateUrl: '/assets/resources.html',
+            controller: 'UserResourcesCtrl',
+            url: 'me/',
+            data: {
+                user: true
+            }
         });
 
     //$locationProvider.html5Mode(true);
@@ -118,6 +132,28 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
             params.push(k + '=' + v);
         });
         return path + '/?' + params.join('&');
+    });
+
+}])
+
+.run(['$rootScope', '$state', 'Auth', 'Alert', function ($rootScope, $state, Auth, Alert) {
+
+    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+        Alert.warning({message: 'test'})
+        Alert.info({message: 'test222'})
+
+        if (toState.data.user && !Auth.isLoggedIn) {
+            event.preventDefault();
+            
+            $state.go('resources.search');
+        }
+    });
+
+    $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
+        event.preventDefault();
+        if (error.status === 403) {
+            $state.go(fromState, fromParams);
+        }
     });
 
 }]);

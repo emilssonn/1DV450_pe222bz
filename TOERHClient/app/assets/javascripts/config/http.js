@@ -1,6 +1,6 @@
 /*global angular */
 
-angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvider, APIURL) {
+angular.module('TOERH').config(['$httpProvider', '$provide', 'APIURL', function ($httpProvider, $provide, APIURL) {
     'use strict';
 
     //Enable cross domain calls
@@ -15,12 +15,26 @@ angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvid
             request: function (config) {
                 config.url = ~ config.url.indexOf('.html') ? config.url : APIURL + config.url;
                 return config || $q.when(config);
-            },
-            response: function (response) {
-                return response || $q.when(response);
             }
         };
     }]);
+
+    $provide.factory('APIResponse', function($q) {
+        return {
+            'responseError': function(response) {
+                if (response.status === 429) {
+
+                } else if (response.status === 500) {
+
+                } else if (response.status === 403) {
+
+                }
+                return $q.reject(response);
+            }
+        };
+    });
+
+    $httpProvider.interceptors.push('APIResponse');
 
 }]).run(['$http', 'Auth', function ($http, Auth) {
     'use strict';

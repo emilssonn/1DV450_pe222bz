@@ -1,6 +1,6 @@
 /*global angular */
 
-angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$location', 'Licenses', 'ResourceTypes', 
+angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$location', 'Licenses', 'ResourceTypes',
     function ($scope, $location, Licenses, ResourceTypes) {
     'use strict';
 

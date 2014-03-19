@@ -11,6 +11,8 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 			.by_license_ids(params[:license_ids])
 			.by_user_ids(params[:user_ids])
 			.by_tags(params[:tags])
+
+		@total = Resource.count
 	end
 
 	def show
