@@ -4,7 +4,28 @@
 		<h6>Filter this page</h6>
 		<hr />
 		<ul class="list-unstyled">
-			<li><input type="text" class="form-control" data-ng-model="searchFilter.name" placeholder="Name..." /></li>
+			<li>
+				<div class="input-group">
+					<input type="text" class="form-control" data-ng-init="searchProp = 'Name'" data-ng-model="searchFilter" placeholder="Filter by..." />
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							{{searchProp}}
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li>
+								<a data-ng-click="searchProp = 'Name'">Name</a>
+							</li>
+							<li>
+								<a data-ng-click="searchProp = 'Description'">Description</a>
+							</li>
+							<li>
+								<a data-ng-click="searchProp = 'Url'">Url</a>
+							</li>
+						</ul>
+					</div>				
+				</div>		
+			</li>
 		</ul>
 	</div>
 	<div class="col-xs-9">	
@@ -16,21 +37,21 @@
 		    		<span class="caret"></span>
 		  		</span>
 		  		<ul class="dropdown-menu" role="menu" aria-labelledby="orderDropdownMenu">
-				    <li><a tabindex="-1" data-ng-click="orderProp = 'name'">Name</a></li>
-				    <li><a tabindex="-1" data-ng-click="orderProp = 'resourceType.name'">Type</a></li>
-				    <li><a tabindex="-1" data-ng-click="orderProp = 'license.name'">License</a></li>
-				    <li><a tabindex="-1" data-ng-click="orderProp = 'createdAt'">Date</a></li>
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'name'; reverse=!reverse">Name</a></li>
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'resourceType.name'; reverse=!reverse">Type</a></li>
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'license.name'; reverse=!reverse">License</a></li>
+				    <li><a tabindex="-1" data-ng-click="orderProp = 'createdAt'; reverse=!reverse">Date</a></li>
 			  	</ul>
 			</h6>
 		  
 		</div>
 		<hr />
 		<ul class="list-unstyled">
-			<li data-ng-repeat="item in resources | filter:searchFilter | orderBy:orderProp track by $index" class="panel panel-default">
+			<li data-ng-repeat="item in resources | sorter:searchProp:searchFilter | orderBy:orderProp:reverse track by $index" class="panel panel-default">
 				<div class="panel-body">
-					<a ui-sref="resources.show({id: item.id})"><h3 data-ng-bind-html="item.name | Highlight:searchFilter.name"></h3></a>
-					<p>
-						{{item.description}}
+					<a ui-sref="resources.show({id: item.id})"><h3 data-ng-bind-html="item.name | Highlight:searchFilter:searchProp:'Name'"></h3></a>
+					
+					<p data-ng-bind-html="item.description | Highlight:searchFilter:searchProp:'Description'">
 					</p>
 					
 					<p>
@@ -42,7 +63,7 @@
 					</p>
 
 					<p>
-						Url: {{item.url}} <a href="{{item.url}}" target="_blank" title="Go to {{item.url}}"><span class="glyphicon glyphicon-new-window"></span></a>
+						Url: <span data-ng-bind-html="item.url | Highlight:searchFilter:searchProp:'Url'"></span> <a href="{{item.url}}" target="_blank" title="Go to {{item.url}}"><span class="glyphicon glyphicon-new-window"></span></a>
 					</p>
 
 					<p>

@@ -16,8 +16,7 @@ angular.module('TOERH.directives').directive('auth', ['Auth', function (Auth) {
                 } else if ((scope.req && !newVal) || (!scope.req && newVal)) {
                     elem.css('display', 'none');
                 }
-            });
-            
+            });    
         }
-  };
+    };
 }]);
