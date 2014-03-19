@@ -64,7 +64,7 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$wind
         };
 
         $scope.remove = function () {
-            if ($window.confirm("Are you sure?")) {
+            if ($window.confirm("Are you sure you want to delete the resource \"" + $scope.resource.name + "\"?")) {
                 Resources.remove({id: $scope.resource.id},
                     function (data) {
                         $state.go('resources.search');
@@ -85,6 +85,10 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$wind
 
         $scope.removeTag = function ($index) {
             $scope.resource.tags.splice($index, 1);
+        };
+
+        $scope.toggleInfo = function (prop) {
+            $scope[prop] = !$scope[prop];
         };
         
     }]);

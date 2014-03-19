@@ -38,8 +38,8 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
     removeAlert = function (type) {
         angular.forEach(alerts, function (value, index) {
             if (value.type === type) {
-                angular.forEach(value.messages, function (value, index2) {
-                    $timeout.cancel(value.timeout);
+                angular.forEach(value.messages, function (value2, index2) {
+                    $timeout.cancel(value2.timeout);
                 });
                 $timeout.cancel(value.timeout);
                 alerts.splice(index, 1);
@@ -109,12 +109,13 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
             cAlert = addAlert(msg.type, msg.msgTypeTime)
         } else if (cAlert.timeout) {
             $timeout.cancel(cAlert.timeout);
+            if (msg.msgTypeTime > 0) {
+                cAlert.timeout = $timeout(function () {
+                    removeAlert(msg.type);
+                }, msg.msgTypeTime);
+            }
         }
-        if (msg.msgTypeTime > 0) {
-            cAlert.timeout = $timeout(function () {
-                removeAlert(msg.type);
-            }, msg.msgTypeTime);
-        }
+
         cAlert.messages.push(msg);
     },
 
@@ -125,8 +126,8 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
     removeAllAlerts = function () {
         //Cancel all timeouts
         angular.forEach(alerts, function (value, index) {
-            angular.forEach(value.messages, function (value, index2) {
-                $timeout.cancel(value.timeout);
+            angular.forEach(value.messages, function (value2, index2) {
+                $timeout.cancel(value2.timeout);
             });
             $timeout.cancel(value.timeout);
         });
@@ -136,9 +137,9 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
     clearScope = function (scope) {
         //Cancel all timeouts
         angular.forEach(alerts, function (value, index) {
-            angular.forEach(value.messages, function (value, index2) {
-                if (msg.msgScope === scope) {
-                    $timeout.cancel(value.timeout);
+            angular.forEach(value.messages, function (value2, index2) {
+                if (value2.msgScope === scope) {
+                    $timeout.cancel(value2.timeout);
                     value.messages.splice(index2, 1);
                 }
             });
@@ -148,9 +149,9 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
     clearScopeByType = function (scope, type) {
         //Cancel all timeouts
         angular.forEach(alerts, function (value, index) {
-            angular.forEach(value.messages, function (value, index2) {
-                if (msg.msgScope === scope && msg.type === type) {
-                    $timeout.cancel(value.timeout);
+            angular.forEach(value.messages, function (value2, index2) {
+                if (value2.msgScope === scope && value2.type === type) {
+                    $timeout.cancel(value2.timeout);
                     value.messages.splice(index2, 1);
                 }
             });

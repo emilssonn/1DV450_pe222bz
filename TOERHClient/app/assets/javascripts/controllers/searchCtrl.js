@@ -10,7 +10,7 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
             var newObj = {};
             angular.forEach(obj, function (value, prop) {
                 if (~allowedParams.indexOf(prop) && value) {
-                    if (prop !== ('q' || 'page') && (angular.isArray(value) && value.length > 0)) {
+                    if (prop !== ('q' || 'page') && $scope.advancedSearch && (angular.isArray(value) && value.length > 0)) {
                         newObj[prop] = value.join(',');
                     } else if (prop === ('q' || 'page')) {
                         newObj[prop] = value;
@@ -52,9 +52,14 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
 
     $scope.addTag = function ($event) {
         if (!$event || ($event && $event.keyCode === 13)) {
+            if ($event) {
+                $event.preventDefault();
+            }
             if ($scope.tag && !~$scope.search.tags.indexOf($scope.tag)) {
-                $scope.search.tags.push($scope.tag);
-                $scope.tag = "";  
+                if ($scope.search.tags.length < 20) {
+                    $scope.search.tags.push($scope.tag);
+                    $scope.tag = "";  
+                }
              } 
         }
     };

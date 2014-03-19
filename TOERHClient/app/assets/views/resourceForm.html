@@ -9,10 +9,10 @@
 			    	<label for="name">Name</label>
 			    	<input type="text" class="form-control" name="name" id="name" placeholder="Name" data-ng-model="resource.name"
 			    		required data-ng-minlength="5" data-ng-maxlength="100">
-			    	<div ng-show="form.name.$dirty && form.name.$invalid">
-						<span ng-show="form.name.$error.required">A name is required.</span>
-						<span ng-show="form.name.$error.minlength">Min length 5.</span>
-						<span ng-show="form.name.$error.maxlength">Max length 100.</span>
+			    	<div ng-show="form.name.$dirty && form.name.$invalid" class="help-block">
+						<span ng-show="form.name.$error.required">A name is required. </span>
+						<span ng-show="form.name.$error.minlength">Min length 5. </span>
+						<span ng-show="form.name.$error.maxlength">Max length 100. </span>
 					</div>
 			  	</div>
 			</div>
@@ -22,11 +22,11 @@
 			    	<label for="url">Url</label>
 			    	<input type="url" class="form-control" id="url" name="url" placeholder="Url" data-ng-model="resource.url"
 			    		required data-ng-minlength="3" data-ng-maxlength="200">
-			    	<div ng-show="form.url.$dirty && form.url.$invalid">
-			    		<span ng-show="form.url.$error.url">A valid url is required.</span>
-						<span ng-show="form.url.$error.required">A url is required.</span>
-						<span ng-show="form.url.$error.minlength">Min length 3.</span>
-						<span ng-show="form.url.$error.maxlength">Max length 200.</span>
+			    	<div ng-show="form.url.$dirty && form.url.$invalid" class="help-block">
+			    		<span ng-show="form.url.$error.url">A valid url is required. </span>
+						<span ng-show="form.url.$error.required">A url is required. </span>
+						<span ng-show="form.url.$error.minlength">Min length 3. </span>
+						<span ng-show="form.url.$error.maxlength">Max length 200. </span>
 					</div>
 			  	</div>
 			</div>
@@ -37,10 +37,10 @@
 			    	<label for="description">Description</label>
 			    	<textarea class="form-control" id="description" placeholder="Description" name="description" 
 			    		required data-ng-model="resource.description" data-ng-minlength="10" data-ng-maxlength="2000"></textarea>
-			    	<div ng-show="form.description.$dirty && form.description.$invalid">
-						<span ng-show="form.description.$error.required">A description is required.</span>
-						<span ng-show="form.description.$error.minlength">Min length 10.</span>
-						<span ng-show="form.description.$error.maxlength">Max length 2000.</span>
+			    	<div ng-show="form.description.$dirty && form.description.$invalid" class="help-block">
+						<span ng-show="form.description.$error.required">A description is required. </span>
+						<span ng-show="form.description.$error.minlength">Min length 10. </span>
+						<span ng-show="form.description.$error.maxlength">Max length 2000. </span>
 					</div>
 			  	</div>
 			</div>
@@ -53,15 +53,15 @@
 					<span class="input-group-btn">
 			        	<button data-ng-click="addTag()" class="btn btn-primary">Add</button>
 			      	</span>
-			      	<div ng-show="form.tags.$dirty && form.tags.$invalid">
-						<span ng-show="form.tags.$error.minlength">Min length 2.</span>
-						<span ng-show="form.tags.$error.maxlength">Max length 20.</span>
+			      	<div ng-show="form.tags.$dirty && form.tags.$invalid" class="help-block">
+						<span ng-show="form.tags.$error.minlength">Min length 2. </span>
+						<span ng-show="form.tags.$error.maxlength">Max length 20. </span>
 					</div>
 				</div>
 				<div class="col-xs-9">
 					<ul class="list-inline">
 						<li data-ng-repeat="tag in resource.tags track by $index">
-							<span class="label label-default">
+							<span class="label label-primary">
 								<span class="glyphicon glyphicon-tag"></span>
 								{{tag}}
 								<button class="btn btn-xs" data-ng-click="removeTag($index)">x</button>

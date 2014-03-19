@@ -136,21 +136,22 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
 
 }])
 
-.run(['$rootScope', '$state', 'Auth', 'Alert', function ($rootScope, $state, Auth, Alert) {
+.run(['$rootScope', '$state', 'Auth', 'Alert', '$location', function ($rootScope, $state, Auth, Alert, $location) {
 
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-        Alert.warning({message: 'test'})
-        Alert.info({message: 'test222'})
 
         if (toState.data.user && !Auth.isLoggedIn) {
             event.preventDefault();
-            
-            $state.go('resources.search');
+            Alert.warning({message: 'You need to be logged in to view "' + $location.absUrl() + '".', msgScope: 'route', clearScope: true});
+            if (fromState.abstract) {
+                $state.go('resources.search');
+            }  
         }
     });
 
     $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
         event.preventDefault();
+        console.log(error)
         if (error.status === 403) {
             $state.go(fromState, fromParams);
         }

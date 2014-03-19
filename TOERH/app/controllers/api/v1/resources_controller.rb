@@ -85,7 +85,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	def not_found_response
 		error = { 
 			status: 404,
-			message: "The resource not found.",
+			message: "The resource was not found.",
 			developerMessage: "The Resource with the id '#{params[:id]}' was not found."
 		}
 		not_found_response_base(error)
