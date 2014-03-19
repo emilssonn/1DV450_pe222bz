@@ -16,7 +16,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	end
 
 	def show
-
+		
 	end
 
 	# Requires a user

@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-	
+	protect_from_forgery :except => [:destroy]
+
 	def index
     cookies[:key] = { key: ENV['OAUTH_ID'] }.to_json
 		unless session[:user].nil?
@@ -34,5 +35,7 @@ class SessionsController < ApplicationController
 
   def destroy
   	session[:user] = nil
+    head :no_content
   end
+
 end

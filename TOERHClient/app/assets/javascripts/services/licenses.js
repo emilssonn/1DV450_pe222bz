@@ -4,6 +4,6 @@ angular.module('TOERH.services').factory('Licenses', ['$resource', function ($re
     'use strict';
 
     return $resource('/licenses/:id', {}, {
-        'get': { method: 'GET', params: {id: '@id'} }
+        'get': { method: 'GET', params: {id: '@id'}, cache: true }
     });
 }]);

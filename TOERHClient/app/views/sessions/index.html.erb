@@ -11,25 +11,24 @@
 			</div>
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
 				<ul class="nav navbar-nav">
-					<li class="active">
+					<li>
 						<a ui-sref="resources.search">Home</a>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<% if @logged_in %>
-					<li>
+					<li data-auth="true">
 						<a ui-sref="resources.me">My Resources</a>
 					</li>
-					<li>
+					<li data-auth="true">
 						<a ui-sref="resources.create">New Resources</a>
 					</li>
-					<li>
-						<a href="#">Sign out</a>
+					<li data-auth="true">
+						<a ui-sref="logout" href="">Sign out</a>
 					</li>
-					<% else %>
-					<li>
-						<%= link_to "Sign in", "/auth/toerh" %></li>
-					<% end %></ul>
+					<li data-auth="false">
+						<%= link_to "Sign in", "/auth/toerh" %>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

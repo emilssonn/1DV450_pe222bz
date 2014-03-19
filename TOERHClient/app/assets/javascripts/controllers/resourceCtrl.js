@@ -27,7 +27,7 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$wind
        
         $scope.master = angular.copy($scope.resource);
     
-        var isOwner = $scope.isOwner = (Auth.isLoggedIn && $scope.resource.user && $scope.resource.user.id === Auth.user.id),
+        var isOwner = $scope.isOwner = (Auth.isLoggedIn() && $scope.resource.user && $scope.resource.user.id === Auth.user.id),
             allowedProps = ['id', 'name', 'description', 'url', 'tags', 'license', 'resourceType', 'user'],
 
             //Create a object to save

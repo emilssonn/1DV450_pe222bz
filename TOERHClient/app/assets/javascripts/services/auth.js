@@ -1,6 +1,6 @@
 /*global angular */
 
-angular.module('TOERH.services').factory('Auth', ['$cookieStore', function ($cookieStore) {
+angular.module('TOERH.services').factory('Auth', ['$cookieStore', '$http', function ($cookieStore, $http) {
     'use strict';
 
     var key     = $cookieStore.get('key').key,
@@ -12,6 +12,19 @@ angular.module('TOERH.services').factory('Auth', ['$cookieStore', function ($coo
     return {
         key: key,
         user: user,
-        isLoggedIn: !!user
+        isLoggedIn: function () {
+            return !!user
+        },
+        logOut: function () {
+            user = null;
+            $http.delete('http://lvh.me:3000/signout')
+                .success(function(data, status, headers, config) {
+                    return true;
+                })
+                .error(function(data, status, headers, config) {
+                    return false;
+                });
+            
+        }
     };
 }]);
