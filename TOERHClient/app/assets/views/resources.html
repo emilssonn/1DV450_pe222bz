@@ -32,6 +32,10 @@
 					</div>				
 				</div>		
 			</li>
+			<li>
+				<span data-ng-click="test = {resourceType: {name: ['Image', 'Software']}}">ddd</span>
+				<span data-ng-click="test = {resourceType: {name: 'Image'}}">ddd</span>
+			</li>
 		</ul>
 	</div>
 	<div class="col-xs-9">	
@@ -56,7 +60,7 @@
 			No resources matches the search
 		</p>
 		<ul class="list-unstyled" style="min-height: 400px;">
-			<li data-ng-repeat="item in resources | sorter:searchProp:searchFilter | orderBy:orderProp:reverse track by $index" class="panel panel-default">
+			<li data-ng-repeat="item in resources | filter:test | sorter:searchProp:searchFilter | orderBy:orderProp:reverse track by $index" class="panel panel-default">
 				<div class="panel-body">
 					<a ui-sref="resources.show({id: item.id})"><h3 data-ng-bind-html="item.name | Highlight:searchFilter:searchProp:'Name'"></h3></a>
 					

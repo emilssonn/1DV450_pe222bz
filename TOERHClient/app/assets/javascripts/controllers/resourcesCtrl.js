@@ -1,9 +1,9 @@
 /*global angular */
 
-angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$location', 'Resources', function ($scope, $location, Resources) {
+angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$location', 'Resources', 'Alert', function ($scope, $location, Resources, Alert) {
     'use strict';
 
-    var allowedParams = ['q', 'tags', 'users', 'license_ids', 'resource_type_ids'],
+    var allowedParams = ['q', 'tags', 'user', 'license_ids', 'resource_type_ids'],
 
         searchParams = function () {
             var obj = $location.search(),
@@ -31,7 +31,7 @@ angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$loc
                     $scope.pager.pages = $scope.total > 30 ? $scope.total / 30 : 1;
                 },
                 function (data) {
-
+                    Alert.warning({message: 'Something went wrong while fetching the resources. Please try again or come back later.', msgScope: 'resources', clearScope: true});
                 });
         };
 

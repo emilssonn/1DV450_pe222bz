@@ -169,6 +169,8 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
             Alert.warning({message: 'The site is currently overloaded, please check back later or sign in to continue.', msgScope: 'route', clearScope: true});
         } else if (error.status === 500) {
             Alert.danger({message: 'Something broke, please try again. If the this error continues, please check back later.', msgScope: 'route', clearScope: true});
+        } else {
+            Alert.warning({message: 'Something unexpected happend. Please try again or check back later.', msgScope: 'route', clearScope: true});
         }
 
         if (fromState.abstract) {

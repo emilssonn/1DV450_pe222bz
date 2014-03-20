@@ -53,4 +53,10 @@ class Resource < ActiveRecord::Base
 		  where(user_id: User.select(:id).where(:public_id => ids))
 	end
 
+	# VERY BAD - sqlite only
+	def self.by_user(user)
+	  return all unless user.present?
+		where(user_id: User.select(:id).where("users.firstname || ' ' || users.lastname LIKE ?", "%#{user}%"))
+	end
+
 end

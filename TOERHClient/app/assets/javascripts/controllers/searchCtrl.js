@@ -7,7 +7,7 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
     $scope.licenses = licenses.collection.items;
     $scope.resourceTypes = resourceTypes.collection.items;
 
-    var allowedParams = {q: 'q', tags: 'tags', users: 'users', licenses: 'license_ids', resourceTypes: 'resource_type_ids', page: 'page'},
+    var allowedParams = {q: 'q', tags: 'tags', user: 'user', licenses: 'license_ids', resourceTypes: 'resource_type_ids', page: 'page'},
 
         searchParamsToUrl = function (obj) {
             var newObj = {};
@@ -17,7 +17,7 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
                         newObj[allowedParams[prop]] = value.map(function(val) {  
                             return angular.isString(val) ? val : val.id;
                         }) .join(',');
-                    } else if (prop === 'q' || prop === 'page') {
+                    } else if (prop === 'q' || prop === 'page' || prop === 'user') {
                         newObj[allowedParams[prop]] = value;
                     } 
                 }
@@ -51,7 +51,7 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
                             return ~t.indexOf(obj.id);
                         });
                     } else {
-                        if (newProp === 'tags' || newProp === 'users') {
+                        if (newProp === 'tags') {
                             newObj[newProp] = value.split(',');
                         } else {
                             newObj[newProp] = value;

@@ -11,6 +11,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 			.by_license_ids(params[:license_ids])
 			.by_user_ids(params[:user_ids])
 			.by_tags(params[:tags])
+			.by_user(params[:user])
 
 		@total = Resource.count
 	end
@@ -74,7 +75,7 @@ class Api::V1::ResourcesController < Api::V1::ApiBaseController
 	end
 
 	def resource_params
-		params.permit(:name, :description, :url, :resource_type_id, :license_id)
+		params.permit(:name, :description, :url, :resource_type_id, :license_id, :user)
 	end
 
 	def transform_ids

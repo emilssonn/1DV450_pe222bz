@@ -17,6 +17,7 @@ angular.module('TOERH.services').factory('Auth', ['$cookieStore', '$http', funct
         },
         logOut: function () {
             user = null;
+            delete $http.defaults.headers.common.Authorization;
             $http.delete('http://lvh.me:3000/signout')
                 .success(function(data, status, headers, config) {
                     return true;

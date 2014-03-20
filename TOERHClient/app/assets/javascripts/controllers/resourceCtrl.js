@@ -1,7 +1,7 @@
 /*global angular */
 
-angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$window', 'Resources', 'Auth', '$state', 'resource', 'licenses', 'resourceTypes', 'StringHelper',
-    function ($scope, $window, Resources, Auth, $state, resource, licenses, resourceTypes, StringHelper) {
+angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$window', 'Resources', 'Auth', '$state', 'resource', 'licenses', 'resourceTypes', 'StringHelper', 'Alert',
+    function ($scope, $window, Resources, Auth, $state, resource, licenses, resourceTypes, StringHelper, Alert) {
         'use strict';
 
         $scope.licenses = licenses.collection.items;
@@ -57,9 +57,15 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$wind
             }
             Resources[resourceToSave.id ? 'update' : 'create'](resourceToSave,
                 function (data) {
+                    Alert.success({message: 'Resource has saved.', msgScope: 'resource', clearScope: true});
                     $state.go('resources.show', {id: data.instance.id});
                 }, function (data) {
-                    $scope.errors = data;
+                    if (data.status === 400) {
+                        Alert.warning({message: 'Validation error. Please correct the form.', msgScope: 'resource', clearScope: true});
+                        $scope.errors = data.response;
+                    } else {
+                        Alert.warning({message: 'Something went wrong on the server. Please try again in a while.', msgScope: 'resource', clearScope: true});
+                    }   
                 });
         };
 
@@ -67,9 +73,10 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$wind
             if ($window.confirm("Are you sure you want to delete the resource \"" + $scope.resource.name + "\"?")) {
                 Resources.remove({id: $scope.resource.id},
                     function (data) {
+                        Alert.success({message: 'Resource has deleted.', msgScope: 'resource', clearScope: true});
                         $state.go('resources.search');
                     }, function (data) {
-
+                        Alert.warning({message: 'Something went wrong on the server. Please try again in a while.', msgScope: 'resource', clearScope: true});
                     });
             }     
         };
