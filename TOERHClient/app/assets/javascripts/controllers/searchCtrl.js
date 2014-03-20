@@ -13,11 +13,11 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
             var newObj = {};
             angular.forEach(obj, function (value, prop) {
                 if (allowedParams.hasOwnProperty(prop) && value) {
-                    if (prop !== ('q' || 'page') && (angular.isArray(value) && value.length > 0)) {
+                    if ((prop !== 'q' || prop !== 'page') && (angular.isArray(value) && value.length > 0)) {
                         newObj[allowedParams[prop]] = value.map(function(val) {  
                             return angular.isString(val) ? val : val.id;
                         }) .join(',');
-                    } else if (prop === ('q' || 'page')) {
+                    } else if (prop === 'q' || prop === 'page') {
                         newObj[allowedParams[prop]] = value;
                     } 
                 }
@@ -51,7 +51,7 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
                             return ~t.indexOf(obj.id);
                         });
                     } else {
-                        if (newProp === ('tags' || 'users')) {
+                        if (newProp === 'tags' || newProp === 'users') {
                             newObj[newProp] = value.split(',');
                         } else {
                             newObj[newProp] = value;

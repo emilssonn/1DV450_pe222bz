@@ -13,27 +13,44 @@ angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$loc
                     newObj[prop] = value;
                 }
             });
-            if (obj.page) {
+            if (obj.page && parseInt(obj.page)) {
                 newObj.limit = 30;
-                newObj.offset = 30 * obj.page - 30;
+                newObj.offset = 30 * parseInt(obj.page) - 30;
             }
             return newObj;
         },
 
         getResources = function () {
-            Resources.query(searchParams(),
+            var search = searchParams();
+            Resources.query(search,
                 function (data) {
                     var collection = data.collection;
                     $scope.resources = collection.items;
                     $scope.total = collection.total;
+                    $scope.pager.page = search.page || 1;
+                    $scope.pager.pages = $scope.total > 30 ? $scope.total / 30 : 1;
                 },
                 function (data) {
 
                 });
         };
 
+    $scope.pager = {};
+
+    $scope.changePage = function (next) {
+        if ($scope.pager.page > 1 && $scope.pager.page < $scope.pager.pages) {
+            if (next) {
+                $scope.pager.page = $scope.pager.page + 1;
+            } else {
+                $scope.pager.page = $scope.pager.page -1;
+            }
+            $location.search('page', $scope.pager.page);
+        }  
+    };
+
     $scope.$on('$locationChangeSuccess', function () {
         getResources();
     });
+
     getResources();
 }]);

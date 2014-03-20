@@ -35,10 +35,10 @@
 		</ul>
 	</div>
 	<div class="col-xs-9">	
-		<div class="dropdown" data-ng-init="orderProp = 'name'">
+		<div class="dropdown hoverIcon" data-ng-init="orderProp = 'name'">
 		 	<h6>
-		 		Sort by: 
 		 		<span class="dropdown-toggle" id="orderDropdownMenu" data-toggle="dropdown">
+		 			Sort by: 
 		  			<span class="sr-only">Dropdown</span>
 		    		<span class="caret"></span>
 		  		</span>
@@ -52,6 +52,9 @@
 		  
 		</div>
 		<hr />
+		<p data-ng-if="resources.length === 0">
+			No resources matches the search
+		</p>
 		<ul class="list-unstyled" style="min-height: 400px;">
 			<li data-ng-repeat="item in resources | sorter:searchProp:searchFilter | orderBy:orderProp:reverse track by $index" class="panel panel-default">
 				<div class="panel-body">
@@ -90,8 +93,14 @@
 				</div>
 			</li>
 		</ul>
-		<p data-ng-if="resources.length == 0">
-			No resources matches the search
+		<p data-ng-if="pager">
+			<ul class="pager">
+		  		<li class="previous" data-ng-class="{disabled: pager.page === 1}" data-ng-click="changePage()"><a>&larr; Prev</a></li>
+		  		{{pager.page}} / {{pager.pages}}
+		  		<li class="next" data-ng-class="{disabled: pager.page === pager.pages}" data-ng-click="changePage(true)"><a>Next &rarr;</a></li>
+			</ul>
 		</p>
+
+		
 	</div>
 </div>
