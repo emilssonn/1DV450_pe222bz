@@ -1,12 +1,12 @@
-<div class="col-xs-12">
+<div class="col-md-12">
 	<form role="search">
 		<div class="row">
-			<div class="col-xs-6 col-xs-offset-3">
+			<div class="col-md-6 col-md-offset-3">
 				<div class="input-group">
 					<label class="control-label sr-only" for="searchQ">Search query</label>
 					<input type="text" class="form-control" id="searchQ" data-ng-model="search.q" placeholder="Search for resources..." />
 					<span class="input-group-btn">
-			        	<button data-ng-click="doSearch()" class="btn btn-primary">
+			        	<button  data-ng-click="doSearch()" class="btn btn-primary">
 			        		<span class="glyphicon glyphicon-search"></span>
 			        		<span class="sr-only">Search</span>
 			        	</button>
@@ -19,11 +19,11 @@
 			</div>
 		</div>
 		<div class="row" data-ng-show="advancedSearch">
-			<div class="well col-xs-10 col-xs-offset-1">
+			<div class="well col-md-10 col-md-offset-1">
 				<div class="row">
-					<div class="col-xs-2">		
+					<div class="col-md-3">	
+						<label for="tags" class="control-label">Tags</label>	
 					  	<div class="input-group input-group-sm">
-							<label for="tags" class="control-label sr-only">Tags</label>
 							<input type="text" data-ng-model="tag" data-ng-minlength="2" data-ng-maxlength="20" maxlength="20" class="form-control" placeholder="Add Tag..." autocomplete="off" id="tags" name="tags" data-ng-keypress="addTag($event)" />
 							<span class="input-group-btn ">
 					        	<button data-ng-click="addTag()" class="btn btn-primary">
@@ -32,12 +32,9 @@
 					        	</button>
 					      	</span>
 						</div>
-						<span class="help-block">{{search.tags.length}}/20 tags, <span class="hoverIcon" data-ng-click="search.tags = []">clear</span></span>
-					</div>
-					<div class="col-xs-10">
-						<ul class="list-inline">
+						<ul class="list-inline tagsList">
 							<li data-ng-repeat="tag in search.tags track by $index">
-								<span class="label label-default">
+								<span class="label label-primary">
 									<span class="glyphicon glyphicon-tag"></span>
 									{{tag}}
 									<span data-ng-click="removeTag($index)" class="hoverIcon">&times;</span>
@@ -45,63 +42,61 @@
 							</li>
 						</ul>
 					</div>
-				</div>
-				<hr/>
-				<div class="row">
-					<div class="col-xs-2">
+
+					<div class="col-md-3">
+						<label for="licenses" class="control-label">Licenses</label>
 						<div class="form-group">
-							<label for="licenses" class="control-label sr-only">Licenses</label>
-							<select class="form-control" name="licenses" id="licenses" data-ng-model="search.license" data-ng-options="r.name for r in licenses">
+							<select class="form-control input-sm" name="licenses" id="licenses" data-ng-model="search.license" data-ng-options="r.name for r in licenses">
 								<option value="">Add license</option>
 							</select>
 						</div>
-						<span class="help-block">{{search.licenses.length}}/20 licenses, <span class="hoverIcon" data-ng-click="search.licenses = []">clear</span></span>
-					</div>
-					<div class="col-xs-10">
+
 						<ul class="list-inline">
 							<li data-ng-repeat="license in search.licenses track by $index">
-								<span class="label label-default">
-									<span class="glyphicon glyphicon-tag"></span>
+								<span class="label label-primary">
 									{{license.name}}
 									<span data-ng-click="removeLicense($index)" class="hoverIcon">&times;</span>
 								</span>
 							</li>
 						</ul>
+						
 					</div>
-				</div>
-				<hr/>
-				<div class="row">
-					<div class="col-xs-2">
+				
+					<div class="col-md-3">
+						<label for="resourceTypes" class="control-label">Types</label>
 						<div class="form-group">
-							<label for="resourceTypes" class="control-label sr-only">Types</label>
-							<select class="form-control" name="resourceTypes" id="resourceTypes" data-ng-model="search.resourceType" data-ng-options="r.name for r in resourceTypes">
+							<select class="form-control input-sm" name="resourceTypes" id="resourceTypes" data-ng-model="search.resourceType" data-ng-options="r.name for r in resourceTypes">
 								<option value="">Add type</option>
 							</select>
 						</div>
-						<span class="help-block">{{search.resourceTypes.length}}/20 types, <span class="hoverIcon" data-ng-click="search.resourceTypes = []">clear</span></span>
-					</div>
-					<div class="col-xs-10">
+					
 						<ul class="list-inline">
 							<li data-ng-repeat="resourceType in search.resourceTypes track by $index">
-								<span class="label label-default">
-									<span class="glyphicon glyphicon-tag"></span>
+								<span class="label label-primary">
 									{{resourceType.name}}
 									<span data-ng-click="removeResourceType($index)" class="hoverIcon">&times;</span>
 								</span>
 							</li>
 						</ul>
 					</div>
-				</div>
-				<hr/>
-				<div class="row">
-					<div class="col-xs-2">
-						<div class="form-group">
-							<label for="user" class="control-label sr-only">User</label>
-							<input class="form-control" name="user" id="user" data-ng-model="search.user" placeholder="User..." />
+				
+					<div class="col-md-3">
+						<label for="user" class="control-label">User</label>
+						<div class="form-group">	
+							<input class="form-control input-sm" name="user" id="user" data-ng-model="search.user" placeholder="User..." />
 						</div>
 					</div>
-					<div class="col-xs-10">
-						
+				</div>
+
+				<div class="row hidden-sm">
+					<div class="col-md-3">
+						<span class="help-block">{{search.tags.length}}/20, <span class="hoverIcon" data-ng-click="search.tags = []">clear</span></span>
+					</div>
+					<div class="col-md-3">
+						<span class="help-block">{{search.licenses.length}}/20, <span class="hoverIcon" data-ng-click="search.licenses = []">clear</span></span>
+					</div>
+					<div class="col-md-3">
+						<span class="help-block">{{search.resourceTypes.length}}/20, <span class="hoverIcon" data-ng-click="search.resourceTypes = []">clear</span></span>
 					</div>
 				</div>
 			</div>

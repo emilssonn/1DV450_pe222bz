@@ -1,6 +1,6 @@
 /*global angular */
 
-angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvider, APIURL) {
+angular.module('TOERH').config(['$httpProvider', '$provide', 'APIURL', function ($httpProvider, $provide, APIURL) {
     'use strict';
 
     //Enable cross domain calls
@@ -10,11 +10,22 @@ angular.module('TOERH').config(['$httpProvider', 'APIURL', function ($httpProvid
 
     $httpProvider.defaults.headers.common.Accept = 'application/json';
 
-    $httpProvider.interceptors.push(['$q', function ($q) {
+    $httpProvider.interceptors.push(['$q', '$injector', function ($q, $injector) {
         return {
+            //Config api url
             request: function (config) {
                 config.url = ~ config.url.indexOf('.html') || ~ config.url.indexOf('http') ? config.url : APIURL + config.url;
                 return config || $q.when(config);
+            },
+            //Check if response is 401, session has expired
+            responseError: function (rejection) {
+                var Auth = $injector.get('Auth'),
+                    Alert = $injector.get('Alert');
+                if (rejection.status === 401) {
+                    Alert.warning({message: 'Your session has expired. Please log in again to continue.', msgScope: 'route', clearScope: true});
+                    Auth.logOut();
+                }
+                return $q.reject(rejection);
             }
         };
     }]);

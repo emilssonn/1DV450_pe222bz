@@ -10,19 +10,10 @@ angular.module('TOERH.filters').filter('sorter', function () {
 
         searchProp = angular.lowercase(searchProp);
 
-        //http://stackoverflow.com/a/8052100
-        var getDescendantProp = function (obj, desc) {
-            var arr = desc.split(".");
-            while(arr.length && (obj = obj[arr.shift()]));
-            return obj;
-        };
-
+        //Filter the list to only show matching objects
+        //If the value being targeted for filtering is a array, check for match on each value in array
         return list.filter(function (value) {
-            if (~searchProp.indexOf('.')) {
-                value = getDescendantProp(value, searchProp);
-            } else {
-                value = angular.lowercase(value[searchProp]);
-            }
+            value = angular.lowercase(value[searchProp]);
             if (angular.isArray(value)) {
                 return value.filter(function (val) {
                     return ~val.indexOf(string);

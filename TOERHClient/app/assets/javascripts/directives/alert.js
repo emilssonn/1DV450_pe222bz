@@ -1,6 +1,11 @@
 /*global angular */
 
+/*
+Adds the markup for the alerter
+ */
 angular.module('TOERH.directives').directive('alerter', ['Alert', function (Alert) {
+    'use strict';
+
     return {
         restrict: 'EA',
         templateUrl: 'assets/alert.html',
@@ -9,7 +14,7 @@ angular.module('TOERH.directives').directive('alerter', ['Alert', function (Aler
             scope.alerts = Alert.alerts;
             scope.close = function ($index) {
                 Alert.alerts.splice($index, 1);
-            }
+            };
         }
-  };
+    };
 }]);

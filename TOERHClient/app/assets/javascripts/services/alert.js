@@ -3,6 +3,7 @@
 angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeout) {
     'use strict';
 
+    //Creates a message
     var Message = function (params) {
         angular.extend(this, {
             message: null,
@@ -25,6 +26,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
         }, params);
     },
 
+    //Creates a Alert
     Alert = function (params) {
         angular.extend(this, {
             type: params.type,
@@ -35,6 +37,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
 
     alerts = [],
 
+    //Remove a alert and cancels all active timeouts on the alert and messages
     removeAlert = function (type) {
         angular.forEach(alerts, function (value, index) {
             if (value.type === type) {
@@ -47,6 +50,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
         });
     },
 
+    //Add a alert and set timeout if needed
     addAlert = function (type, time) {
         var a = new Alert({
             type: type, 
@@ -61,6 +65,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
         return a;
     },
 
+    //Add a message
     addMessage = function (msg) {
         if (msg.clearAll === true) {
             removeAllAlerts();
@@ -98,6 +103,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
             }
         }
 
+        //Check if a alert of the same type already created
         var ix = alerts.map(
             function (a) {
                 return a.type
@@ -106,6 +112,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
         ~ix ? (cAlert = alerts[ix]) : (cAlert = null);
         
         if (!cAlert) {
+            //Create alert
             cAlert = addAlert(msg.type, msg.msgTypeTime)
         } else if (cAlert.timeout) {
             $timeout.cancel(cAlert.timeout);
@@ -119,10 +126,6 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
         cAlert.messages.push(msg);
     },
 
-    removeMessage = function (msg) {
-
-    },
-
     removeAllAlerts = function () {
         //Cancel all timeouts
         angular.forEach(alerts, function (value, index) {
@@ -134,6 +137,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
         alerts = [];
     },
 
+    //Remove all messages within a specific scope
     clearScope = function (scope) {
         //Cancel all timeouts
         angular.forEach(alerts, function (value, index) {
@@ -146,6 +150,7 @@ angular.module('TOERH.services').factory('Alert', ['$timeout', function ($timeou
         });
     },
 
+    //Clear all messages within a specific scope and a specific type
     clearScopeByType = function (scope, type) {
         //Cancel all timeouts
         angular.forEach(alerts, function (value, index) {

@@ -13,7 +13,7 @@ angular.module('TOERH.services').factory('Auth', ['$cookieStore', '$http', funct
         key: key,
         user: user,
         isLoggedIn: function () {
-            return !!user
+            return !!user;
         },
         logOut: function () {
             user = null;
@@ -25,7 +25,6 @@ angular.module('TOERH.services').factory('Auth', ['$cookieStore', '$http', funct
                 .error(function(data, status, headers, config) {
                     return false;
                 });
-            
         }
     };
 }]);

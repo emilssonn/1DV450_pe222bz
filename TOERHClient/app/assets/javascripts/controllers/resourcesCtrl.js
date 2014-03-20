@@ -4,7 +4,7 @@ angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$loc
     'use strict';
 
     var allowedParams = ['q', 'tags', 'user', 'license_ids', 'resource_type_ids'],
-
+        //Get the params to use in the api call
         searchParams = function () {
             var obj = $location.search(),
                 newObj = {};
@@ -35,6 +35,9 @@ angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$loc
                 });
         };
 
+    /*
+    TODO: pager should not be in a controller, move to a directive
+     */
     $scope.pager = {};
 
     $scope.changePage = function (next) {
@@ -45,7 +48,7 @@ angular.module('TOERH.controllers').controller('ResourcesCtrl', ['$scope', '$loc
                 $scope.pager.page = $scope.pager.page -1;
             }
             $location.search('page', $scope.pager.page);
-        }  
+        }
     };
 
     $scope.$on('$locationChangeSuccess', function () {

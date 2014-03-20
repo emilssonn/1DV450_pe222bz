@@ -8,13 +8,14 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<h3>Api Key</h3>
-				<p>All request made to the Api requires a valid Api key. You can find the Api key on the application page for your application. The Api key should be put in the Authorization header. Ex: apiKey=YOUR_API_KEY</p>
+				<p>All request made to the Api requires a valid Api key. You can find the Api key on the application page for your application. The Api key should be put in the X-CLIENT-ID header. </p>
 		
+
 				<h3>User authenticating</h3>
-				<p>Some request requires a valid user. To make a request to a protected resource you need to authenticate the user using Http Basic Auth.<br/>
-				Base64 encode the string with username and password. ("username:password"). Put the following: <br/>
-				"Basic encodedString", encodedString being the encoded string from username and password in Authorization header together with your api key. <br/>
-				Ex: "Basic encodedString, apiKey=YOUR_API_KEY", its important that the Http basic auth comes before the api key.  </p>
+				<p>Some request requires a valid user. To make a request to a protected resource you need to authenticate the user using oauth2.<br/>
+				Put the returned token in the Authorization. <br/>
+				header[Authorization] = Bearer 'Token'</p>
+				<p>Doc not done</p>
 			</div>
 		</div>
 	</div>

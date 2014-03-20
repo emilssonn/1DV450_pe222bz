@@ -1,6 +1,6 @@
 /*global angular */
 
-angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
     'use strict';
 
     /**
@@ -21,7 +21,7 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
                     } else {
                         deferred.reject({status: 403});
                     }
-                } else {  
+                } else {
                     deferred.resolve(data);
                 }
             },
@@ -36,7 +36,7 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
 
     $stateProvider
         .state('resources', {
-            templateUrl: '/assets/home.html',
+            template: '<div data-ui-view></div>',
             abstract: true,
             url: '/resources/',
             reloadOnSearch: false,
@@ -103,16 +103,15 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
             }
         })
         .state('logout', {
-            controller: ['$state', 'Auth', function ($state, Auth) {
+            controller: ['$state', 'Auth', 'Alert', function ($state, Auth, Alert) {
                 Auth.logOut();
+                Alert.success({message: 'You have been logged out.', msgScope: 'user'});
                 $state.go('resources.search');
             }],
             data: {
                 user: true
             }
-        }); 
-
-    //$locationProvider.html5Mode(true);
+        });
 
     // FIX for trailing slashes. https://github.com/angular-ui/ui-router/issues/50
     $urlRouterProvider.rule(function ($injector, $location) {
@@ -143,26 +142,26 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
         return path + '/?' + params.join('&');
     });
 
-}])
+}]).run(['$rootScope', '$state', 'Auth', 'Alert', '$location', function ($rootScope, $state, Auth, Alert, $location) {
 
-.run(['$rootScope', '$state', 'Auth', 'Alert', '$location', function ($rootScope, $state, Auth, Alert, $location) {
-
+    //Check if state is public
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
-
         if (toState.data.user && !Auth.isLoggedIn()) {
             event.preventDefault();
             Alert.warning({message: 'You need to be logged in to view "' + $location.absUrl() + '".', msgScope: 'route', clearScope: true});
             if (fromState.abstract) {
                 $state.go('resources.search');
-            }  
+            }
         }
     });
 
+    //The state failed to load, check what error and "redirect"
     $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
         event.preventDefault();
-        if (error.status === 403) {
-            Alert.warning({message: 'Your session has expired. Please log in again to continue.', msgScope: 'route', clearScope: true});    
-            Auth.logOut();
+        if (error.status === 401) {
+            Alert.warning({message: 'Your session has expired. Please log in again to continue.', msgScope: 'route', clearScope: true});
+        } else if (error.status === 403) {
+            Alert.danger({message: 'You dont have permission to edit this resource.', msgScope: 'route', clearScope: true});
         } else if (error.status === 404) {
             Alert.warning({message: 'The requested resource was not found.', msgScope: 'route', clearScope: true});
         } else if (error.status === 429) {
@@ -178,7 +177,5 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', '$locati
         } else {
             $state.go(fromState, fromParams);
         }
-
     });
-
 }]);
