@@ -1,20 +1,25 @@
 /*global angular */
 
-angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$location', 'Licenses', 'ResourceTypes',
-    function ($scope, $location, Licenses, ResourceTypes) {
+angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$location', 'licenses', 'resourceTypes',
+    function ($scope, $location, licenses, resourceTypes) {
     'use strict';
 
-    var allowedParams = ['q', 'tags', 'users', 'license_ids', 'resource_type_ids', 'page'],
+    $scope.licenses = licenses.collection.items;
+    $scope.resourceTypes = resourceTypes.collection.items;
+
+    var allowedParams = {q: 'q', tags: 'tags', users: 'users', licenses: 'license_ids', resourceTypes: 'resource_type_ids', page: 'page'},
 
         searchParamsToUrl = function (obj) {
             var newObj = {};
             angular.forEach(obj, function (value, prop) {
-                if (~allowedParams.indexOf(prop) && value) {
-                    if (prop !== ('q' || 'page') && $scope.advancedSearch && (angular.isArray(value) && value.length > 0)) {
-                        newObj[prop] = value.join(',');
+                if (allowedParams.hasOwnProperty(prop) && value) {
+                    if (prop !== ('q' || 'page') && (angular.isArray(value) && value.length > 0)) {
+                        newObj[allowedParams[prop]] = value.map(function(val) {  
+                            return angular.isString(val) ? val : val.id;
+                        }) .join(',');
                     } else if (prop === ('q' || 'page')) {
-                        newObj[prop] = value;
-                    }     
+                        newObj[allowedParams[prop]] = value;
+                    } 
                 }
             });
             return newObj;
@@ -23,26 +28,41 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
         searchParamsFromUrl = function () {
             var newObj = {};
             angular.forEach($location.search(), function (value, prop) {
-                if (~allowedParams.indexOf(prop) && value) {
-                    if (prop === 'license_ids') {
+                var newProp;
+                if (value) {
+                    angular.forEach(allowedParams, function (value2, prop2) {
+                        if (newProp) {
+                            return;
+                        }
+                        if (value2 === prop) {
+                            newProp = prop2;
+                        }
+                    });
+                }
+                if (newProp) {      
+                    if (newProp === 'licenses') {
                         var t = value.split(',');
-                        newObj[prop] = Licenses.collection.items.filter(function (obj) {
+                        newObj[newProp] = licenses.collection.items.filter(function (obj) {
                             return ~t.indexOf(obj.id);
                         });
-                    } else if (prop === 'resource_type_ids') {
+                    } else if (newProp === 'resourceTypes') {
                         var t = value.split(',');
-                        newObj[prop] = ResourceTypes.collection.items.filter(function (obj) {
+                        newObj[newProp] = resourceTypes.collection.items.filter(function (obj) {
                             return ~t.indexOf(obj.id);
                         });
                     } else {
-                        if (prop === ('tags' || 'users')) {
-                            newObj[prop] = value.split(',');
+                        if (newProp === ('tags' || 'users')) {
+                            newObj[newProp] = value.split(',');
                         } else {
-                            newObj[prop] = value;
+                            newObj[newProp] = value;
                         }
                     } 
                 }
             });
+
+            newObj.tags = newObj.tags || [];
+            newObj.licenses = newObj.licenses || [];
+            newObj.resourceTypes = newObj.resourceTypes || [];
             return newObj;
         };
 
@@ -68,13 +88,38 @@ angular.module('TOERH.controllers').controller('SearchCtrl', ['$scope', '$locati
         $scope.search.tags.splice($index, 1);
     };
 
+    $scope.removeLicense = function ($index) {
+        $scope.search.licenses.splice($index, 1);
+    };
+
+    $scope.removeResourceType = function ($index) {
+        $scope.search.resourceTypes.splice($index, 1);
+    };
+
     $scope.$on('$locationChangeSuccess', function () {
         $scope.search = searchParamsFromUrl();
         $scope.search.tags = $scope.search.tags || [];
     });
 
     $scope.search = searchParamsFromUrl();
-    $scope.search.tags = $scope.search.tags || [];
     $scope.doSearch();
     
-}]);
+    $scope.$watch('search.license', function (newVal) {
+        if (newVal && !~$scope.search.licenses.map(function (l) {
+            return l.id;
+        }).indexOf(newVal.id)) {
+            $scope.search.licenses.push(newVal);
+        }
+        $scope.search.license = null;
+    });
+
+    $scope.$watch('search.resourceType', function (newVal) {
+        if (newVal && !~$scope.search.resourceTypes.map(function (l) {
+            return l.id;
+        }).indexOf(newVal.id)) {
+            $scope.search.resourceTypes.push(newVal);
+        }
+        $scope.search.resourceType = null;
+    });
+    
+}])

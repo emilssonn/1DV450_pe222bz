@@ -8,8 +8,27 @@ angular.module('TOERH.filters').filter('sorter', function () {
             return list;
         }
 
+        searchProp = angular.lowercase(searchProp);
+
+        //http://stackoverflow.com/a/8052100
+        var getDescendantProp = function (obj, desc) {
+            var arr = desc.split(".");
+            while(arr.length && (obj = obj[arr.shift()]));
+            return obj;
+        };
+
         return list.filter(function (value) {
-            return ~angular.lowercase(value[angular.lowercase(searchProp)]).indexOf(string);
+            if (~searchProp.indexOf('.')) {
+                value = getDescendantProp(value, searchProp);
+            } else {
+                value = angular.lowercase(value[searchProp]);
+            }
+            if (angular.isArray(value)) {
+                return value.filter(function (val) {
+                    return ~val.indexOf(string);
+                }).length > 0;
+            }
+            return ~value.indexOf(string);
         });
     };
 });

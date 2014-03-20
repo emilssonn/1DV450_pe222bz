@@ -32,7 +32,7 @@
 					        	</button>
 					      	</span>
 						</div>
-						<span class="help-block">{{search.tags.length}}/20 tags, <span class="hoverIcon" data-ng-click="search.tags = []">clear tags</span></span>
+						<span class="help-block">{{search.tags.length}}/20 tags, <span class="hoverIcon" data-ng-click="search.tags = []">clear</span></span>
 					</div>
 					<div class="col-xs-10">
 						<ul class="list-inline">
@@ -48,18 +48,48 @@
 				</div>
 				<hr/>
 				<div class="row">
-					<div class="dropdown" data-ng-class="{'open': false}" data-ng-init="orderProp = 'name'">
-					 		Sort by: 
-					 		<span id="orderDropdownMenu">
-					  			<span class="sr-only">Dropdown</span>
-					    		<span class="caret"></span>
-					  		</span>
-					  		<ul class="dropdown-menu" role="menu" aria-labelledby="orderDropdownMenu">
-							    <li><a tabindex="-1" data-ng-click="orderProp = 'name'">Name</a></li>
-							    <li><a tabindex="-1" data-ng-click="orderProp = 'resourceType.name'">Type</a></li>
-							    <li><a tabindex="-1" data-ng-click="orderProp = 'license.name'">License</a></li>
-							    <li><a tabindex="-1" data-ng-click="orderProp = 'createdAt'">Date</a></li>
-						  	</ul>		  
+					<div class="col-xs-2">
+						<div class="form-group">
+							<label for="licenses" class="control-label sr-only">Licenses</label>
+							<select class="form-control" name="licenses" id="licenses" data-ng-model="search.license" data-ng-options="r.name for r in licenses">
+								<option value="">Add license</option>
+							</select>
+						</div>
+						<span class="help-block">{{search.licenses.length}}/20 licenses, <span class="hoverIcon" data-ng-click="search.licenses = []">clear</span></span>
+					</div>
+					<div class="col-xs-10">
+						<ul class="list-inline">
+							<li data-ng-repeat="license in search.licenses track by $index">
+								<span class="label label-default">
+									<span class="glyphicon glyphicon-tag"></span>
+									{{license.name}}
+									<span data-ng-click="removeLicense($index)" class="hoverIcon">&times;</span>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<hr/>
+				<div class="row">
+					<div class="col-xs-2">
+						<div class="form-group">
+							<label for="resourceTypes" class="control-label sr-only">Types</label>
+							<select class="form-control" name="resourceTypes" id="resourceTypes" data-ng-model="search.resourceType" data-ng-options="r.name for r in resourceTypes">
+								<option value="">Add type</option>
+							</select>
+						</div>
+						<span class="help-block">{{search.resourceTypes.length}}/20 types, <span class="hoverIcon" data-ng-click="search.resourceTypes = []">clear</span></span>
+					</div>
+					<div class="col-xs-10">
+						<ul class="list-inline">
+							<li data-ng-repeat="resourceType in search.resourceTypes track by $index">
+								<span class="label label-default">
+									<span class="glyphicon glyphicon-tag"></span>
+									{{resourceType.name}}
+									<span data-ng-click="removeResourceType($index)" class="hoverIcon">&times;</span>
+								</span>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>

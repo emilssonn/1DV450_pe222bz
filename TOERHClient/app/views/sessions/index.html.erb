@@ -7,23 +7,23 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" ui-sref="resources.search">TOERH</a>
+				<a class="navbar-brand" data-ng-href="#/resources/">TOERH</a>
 			</div>
 			<div class="navbar-collapse collapse navbar-responsive-collapse">
 				<ul class="nav navbar-nav">
 					<li>
-						<a ui-sref="resources.search">Home</a>
+						<a data-ng-href="#/resources/" >Home</a>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li data-auth="true">
-						<a ui-sref="resources.me">My Resources</a>
+						<a data-ui-sref="resources.me">My Resources</a>
 					</li>
 					<li data-auth="true">
-						<a ui-sref="resources.create">New Resources</a>
+						<a data-ui-sref="resources.create">New Resources</a>
 					</li>
 					<li data-auth="true">
-						<a ui-sref="logout" href="">Sign out</a>
+						<a data-ui-sref="logout" href="">Sign out</a>
 					</li>
 					<li data-auth="false">
 						<%= link_to "Sign in", "/auth/toerh" %>

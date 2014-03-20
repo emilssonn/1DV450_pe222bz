@@ -77,8 +77,10 @@ angular.module('TOERH.controllers').controller('ResourceCtrl', ['$scope', '$wind
         $scope.addTag = function ($event) {
             if (!$event || ($event && $event.keyCode === 13)) {
                 if ($scope.tag && !~$scope.resource.tags.indexOf($scope.tag)) {
-                    $scope.resource.tags.push($scope.tag);
-                    $scope.tag = "";  
+                    if ($scope.resource.tags.length < 20) {
+                        $scope.resource.tags.push($scope.tag);
+                        $scope.tag = "";   
+                    }    
                 } 
             }
         };

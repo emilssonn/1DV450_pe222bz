@@ -46,31 +46,34 @@
 			</div>
 
 			<div class="row">
-			  	<div class="input-group col-xs-3" data-ng-class="{'has-success': form.tags.$dirty && !form.tags.$invalid, 'has-error': form.tags.$dirty && form.tags.$invalid}">
-					<label for="tags" class="control-label sr-only">Tags</label>
-					<input type="text" data-ng-model="tag" class="form-control" placeholder="Add Tag" autocomplete="off" id="tags" name="tags" data-ng-keypress="addTag($event)"
-						data-ng-minlength="2" data-ng-maxlength="20" />
-					<span class="input-group-btn">
-			        	<button data-ng-click="addTag()" class="btn btn-primary">Add</button>
-			      	</span>
-			      	<div ng-show="form.tags.$dirty && form.tags.$invalid" class="help-block">
+				<div class="col-xs-3">
+					<label for="tags" class="control-label ">Tags</label>
+				  	<div class="input-group" data-ng-class="{'has-success': form.tags.$dirty && !form.tags.$invalid, 'has-error': form.tags.$dirty && form.tags.$invalid}">
+						<input type="text" data-ng-model="tag" class="form-control" placeholder="Add Tag" autocomplete="off" id="tags" name="tags" data-ng-keypress="addTag($event)"
+							data-ng-minlength="2" data-ng-maxlength="20" />
+						<span class="input-group-btn">
+				        	<button data-ng-click="addTag()" class="btn btn-primary">Add</button>
+				      	</span>
+					</div>
+					<div ng-show="form.tags.$dirty && form.tags.$invalid" class="help-block">
 						<span ng-show="form.tags.$error.minlength">Min length 2. </span>
 						<span ng-show="form.tags.$error.maxlength">Max length 20. </span>
 					</div>
 				</div>
 				<div class="col-xs-9">
+					<label>{{resource.tags.length}}/20 tags, <span class="hoverIcon" data-ng-click="resource.tags = []">clear tags</span></label>
 					<ul class="list-inline">
 						<li data-ng-repeat="tag in resource.tags track by $index">
 							<span class="label label-primary">
 								<span class="glyphicon glyphicon-tag"></span>
 								{{tag}}
-								<button class="btn btn-xs" data-ng-click="removeTag($index)">x</button>
+								<span data-ng-click="removeTag($index)" class="hoverIcon">&times;</span>
 							</span>
 						</li>
 					</ul>
 				</div>
 			</div>	
-
+			<br/>
 			<div class="row">
 				<div class="form-group col-xs-3">
 			    	<label for="resourceType">Resource Type</label>
