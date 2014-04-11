@@ -8,7 +8,7 @@ class Api::V1::LicensesController < Api::V1::ApiBaseController
 
 	def show
 		@license = License.find_by_public_id(params[:id])
-
+		
 		if @license.nil?
 			not_found_response and return
 		end

@@ -160,22 +160,24 @@ angular.module('TOERH').config(['$stateProvider', '$urlRouterProvider', function
         event.preventDefault();
         if (error.status === 401) {
             Alert.warning({message: 'Your session has expired. Please log in again to continue.', msgScope: 'route', clearScope: true});
-        } else if (error.status === 403) {
-            Alert.danger({message: 'You dont have permission to edit this resource.', msgScope: 'route', clearScope: true});
-        } else if (error.status === 404) {
-            Alert.warning({message: 'The requested resource was not found.', msgScope: 'route', clearScope: true});
-        } else if (error.status === 429) {
-            Alert.warning({message: 'The site is currently overloaded, please check back later or sign in to continue.', msgScope: 'route', clearScope: true});
-        } else if (error.status === 500) {
-            Alert.danger({message: 'Something broke, please try again. If the this error continues, please check back later.', msgScope: 'route', clearScope: true});
         } else {
-            Alert.warning({message: 'Something unexpected happend. Please try again or check back later.', msgScope: 'route', clearScope: true});
-        }
+            if (error.status === 403) {
+                Alert.danger({message: 'You dont have permission to edit this resource.', msgScope: 'route', clearScope: true});
+            } else if (error.status === 404) {
+                Alert.warning({message: 'The requested resource was not found.', msgScope: 'route', clearScope: true});
+            } else if (error.status === 429) {
+                Alert.warning({message: 'The site is currently overloaded, please check back later or sign in to continue.', msgScope: 'route', clearScope: true});
+            } else if (error.status === 500) {
+                Alert.danger({message: 'Something broke, please try again. If the this error continues, please check back later.', msgScope: 'route', clearScope: true});
+            } else {
+                Alert.warning({message: 'Something unexpected happend. Please try again or check back later.', msgScope: 'route', clearScope: true});
+            }
 
-        if (fromState.abstract) {
-            $state.go('resources.search');
-        } else {
-            $state.go(fromState, fromParams);
-        }
+            if (fromState.abstract) {
+                $state.go('resources.search');
+            } else {
+                $state.go(fromState, fromParams);
+            }
+        }  
     });
 }]);
