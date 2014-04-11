@@ -53,7 +53,7 @@
 			No resources matches the search
 		</p>
 		<ul class="list-unstyled resourceList">
-			<li data-ng-repeat="item in resources | filter:test | sorter:searchProp:searchFilter | orderBy:orderProp:reverse track by $index" class="panel panel-default">
+			<li data-ng-repeat="item in resources | sorter:searchProp:searchFilter | orderBy:orderProp:reverse track by $index" class="panel panel-default">
 				<div class="panel-body">
 					<a ui-sref="resources.show({id: item.id})"><h3 data-ng-bind-html="item.name | Highlight:searchFilter:searchProp:'Name'"></h3></a>
 					
